@@ -1,0 +1,86 @@
+<% if user_signed_in? %>
+<div class="form-claim">
+  <fieldset>
+    <legend>&nbsp;Add a new resource</legend>
+    <%= form_for @resource do |f| %>
+      <% if f.object.errors.any? %>
+      <div class="error_messages">
+          <% f.object.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+          <% end %>
+      </div>
+      <% end %>
+    <ul>
+      <li>What is the name of the resource<span class='required'>*</span>
+      <%= f.text_field :name, :onfocusout => "NewResource('resource','resources','resources')", class: 'field-long' %>
+      </li>
+      <div id="resource_note"></div>
+      <li>
+      URL
+      <%= f.text_field :url, class: 'field-long' %>
+      </li>
+      <li>
+      A link to the tutorial on how to use it
+      <%= f.text_field :tutorial, class: 'field-long' %>
+      </li>
+      <li>
+      URL for the icon (logo) representing this resource
+      <%= f.text_field :icon, class: 'field-long' %>
+      </li>
+      <li>
+      Provide more details about this resource and what it is useful for:
+      <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
+      </li>
+      <li>
+      Reference code(s) of the step(s) which this resource is associated to (optional):<br>
+      <small><i>(Use commas or spaces to add multiple references)</i></small>
+      <%= f.text_field :used_for_qs, class: 'field-long' %>
+      <small>* Reference codes appear at the bottom of each step (e.g., *Ref: claim_s1)</small>
+      </li>
+      <li>
+        <%= f.submit 'Submit', :class => 'btn btn btn-primary', id: "submit" %>
+      </li>
+    </ul>
+    <% end %>
+  </fieldset>
+  </div>
+
+<script>
+function NewResource(s,p,w) {
+  const element = document.getElementById(s+'_name');
+  var q = element.value;
+  q=$.trim(q);
+  const note = document.getElementById(s+'_note');
+  if (q.length==0) { note.innerHTML=''; return ; }
+
+  $.ajax({
+    url: '/'+p+'/?term='+q,
+    cache: false
+  })
+    .done(function( html ) {
+      var found=false;
+      var entry="";
+      for(var i = 0; i < html.length; i++)
+        {
+          if (html[i].toLowerCase()==q.toLowerCase())
+            {
+              entry=html[i]
+              found=true;
+              break;
+            }
+        }
+      if (found)
+        {
+          element.value=entry
+          note.innerHTML='<b><font color=red>'+q+'</font></b> is already in the database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a><br>';
+          document.getElementById("submit").disabled = true;
+        }
+      else
+        {
+          note.innerHTML='';
+          document.getElementById("submit").disabled = false;
+        }
+    });
+}
+</script>
+<% end %>

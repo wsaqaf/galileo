@@ -1,0 +1,25 @@
+<div class="container">
+<% if user_signed_in? %>
+<h3>Medium Reviews</h3>
+    <ul>
+    <% @medium_reviews.each do |medium_review| %>
+      <li>
+          <%
+            medium = Medium.find(medium_review.medium_id); rating={"-4"=>"Totally unreliable", "-3"=>"Mostly unreliable","-2"=>"Somewhat reliable","-1"=>"Mostly reliable","1"=>"Totally reliable","0"=>"Not sure"}
+            usr = User.find(medium_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
+            if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
+          %>
+          Medium's Name: <%= link_to medium.name, medium_path(medium_review.medium_id), target: "_blank" %><br>
+          Assessment: <%= rating[medium_review.medium_review_verdict.to_s] %><br>
+          Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
+          Updated: <%= medium_review.updated_at %><br>
+          <%= link_to 'More about Medium', medium_path(medium.id) %><hr>
+      </li>
+    <% end %>
+<% else %>
+  <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
+  You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
+  <br><br>
+  If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
+<% end %>
+</div>

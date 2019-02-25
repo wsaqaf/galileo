@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Medium:</strong>
+  <%= @medium_review.medium_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @medium_review.name %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @medium_review.url %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @medium_review.description %>
+</p>
+
+<%= link_to 'Edit', edit_medium_review_path(@medium_review) %> |
+<%= link_to 'Back', medium_reviews_path %>

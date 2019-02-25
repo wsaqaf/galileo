@@ -1,0 +1,84 @@
+
+              <h3>Reviewing claim:
+                <% if (not @claim.url.blank?) %>
+                   <%= link_to @claim.title, claim_path(@claim.id) %>
+                <% else %>
+                  <%= @claim.title %>
+                <% end %>
+              </h3> 
+              <div class="form-claim">
+              <h4><% all_steps=['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12', 's13', 's14', 's15', 's16', 's17', 's18', 's19', 's20', 's21', 's22']; %>
+              <%  for i in 0 ... all_steps.size %>
+              <% if (step==File.basename(wizard_path(all_steps[i]))) %>
+              <font size=20>Step <%= (i+1) %></font>
+              <% else %>
+              <%= link_to (i+1).to_s+' ', wizard_path(all_steps[i]) %>
+              <% end %>
+              <% end %>
+              </h4>
+              <hr>
+
+              <%= form_for @claim_review, method: :put, url: wizard_path do |f| %>
+              <% if f.object.errors.any? %>
+              <div class="error_messages">
+                  <% f.object.errors.full_messages.each do |error| %>
+                    <p><%= error %></p>
+                  <% end %>
+              </div>
+              <% end %>
+              <fieldset>
+                <legend>3) Reviewing the content of the claim</legend>
+                  <ul>
+                      
+                  <li>Does the text has poor language as it is linguistically incoherent or contain grammatical/spelling errors?
+                  <%= f.select :txt_poor_language, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_poor_language) %>
+                  <br>
+                  
+                  <br>
+                  <div class="panel-group" id="accordion1">
+                  	<div class="panel panel-default">
+                      	<div class="panel-heading">
+                              	<a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
+                                  Resources &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+                          </div>
+                          <div class="panel-collapse collapse" id="Resources">
+                          	<div class="panel-body">
+                              <%
+                                require 'digest/sha1';
+                                current_code=Digest::SHA1.base64digest("@claim_review."+"txt_poor_language")
+                                has_resources=Resource.where("used_for_qs like ?", "%"+current_code+"%")
+                                if not has_resources.blank? %>
+                                  <ul>
+                                  <% has_resources.each do |r| %>
+                                  <li>- <%= link_to r.name, resource_path(r.id), target: "_blank" %></li>
+                                <% end %>
+                              </ul>
+                              <hr><p><small>You can associate additional <b><%= link_to "resources", resources_path(), target: "_blank" %></b> to this question by adding the following reference code to their "Associations" field:<br>
+                                <div align='center'><b><%= current_code %></b></div></small></p>
+                          <% else %>
+                              <p><b>No resources have been associated to this question.</b></p>
+                              <hr><p><small>You can associate any of the current <b><%= link_to "resources", resources_path(), target: "_blank" %></b> to this question by adding the following reference code to their "Associations" field:<br>
+                                <div align='center'><b><%= current_code %></b></div></small></p>
+                          <% end %>
+                          </div>
+                       </div>
+                  </div>
+                  <hr>
+             
+                  </li>
+          
+                  <li>Optional note
+                  <%= f.text_area(:note_txt_poor_language, size: '50x10', class: 'field-long field-textarea') %>
+                  <br>
+                  
+                  </li>
+          
+                    <li>
+                      <%= link_to 'Previous Step',previous_wizard_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+&nbsp;&nbsp;&nbsp;<%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                    </li>
+                  </ul>
+              </fieldset>
+              <% end %>
+              </div>
+              

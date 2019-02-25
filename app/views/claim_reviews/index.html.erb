@@ -1,0 +1,52 @@
+<div class="container">
+<% if user_signed_in? %>
+<h3>Claim Reviews</h3>
+    <% if (@claim_reviews.size==0) %>
+      No results were returned.
+    <% end %>
+    <% @claim_reviews.each do |claim_review| %>
+      <ul>
+          <%
+            claim = Claim.find(claim_review.claim_id); rating={"-4"=>"False", "-3"=>"Mostly false","-2"=>"Mixed","-1"=>"Mostly true","1"=>"True","0"=>"Not sure"}
+            usr = User.find(claim_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
+            md_name="Not provided"; sr_name="Not provided";
+            if not claim.medium_id.blank?
+              begin
+                md = Medium.find(claim.medium_id); if not md.blank? then md_name=md.name; end;
+              rescue
+                md_name="Not provided"
+              end
+            end
+            if not claim.src_id.blank?
+              begin
+                sr = Src.find(claim.src_id); if not sr.blank? then sr_name=sr.name; end;
+              rescue
+                sr_name="Not provided"
+              end
+            end
+            if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
+          %>
+          <li><b>Claim:</b> <%= link_to claim.title, claim_path(claim.id), target: "_blank" %></li>
+          <li><b>Assessment:</b> <%= rating[claim_review.review_verdict.to_s] %></li>
+          <% if md_name!="Not provided" %>
+            <li><b>Medium:</b> <%= link_to md_name, medium_path(claim.medium_id) %></li>
+          <% else %>
+            <li><b>Medium:</b> <%= md_name %></li>
+          <% end %>
+          <% if sr_name!="Not provided" %>
+            <li><b>Source:</b> <%= link_to sr_name, src_path(claim.src_id) %></li>
+          <% else %>
+            <li><b>Source:</b> <%= sr_name %></li>
+          <% end %>
+          <li>Reviewer: <%= reviewer_name %><%= reviewer_aff %></li>
+          <li>Updated: <%= claim_review.updated_at %></li>
+          <%= link_to 'More about claim', claim_path(claim.id) %>
+      </ul><hr>
+  <% end %>
+  <% else %>
+    <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
+    You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
+    <br><br>
+    If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
+  <% end %>
+</div>

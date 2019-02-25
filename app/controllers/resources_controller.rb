@@ -1,0 +1,54 @@
+class ResourcesController < ApplicationController
+  before_action :find_resource, only: [:show, :edit, :update, :destroy]
+
+    def index
+      if (params[:term].present?)
+        @resources = Resource.order(:name).where("name like ?", "%#{params[:term]}%")
+        render json: @resources.map(&:name)
+      else
+        @resources = Resource.all.order("created_at DESC")
+      end
+    end
+
+    def show
+    end
+
+    def new
+      @resource = current_user.resources.build
+    end
+
+    def create
+      @resource = current_user.resources.build(resource_params)
+
+      if @resource.save
+          redirect_to resources_path
+      else
+          render 'new'
+      end
+    end
+
+    def edit
+    end
+
+    def update
+      if @resource.update(resource_params)
+        redirect_to resource_path(@resource)
+      else
+        render 'edit'
+      end
+    end
+
+    def destroy
+      @resource.destroy
+      redirect_to resources_path
+    end
+
+    private
+      def resource_params
+        params.require(:resource).permit(:name, :url, :description, :tutorial, :icon, :used_for_qs)
+      end
+
+      def find_resource
+        @resource = Resource.find(params[:id])
+      end
+  end

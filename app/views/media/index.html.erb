@@ -1,0 +1,36 @@
+<div class="container">
+<% if user_signed_in? %>
+<div class="row"><div class="columnl"><%= @filter_reviews.html_safe %></div><div class="columnr"><%= link_to "Add Medium", new_medium_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %></div></div><hr>
+<% if (@media.size==0) %>
+  No results were returned.
+<% end %>
+<ul>
+<% @media.each do |medium| %>
+  <li>
+  <h4><%= link_to medium.name, medium_path(medium) %>
+    <small>(Reviews:
+    <%
+      @reviews =  MediumReview.where("medium_id="+medium.id.to_s+" AND (medium_review_sharing_mode=1 OR user_id="+current_user.id.to_s+")")
+      if (@reviews.blank?) then @total_reviews=0 else @total_reviews=@reviews.size end %>
+      <%= link_to @total_reviews, medium_medium_reviews_path(medium.id) %>
+   <% if (@total_reviews>0)
+        @my_review =  MediumReview.where(medium_id: medium.id, user_id: current_user.id)
+        if (@my_review.blank?) %>
+           - <%= link_to "Add Review", medium_medium_reviews_path(medium.id), method: :create %>
+     <% else %>
+           - <%= link_to "Edit Your Review", medium_medium_reviews_path(medium.id), method: :create %>, - <%= link_to "Delete Your Review", medium_medium_review_path(src.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+     <% end %>
+   <% else %>
+         - <%= link_to "Add Review", medium_medium_reviews_path(medium.id), method: :create %>
+  <% end %>
+     )</small>
+  </h4></li>
+<% end %>
+</ul>
+<% else %>
+  <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
+  You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
+  <br><br>
+  If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
+<% end %>
+</div>

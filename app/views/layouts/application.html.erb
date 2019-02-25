@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Fa</title>
+    <title>Fact Check Assistant</title>
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,6 +9,42 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <%= link_to "Fact Check Assistant", root_path, class: "navbar-brand" %>
+        </div>
+
+        <ul class="nav navbar-nav">
+          <% if user_signed_in? %>
+            <li style="border-left:6px solid blue;height:50px;"></li>
+            <li><%= link_to "Claims", claims_path %></li>
+            <li><%= link_to "Media", media_path %></li>
+            <li><%= link_to "Sources", srcs_path %></li>
+            <li><%= link_to "Resources", resources_path %></li>
+          <% end %>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
+          <% else %>
+            <li><%= link_to "Sign up", new_user_registration_path %></li>
+            <li><%= link_to "Sign in", new_user_session_path %></li>
+          <% end %>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+          <% end %>
+        </ul>
+
+      </div>
+    </nav>
+    <p><%= notice %></p>
+    <p><%= alert %></p>
+
     <%= yield %>
   </body>
 </html>

@@ -1,0 +1,36 @@
+<% if user_signed_in? %>
+<div class="form-claim">
+  <fieldset>
+    <legend>&nbsp;Edit Medium</legend>
+    <%= form_for @medium do |f| %>
+      <% if f.object.errors.any? %>
+      <div class="error_messages">
+          <% f.object.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+          <% end %>
+      </div>
+      <% end %>
+    <ul>
+      <li>What is the name of the medium
+      <%= f.text_field :name, class: 'field-long', :readonly => true %>
+      </li>
+      <li>
+      URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
+      <%= f.text_field :url, class: 'field-long' %>
+      </li>
+      <li>
+      What type is this medium?
+      <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
+      </li>
+      <li>
+      Provide more details about this medium (especially if you mentioned 'Other' as the type)
+      <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
+      </li>
+      <li>
+        <%= f.submit 'Submit', :class => 'btn btn btn-primary' %>
+      </li>
+    </ul>
+    <% end %>
+  </fieldset>
+  </div>
+<% end %>

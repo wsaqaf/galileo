@@ -1,0 +1,20 @@
+<div class="container">
+<h2><%= @resource.name %></h2>
+<p>
+<% if not @resource.icon.blank? then %>
+<%= image_tag(@resource.icon, :alt => @resource.name) %>
+<% end %>
+<h4><%= link_to "Go to Resource", @resource.url, target: "_blank" %>
+<p><%= @resource.description %></p>
+<p>Tutorial: <%= link_to @resource.tutorial %></p>
+<p>Added by: <%= User.find(@resource.user_id).name %>
+<br>Created: <%= @resource.created_at %>
+<br>Updated: <%= @resource.updated_at %></p>
+
+<%= link_to "Back", resources_path %>
+
+  <% if @resource.user_id == current_user.id %>
+    <%= link_to "Edit", edit_resource_path(@resource) %>
+    <%= link_to "Delete", resource_path(@resource), method: :delete, data: { confirm: "Are you sure?"} %>
+  <% end %>
+</div>

@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Src:</strong>
+  <%= @claim_review.src_id %>
+</p>
+
+<p>
+  <strong>Title:</strong>
+  <%= @claim_review.title %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @claim_review.url %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @claim_review.description %>
+</p>
+
+<%= link_to 'Edit', edit_claim_review_path(@claim_review) %> |
+<%= link_to 'Back', claim_reviews_path %>

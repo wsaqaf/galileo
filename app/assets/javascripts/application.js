@@ -11,5 +11,16 @@
 // about supported directives.
 //
 //= require rails-ujs
+//= require jquery
+//= require jquery_ujs
+//= require jquery-ui
 //= require turbolinks
 //= require_tree .
+//= require bootstrap-sprockets
+//= require jquery-ui/widgets/autocomplete
+//= require autocomplete-rails
+//= require areyousure/jquery.are-you-sure.js
+
+jQuery(function() {
+  $('#user_affiliation').autocomplete({source: $('#user_affiliation').data('autocomplete-source')});
+});

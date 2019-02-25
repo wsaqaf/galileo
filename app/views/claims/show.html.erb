@@ -1,0 +1,83 @@
+<div class="container">
+<h2>Title: <%= @claim.title %></h2>
+<h4>URL:
+<% if @claim.url.present? %>
+  <%= link_to @claim.url %>
+<% else %>
+Not provided
+<% end %>
+</h4>
+<h4>Medium:
+<% if @claim.medium_id.present? %>
+    <% @medium = Medium.find @claim.medium_id %>
+             <a href='<%= media_path %>/<%= @claim.medium_id %>' target=_blank><%= @medium.name %></a>
+<% else %>
+    Not provided
+<% end %>
+</h4>
+<h4>Source:
+  <% if @claim.src_id.present? %>
+    <% @src = Src.find @claim.src_id %>
+           <a href='<%= srcs_path %>/<%= @claim.src_id %>' target=_blank><%= @src.name %></a>
+ <% else %>
+     Not provided
+ <% end %>
+</h4>
+<p>Description:
+  <% if @claim.description.present? %>
+    <%= @claim.description %>
+  <% else %>
+      Not provided
+  <% end %>
+</p>
+
+<% if @claim.url.present? %>
+  <% if not @preview.blank? %>
+    <a class="fragment" href="<%= @claim.url %>">
+    <% if defined?(@preview.images.first.src) then %>
+          <img src ='<%= @preview.images.first.src %>' width=50 />
+    <% end %>
+    <h3><%= @preview.title %></h3>
+    <p class="text">
+        <%= @preview.description %>
+    </p>
+    </a>
+  <% end %>
+<% end %>
+<hr>
+<p>Added by: <%= User.find(@claim.user_id).name %>
+<br>Created: <%= @claim.created_at %>
+<br>Updated: <%= @claim.updated_at %></p>
+
+<br><br>
+<h5>
+  <%
+    @reviews = ClaimReview.where("claim_id="+@claim.id.to_s+" AND (review_sharing_mode=1 OR user_id="+current_user.id.to_s+")")
+    if (@reviews.blank?) then @total_reviews=0 else @total_reviews=@reviews.size end %>
+ <% if (@total_reviews>0) %>
+    <%  @my_review = ClaimReview.where(claim_id: @claim.id, user_id: current_user.id)
+      if (@my_review.blank?) %>
+         Check the <%= link_to " reviews of this claim", claim_claim_reviews_path(@claim.id) %><br><br>
+         <%= link_to "Review this claim", claim_claim_reviews_path(@claim.id), method: :create %>
+     <% else %>
+         <%= link_to "Edit your review of this claim", claim_claim_reviews_path(@claim.id), method: :create %> |
+         <%= link_to "Delete your review of this claim", claim_claim_review_path(@claim.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+         <% if @total_reviews>1 %>
+            Check the <%= link_to "other reviews of this claim", claim_claim_reviews_path(@claim.id) %><br>
+        <% end %>
+    <% end %>
+ <% else %>
+       <%= link_to "Review this claim", claim_claim_reviews_path(@claim.id), method: :create %>
+ <% end %>
+
+</h5>
+<br><br>
+<%= link_to "Back", claims_path %>
+
+<% if user_signed_in? %>
+  <% if @claim.user_id == current_user.id %> -
+    <%= link_to "Edit", edit_claim_path(@claim) %> -
+    <%= link_to "Delete", claim_path(@claim), method: :delete, data: { confirm: @warning_msg} %>
+  <% end %>
+<% end %>
+</div>

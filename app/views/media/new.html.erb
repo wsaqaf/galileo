@@ -1,0 +1,76 @@
+<% if user_signed_in? %>
+<div class="form-claim">
+  <fieldset>
+    <legend>&nbsp;Add a new medium</legend>
+    <%= form_for @medium do |f| %>
+      <% if f.object.errors.any? %>
+      <div class="error_messages">
+          <% f.object.errors.full_messages.each do |error| %>
+            <p><%= error %></p>
+          <% end %>
+      </div>
+      <% end %>
+    <ul>
+      <li>What is the name of the medium<span class='required'>*</span>
+      <%= f.text_field :name, :onfocusout => "NewMedium('medium','media','media')", class: 'field-long' %>
+      </li>
+      <div id="medium_note"></div>
+      <li>
+      URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
+      <%= f.text_field :url, class: 'field-long' %>
+      </li>
+      <li>
+      What type is this medium?
+        <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
+      </li>
+      <li>
+      Provide more details about this medium (especially if you mentioned 'Other' as the type)
+      <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
+      </li>
+      <li>
+        <%= f.submit 'Submit', :class => 'btn btn btn-primary', id: "submit" %>
+      </li>
+    </ul>
+    <% end %>
+  </fieldset>
+  </div>
+
+<script>
+function NewMedium(s,p,w) {
+  const element = document.getElementById(s+'_name');
+  var q = element.value;
+  q=$.trim(q);
+  const note = document.getElementById(s+'_note');
+  if (q.length==0) { note.innerHTML=''; return ; }
+
+  $.ajax({
+    url: '/'+p+'/?term='+q,
+    cache: false
+  })
+    .done(function( html ) {
+      var found=false;
+      var entry="";
+      for(var i = 0; i < html.length; i++)
+        {
+          if (html[i].toLowerCase()==q.toLowerCase())
+            {
+              entry=html[i]
+              found=true;
+              break;
+            }
+        }
+      if (found)
+        {
+          element.value=entry
+          note.innerHTML='<b><font color=red>'+q+'</font></b> is already in the database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a><br>';
+          document.getElementById("submit").disabled = true;
+        }
+      else
+        {
+          note.innerHTML='';
+          document.getElementById("submit").disabled = false;
+        }
+    });
+}
+</script>
+<% end %>

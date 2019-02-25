@@ -1,0 +1,8 @@
+<div class="form-claim">
+<%= simple_form_for @src do |f| %>
+  <%= f.input :name, label: "What is the name of the src (required)" %>
+  <%= f.input :url, label: "URL of the src (optional)" %>
+  <%= f.input :description, label: "Details about the src you wish to add (optional)" %>
+  <%= f.button :submit, "Add Src", class: 'btn btn-primary'  %>
+<% end %>
+</div>

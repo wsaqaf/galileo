@@ -1,0 +1,53 @@
+
+              <h3>Reviewing src:
+                <% if (not @src.url.blank?) %>
+                   <%= link_to @src.name, src_path(@src.id) %>
+                <% else %>
+                  <%= @src.name %>
+                <% end %>
+              </h3> 
+              <div class="form-claim">
+              <h4><% all_steps=['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9']; %>
+              <%  for i in 0 ... all_steps.size %>
+              <% if (step==File.basename(wizard_path(all_steps[i]))) %>
+              <font size=20>Step <%= (i+1) %></font>
+              <% else %>
+              <%= link_to (i+1).to_s+' ', wizard_path(all_steps[i]) %>
+              <% end %>
+              <% end %>
+              </h4>
+              <hr>
+
+              <%= form_for @src_review, method: :put, url: wizard_path do |f| %>
+              <% if f.object.errors.any? %>
+              <div class="error_messages">
+                  <% f.object.errors.full_messages.each do |error| %>
+                    <p><%= error %></p>
+                  <% end %>
+              </div>
+              <% end %>
+              <fieldset>
+                <legend>1) Reviewing the source (author)</legend>
+                  <ul>
+                      
+                  <li>Are there any other major problems that could make this source untrustworthy? If yes, explain more in the note below.
+                  <%= f.select :src_other_problems, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @src_review.src_other_problems) %>
+                  <br>
+                  
+                  </li>
+          
+                  <li>Optional note
+                  <%= f.text_area(:note_src_other_problems, size: '50x10', class: 'field-long field-textarea') %>
+                  <br>
+                  
+                  </li>
+          
+                    <li>
+                      <%= link_to 'Previous Step',previous_wizard_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+&nbsp;&nbsp;&nbsp;<%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                    </li>
+                  </ul>
+              </fieldset>
+              <% end %>
+              </div>
+              

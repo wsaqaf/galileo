@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Src:</strong>
+  <%= @src_review.src_id %>
+</p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @src_review.name %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @src_review.url %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @src_review.description %>
+</p>
+
+<%= link_to 'Edit', edit_src_review_path(@src_review) %> |
+<%= link_to 'Back', src_reviews_path %>
