@@ -76,7 +76,7 @@ when "s5"
 when "s6"
   [:src_other_problems, :note_src_other_problems]
 when "s8"
-  [:src_review_verdict, :note_src_review_verdict, :src_review_description, :note_src_review_description]
+  [:src_review_verdict, :src_review_description, :note_src_review_description]
 when "s9"
   [:src_review_sharing_mode, :note_src_review_sharing_mode]
 ########StepsToDo#########

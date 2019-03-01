@@ -90,6 +90,8 @@ when "s13"
   [:medium_review_sharing_mode, :note_medium_review_sharing_mode]
 
 
+
+
 ########StepsToDo#########
       end
       params.require(:medium_review).permit(permitted_attributes).merge(form_step: step)

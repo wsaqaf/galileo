@@ -27,17 +27,23 @@
               </div>
               <% end %>
               <fieldset>
-                <legend>5) Sharing your claim review</legend>
+                <legend>5) Your assessment of the claim's validity</legend>
                   <ul>
                       
-                  <li>Do you wish to share this claim review?<span class='required'>*</span>
-                  <%= f.select :review_sharing_mode, options_for_select([['Select',''],['Yes', 1],[' No', -1]], :selected => @claim_review.review_sharing_mode) %>
+                  <li>Based on this review, what is your final assessment of this claim?<span class='required'>*</span>
+                  <%= f.select :review_verdict, options_for_select([['Select',''],['False', -3],[' Mostly false', -2],[' Mixed', -1],[' Mostly true', 1],[' True', 2],[' No decision', 0]], :selected => @claim_review.review_verdict) %>
+                  <br>
+                  
+                  </li>
+          
+                  <li>Explain your rationale to why you have given this assessment.
+                  <%= f.text_area(:review_description, size: '50x10', class: 'field-long field-textarea') %>
                   <br>
                   
                   </li>
           
                   <li>Optional note
-                  <%= f.text_area(:note_review_sharing_mode, size: '50x10', class: 'field-long field-textarea') %>
+                  <%= f.text_area(:note_review_description, size: '50x10', class: 'field-long field-textarea') %>
                   <br>
                   
                   </li>

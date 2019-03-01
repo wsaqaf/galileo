@@ -31,12 +31,17 @@
       Provide more details about this resource and what it is useful for:
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
       </li>
-      <li>
-      Reference code(s) of the step(s) which this resource is associated to (optional):<br>
-      <small><i>(Use commas or spaces to add multiple references)</i></small>
-      <%= f.text_field :used_for_qs, class: 'field-long' %>
-      <small>* Reference codes appear at the bottom of each step (e.g., *Ref: claim_s1)</small>
-      </li>
+      <% if @ref.empty? %>
+        <li>
+        Reference code(s) of the step(s) which this resource is associated to:<br>
+        <small><i>(Use commas or spaces to add multiple references)</i></small>
+        <%= f.text_field :used_for_qs, class: 'field-long' %>
+        </li>
+      <% else %>
+      <div style="display:none">
+        <%= f.text_field :used_for_qs, :value => @ref, readonly: true %>
+        </div>
+      <% end %>
       <li>
         <%= f.submit 'Submit', :class => 'btn btn btn-primary', id: "submit" %>
       </li>

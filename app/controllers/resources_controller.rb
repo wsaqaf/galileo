@@ -15,6 +15,10 @@ class ResourcesController < ApplicationController
 
     def new
       @resource = current_user.resources.build
+      @ref=""
+      if (params[:ref].present?)
+        @ref=params[:ref]
+      end
     end
 
     def create
@@ -45,7 +49,7 @@ class ResourcesController < ApplicationController
 
     private
       def resource_params
-        params.require(:resource).permit(:name, :url, :description, :tutorial, :icon, :used_for_qs)
+        params.require(:resource).permit(:name, :url, :description, :tutorial, :icon, :used_for_qs, :ref)
       end
 
       def find_resource

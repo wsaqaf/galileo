@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190222074218) do
+ActiveRecord::Schema.define(version: 20190301180447) do
 
   create_table "claim_reviews", force: :cascade do |t|
     t.string "src_id"
@@ -65,6 +65,7 @@ ActiveRecord::Schema.define(version: 20190222074218) do
     t.string "note_review_published_url"
     t.integer "user_id"
     t.integer "claim_id"
+    t.integer "txt_review_started"
     t.index ["note_review_sharing_mode"], name: "index_claim_reviews_on_note_review_sharing_mode"
     t.index ["review_verdict"], name: "index_claim_reviews_on_review_verdict"
   end
@@ -80,6 +81,7 @@ ActiveRecord::Schema.define(version: 20190222074218) do
     t.integer "user_id"
     t.integer "src_id"
     t.integer "has_video"
+    t.integer "has_text"
     t.index ["medium_id"], name: "index_claims_on_medium_id"
     t.index ["title"], name: "index_claims_on_title"
     t.index ["url"], name: "index_claims_on_url"

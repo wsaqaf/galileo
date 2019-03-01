@@ -76,7 +76,7 @@ class ClaimsController < ApplicationController
     end
 
     def claim_params
-      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video)
+      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video, :has_text)
     end
 
     def find_claim

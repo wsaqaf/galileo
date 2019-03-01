@@ -27,17 +27,17 @@
               </div>
               <% end %>
               <fieldset>
-                <legend>5) Sharing your claim review</legend>
+                <legend>6) Sharing your claim review</legend>
                   <ul>
                       
-                  <li>If you publish this claim based on this analysis, provide a link to it here:
-                  <%= f.text_field :review_published_url, class: 'field-long' %>
+                  <li>Do you wish to share this claim review?<span class='required'>*</span>
+                  <%= f.select :review_sharing_mode, options_for_select([['Select',''],['Yes', 1],[' No', -1]], :selected => @claim_review.review_sharing_mode) %>
                   <br>
                   
                   </li>
           
                   <li>Optional note
-                  <%= f.text_area(:note_review_published_url, size: '50x10', class: 'field-long field-textarea') %>
+                  <%= f.text_area(:note_review_sharing_mode, size: '50x10', class: 'field-long field-textarea') %>
                   <br>
                   
                   </li>

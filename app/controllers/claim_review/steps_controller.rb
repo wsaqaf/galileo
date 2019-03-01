@@ -10,8 +10,17 @@ class ClaimReview::StepsController < ApplicationController
     score=0
     confidence=0
     result=""
+    fields=""
     if field=="content"
-      fields=[@claim_review.img_forensic_discrepency,@claim_review.img_metadata_discrepency,@claim_review.img_logical_discrepency,@claim_review.vid_review_started,@claim_review.vid_old,@claim_review.vid_forensic_discrepency,@claim_review.vid_metadata_discrepency,@claim_review.vid_audio_discrepency,@claim_review.vid_logical_discrepency,@claim_review.txt_unreliable_news_content,@claim_review.txt_insufficient_verifiable_srcs,@claim_review.txt_has_clickbait,@claim_review.txt_poor_language,@claim_review.txt_crowds_distance_discrepency,@claim_review.txt_author_offers_little_evidence,@claim_review.txt_reliable_sources_disapprove]
+      if @claim.has_image and @claim.img_review_started
+        fields=[@claim_review.img_forensic_discrepency,@claim_review.img_metadata_discrepency,@claim_review.img_logical_discrepency]
+      end
+      if @claim.has_video and @claim.vid_review_started
+        fields=fields+[@claim_review.vid_old,@claim_review.vid_forensic_discrepency,@claim_review.vid_metadata_discrepency,@claim_review.vid_audio_discrepency,@claim_review.vid_logical_discrepency]
+      end
+      if @claim.has_text and @claim.txt_review_started
+        fields=fields+[@claim_review.txt_unreliable_news_content,@claim_review.txt_insufficient_verifiable_srcs,@claim_review.txt_has_clickbait,@claim_review.txt_poor_language,@claim_review.txt_crowds_distance_discrepency,@claim_review.txt_author_offers_little_evidence,@claim_review.txt_reliable_sources_disapprove]
+      end
       fields.each { |f| if (f.present? and not f.blank? and f!=0) then score=score+f.to_i; total=total+1; end }
     end
     max_total=fields.count
@@ -43,9 +52,10 @@ class ClaimReview::StepsController < ApplicationController
     elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to(:s1)
     elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to(:s12)
     elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to(:s6)
+    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to(:s21)
+    elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to(:s12)
+    elsif step=="s20" then @content_review_score=get_score("content","credibility","credible")
     end
-
-    if step=="s19" then @content_review_score=get_score("content","credibility","credible") end
 
     render_wizard
 
@@ -57,9 +67,10 @@ class ClaimReview::StepsController < ApplicationController
       @claim_review.update(claim_review_params(step).merge(user_id: current_user.id))
 
       if step == "s1" and @claim_review.img_review_started!=1 then jump_to(:s6)
-      elsif step == "s6" and @claim_review.vid_review_started!=1 then jump_to(:s12) end
+      elsif step == "s6" and @claim_review.vid_review_started!=1 then jump_to(:s12)
+      elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s21) end
 
-      if step=="s18" then @content_review_score=get_score("content","credibility","credible") end
+      if step=="s19" then @content_review_score=get_score("content","credibility","credible") end
           render_wizard @claim_review
 ###Step conditions###
   end
@@ -95,25 +106,26 @@ when "s10"
 when "s11"
   [:vid_logical_discrepency, :note_vid_logical_discrepency]
 when "s12"
-  [:txt_unreliable_news_content, :note_txt_unreliable_news_content]
+  [:txt_review_started]
 when "s13"
-  [:txt_insufficient_verifiable_srcs, :note_txt_insufficient_verifiable_srcs]
+  [:txt_unreliable_news_content, :note_txt_unreliable_news_content]
 when "s14"
-  [:txt_has_clickbait, :note_txt_has_clickbait]
+  [:txt_insufficient_verifiable_srcs, :note_txt_insufficient_verifiable_srcs]
 when "s15"
-  [:txt_poor_language, :note_txt_poor_language]
+  [:txt_has_clickbait, :note_txt_has_clickbait]
 when "s16"
-  [:txt_crowds_distance_discrepency, :note_txt_crowds_distance_discrepency]
+  [:txt_poor_language, :note_txt_poor_language]
 when "s17"
-  [:txt_author_offers_little_evidence, :note_txt_author_offers_little_evidence]
+  [:txt_crowds_distance_discrepency, :note_txt_crowds_distance_discrepency]
 when "s18"
+  [:txt_author_offers_little_evidence, :note_txt_author_offers_little_evidence]
+when "s19"
   [:txt_reliable_sources_disapprove, :note_txt_reliable_sources_disapprove]
-when "s20"
-  [:review_verdict, :note_review_verdict, :review_description, :note_review_description]
 when "s21"
-  [:review_sharing_mode, :note_review_sharing_mode]
+  [:review_verdict, :review_description, :note_review_description]
 when "s22"
-  [:review_published_url, :note_review_published_url]
+  [:review_sharing_mode, :note_review_sharing_mode]
+
 ########StepsToDo#########
       end
       params.require(:claim_review).permit(permitted_attributes).merge(form_step: step)

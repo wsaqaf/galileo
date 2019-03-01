@@ -7,6 +7,7 @@ class Claim < ApplicationRecord
   validates :title, presence: true
   validates :has_image, presence: true
   validates :has_video, presence: true
+  validates :has_text, presence: true
 
     def medium_name
       medium.try(:name)

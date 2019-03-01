@@ -36,6 +36,10 @@
       <%= f.select :has_video, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_video) %>
   </li>
   <li>
+    Does the claim contain text?<span class='required'>*</span>
+    <%= f.select :has_text, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_text) %>
+  </li>
+  <li>
   Any more details about the claim you wish to add?
   <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
   </li>

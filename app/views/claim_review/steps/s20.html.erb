@@ -27,29 +27,11 @@
               </div>
               <% end %>
               <fieldset>
-                <legend>4) Your assessment of the claim's validity</legend>
+                <legend>4) Assessment based on your answers</legend>
                   <ul>
                       
-                  <li>Based on this review, what is your final assessment of this claim?<span class='required'>*</span>
-                  <%= f.select :review_verdict, options_for_select([['Select',''],['False', -3],[' Mostly false', -2],[' Mixed', -1],[' Mostly true', 1],[' True', 2],[' No decision', 0]], :selected => @claim_review.review_verdict) %>
-                  <br>
-                  
-                  </li>
-          
-                  <li>Optional note
-                  <%= f.text_area(:note_review_verdict, size: '50x10', class: 'field-long field-textarea') %>
-                  <br>
-                  
-                  </li>
-          
-                  <li>Describe why you came to this conclusion.
-                  <%= f.text_area(:review_description, size: '50x10', class: 'field-long field-textarea') %>
-                  <br>
-                  
-                  </li>
-          
-                  <li>Optional note
-                  <%= f.text_area(:note_review_description, size: '50x10', class: 'field-long field-textarea') %>
+                  <li><%= @content_review_score.html_safe %>
+                  <%= f.hidden_field :claim_review, :value => @claim_review %>
                   <br>
                   
                   </li>

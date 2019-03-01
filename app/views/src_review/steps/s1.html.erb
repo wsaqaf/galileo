@@ -50,15 +50,15 @@
                                 if not has_resources.blank? %>
                                   <ul>
                                   <% has_resources.each do |r| %>
-                                  <li>- <%= link_to r.name, resource_path(r.id), target: "_blank" %></li>
+                                  <li><h4>- <%= link_to r.name, resource_path(r.id), target: "_blank" %></h4></li>
                                 <% end %>
                               </ul>
-                              <hr><p><small>You can associate additional <b><%= link_to "resources", resources_path(), target: "_blank" %></b> to this question by adding the following reference code to their "Associations" field:<br>
-                                <div align='center'><b><%= current_code %></b></div></small></p>
+                              <hr><p>- <%= link_to "Add an additional resource to this question", new_resource_path(ref: current_code), target: "_blank" %><br><br>
+                              <small>- You can also check the current <b><%= link_to "resources", resources_path(), target: "_blank" %></b> and associate any of them to this question by adding the following reference code to their "Associations" field: <b><%= current_code %></b></small></p>
                           <% else %>
                               <p><b>No resources have been associated to this question.</b></p>
-                              <hr><p><small>You can associate any of the current <b><%= link_to "resources", resources_path(), target: "_blank" %></b> to this question by adding the following reference code to their "Associations" field:<br>
-                                <div align='center'><b><%= current_code %></b></div></small></p>
+                              <hr><p>- <%= link_to "Add a resource to this question", new_resource_path(ref: current_code), target: "_blank" %><br><br>
+                              <small>- You can also associate one of the current <b><%= link_to "resources", resources_path(), target: "_blank" %></b> to this question by adding the following reference code to their "Associations" field: <b><%= current_code %></b></small></p>
                           <% end %>
                           </div>
                        </div>
