@@ -11,6 +11,7 @@ class ClaimReviewsController < ApplicationController
   end
 
   def show
+    @claim_review = ClaimReview.find(params[:id])
   end
 
   def new
@@ -36,6 +37,11 @@ class ClaimReviewsController < ApplicationController
   end
 
   def update
+    if @claim_review.update()
+      redirect_to claim_claim_path(@claim,@claim_review)
+    else
+      render 'edit'
+    end
   end
 
   def destroy

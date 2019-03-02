@@ -40,7 +40,7 @@
           <% end %>
           <li>Reviewer: <%= reviewer_name %><%= reviewer_aff %></li>
           <li>Updated: <%= claim_review.updated_at %></li>
-          <%= link_to 'More about claim', claim_path(claim.id) %>
+          <%= link_to 'More about this review', claim_claim_review_path(claim.id,claim_review.id) %>
       </ul><hr>
   <% end %>
   <% else %>
