@@ -33,11 +33,11 @@
       <%= f.select :has_image, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_image) %>
     </li>
     <li>
-      Does the claim contain depend on or use a video?<span class='required'>*</span>
+      Does the claim depend on or use a video?<span class='required'>*</span>
         <%= f.select :has_video, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_video) %>
     </li>
     <li>
-      Does the claim contain depend on or use text?<span class='required'>*</span>
+      Does the claim depend on or use text?<span class='required'>*</span>
         <%= f.select :has_text, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_text) %>
     </li>
     <li>
