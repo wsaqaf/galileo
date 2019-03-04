@@ -9,16 +9,22 @@ Not provided
 </h4>
 <h4>Medium:
 <% if @claim.medium_id.present? %>
+  <% begin %>
     <% @medium = Medium.find @claim.medium_id %>
              <a href='<%= media_path %>/<%= @claim.medium_id %>' target=_blank><%= @medium.name %></a>
+  <% rescue %>
+    <% end %>
 <% else %>
     Not provided
 <% end %>
 </h4>
 <h4>Source:
   <% if @claim.src_id.present? %>
+  <% begin %>
     <% @src = Src.find @claim.src_id %>
            <a href='<%= srcs_path %>/<%= @claim.src_id %>' target=_blank><%= @src.name %></a>
+           <% rescue %>
+             <% end %>
  <% else %>
      Not provided
  <% end %>
