@@ -1,4 +1,5 @@
 
+              <div class="form-claim">
               <h3>Reviewing claim:
                 <% if (not @claim.url.blank?) %>
                    <%= link_to @claim.title, claim_path(@claim.id) %>
@@ -6,7 +7,6 @@
                   <%= @claim.title %>
                 <% end %>
               </h3> 
-              <div class="form-claim">
               <% if current_user.id==1 %>
                   <h4><% all_steps=['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12', 's13', 's14', 's15', 's16', 's17', 's18', 's19', 's20', 's21', 's22']; %>
                   <% for i in 0 ... all_steps.size %>
@@ -29,7 +29,7 @@
               </div>
               <% end %>
               <fieldset>
-                <legend>2) Reviewing video in the claim</legend>
+                <legend>Reviewing video in the claim</legend>
                   <ul>
                       
                   <li>Have any of the frames of the video been doctored or manipulated per observed frames? 
@@ -76,8 +76,12 @@
                   </li>
           
                     <li>
-                      <%= link_to 'Previous Step',previous_wizard_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
-&nbsp;&nbsp;&nbsp;<%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                      
+                        <% if !@first_step.present? or @first_step!=step %>
+                            <%= link_to 'Previous Step',previous_wizard_path+'?s=prev',:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>&nbsp;&nbsp;&nbsp;
+                        <% end %>
+                        <%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                  
                     </li>
                   </ul>
               </fieldset>

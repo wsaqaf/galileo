@@ -48,13 +48,22 @@ class ClaimReview::StepsController < ApplicationController
   def show
     @claim_review = ClaimReview.find(params[:claim_review_id])
 
-    if step.tr('s', '').to_i.between?(1,5) and @claim.has_image!=1 then jump_to(:s6)
-    elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to(:s1)
-    elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to(:s12)
-    elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to(:s6)
-    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to(:s21)
-    elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to(:s12)
-    elsif step=="s20" then @content_review_score=get_score("content","credibility","credible")
+#    if (!params[:s].blank?) then puts("\n\n\n\nprev\n\n\n\n")
+#    else puts("\n\n\n\nnext\n\n\n\n") end
+
+    if @claim.has_image==1 then @first_step="s1"
+    elsif @claim.has_video==1 then @first_step="s6"
+    elsif @claim.has_text==1 then @first_step="s12"
+    else  @first_step="s21"; end
+
+#==> Does not work for previous step if img:no,vid:yes,txt:no ##
+    if step.tr('s', '').to_i.between?(1,5) and @claim.has_image!=1 then jump_to(:s6);
+    elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to(:s1); @first_step=""
+    elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to(:s12);
+    elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to(:s6); @first_step=""
+    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to(:s21);
+    elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to(:s12); @first_step=""
+    elsif step=="s20" then @content_review_score=get_score("content","credibility","credible");
     end
 
     render_wizard
@@ -62,16 +71,18 @@ class ClaimReview::StepsController < ApplicationController
   end
 
   def update
+#    puts("\n\n\nparams:"+claim_review_params(step).inspect+"\n\n\n")
       @claim_review = ClaimReview.find(params[:claim_review_id])
 
       @claim_review.update(claim_review_params(step).merge(user_id: current_user.id))
 
       if step == "s1" and @claim_review.img_review_started!=1 then jump_to(:s6)
       elsif step == "s6" and @claim_review.vid_review_started!=1 then jump_to(:s12)
-      elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s21) end
+      elsif step == "s12" and @claim_review.txt_review_started!=1 then puts("\n\nhere!\n\n"); jump_to(:s21) end
 
       if step=="s19" then @content_review_score=get_score("content","credibility","credible") end
-          render_wizard @claim_review
+      if step=="s22" then redirect_to claims_path
+      else render_wizard @claim_review end
 ###Step conditions###
   end
 

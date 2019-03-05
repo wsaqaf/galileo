@@ -51,7 +51,9 @@ class SrcReview::StepsController < ApplicationController
 
       if
          step=="s6" then @src_review_score=get_score("source","trustworthiness","trustworthy") end
-        render_wizard @src_review
+
+         if step=="s9" then redirect_to srcs_path
+         else render_wizard @src_review end
 ###Step conditions###
   end
 

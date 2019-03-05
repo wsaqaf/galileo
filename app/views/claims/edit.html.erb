@@ -1,8 +1,6 @@
-<h1>Edit Claim</h1>
-
-<fieldset>
-  <legend>&nbsp;Add a new claim</legend>
 <div class="form-claim">
+<fieldset>
+  <legend>&nbsp;Edit a claim</legend>
 <%= form_for @claim do |f| %>
   <% if f.object.errors.any? %>
   <div class="error_messages">
@@ -51,7 +49,6 @@
 </ul>
 </fieldset>
 <% end %>
-</div>
 
 <script>
 function NewMedium(s,p,w) {
@@ -92,3 +89,4 @@ function NewMedium(s,p,w) {
 
 <%= link_to 'Show', @claim %> |
 <%= link_to 'Back', claims_path %>
+</div>

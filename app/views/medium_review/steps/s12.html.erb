@@ -1,4 +1,5 @@
 
+              <div class="form-claim">
               <h3>Reviewing medium:
                 <% if (not @medium.url.blank?) %>
                    <%= link_to @medium.name, medium_path(@medium.id) %>
@@ -6,7 +7,6 @@
                   <%= @medium.name %>
                 <% end %>
               </h3> 
-              <div class="form-claim">
               <% if current_user.id==1 %>
                   <h4><% all_steps=['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 's10', 's11', 's12', 's13']; %>
                   <% for i in 0 ... all_steps.size %>
@@ -29,11 +29,11 @@
               </div>
               <% end %>
               <fieldset>
-                <legend>2) Making an assessment of author's trustworthiness</legend>
+                <legend>Making an assessment of author's trustworthiness</legend>
                   <ul>
                       
                   <li>Considering the given score, how do you assess the medium's reliability for accurate information?<span class='required'>*</span>
-                  <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', -4],[' Mostly unreliable', -3],[' Somewhat reliable', -2],[' Mostly reliable', -1],[' Totally reliable', 1],[' Not sure', 0]], :selected => @medium_review.medium_review_verdict) %>
+                  <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', -4],[' Mostly unreliable', -3],[' Somewhat reliable', -2],[' Mostly reliable', -1],[' Totally reliable', 1],[' No decision', 0]], :selected => @medium_review.medium_review_verdict) %>
                   <br>
                   
                   </li>
@@ -51,8 +51,12 @@
                   </li>
           
                     <li>
-                      <%= link_to 'Previous Step',previous_wizard_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
-&nbsp;&nbsp;&nbsp;<%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                      
+                        <% if !@first_step.present? or @first_step!=step %>
+                            <%= link_to 'Previous Step',previous_wizard_path+'?s=prev',:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>&nbsp;&nbsp;&nbsp;
+                        <% end %>
+                        <%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                  
                     </li>
                   </ul>
               </fieldset>

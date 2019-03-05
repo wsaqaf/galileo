@@ -1,4 +1,5 @@
 
+              <div class="form-claim">
               <h3>Reviewing src:
                 <% if (not @src.url.blank?) %>
                    <%= link_to @src.name, src_path(@src.id) %>
@@ -6,7 +7,6 @@
                   <%= @src.name %>
                 <% end %>
               </h3> 
-              <div class="form-claim">
               <% if current_user.id==1 %>
                   <h4><% all_steps=['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9']; %>
                   <% for i in 0 ... all_steps.size %>
@@ -29,7 +29,7 @@
               </div>
               <% end %>
               <fieldset>
-                <legend>1) Reviewing the source (author)</legend>
+                <legend>Reviewing the source (author)</legend>
                   <ul>
                       
                   <li>Does the source have a network of support from biased entities, individuals or trolls?
@@ -76,8 +76,12 @@
                   </li>
           
                     <li>
-                      <%= link_to 'Previous Step',previous_wizard_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
-&nbsp;&nbsp;&nbsp;<%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                      
+                        <% if !@first_step.present? or @first_step!=step %>
+                            <%= link_to 'Previous Step',previous_wizard_path+'?s=prev',:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>&nbsp;&nbsp;&nbsp;
+                        <% end %>
+                        <%= f.submit 'Next Step', :class => 'btn btn btn-primary' %>
+                  
                     </li>
                   </ul>
               </fieldset>

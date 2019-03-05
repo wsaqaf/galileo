@@ -52,7 +52,9 @@ class MediumReview::StepsController < ApplicationController
       @medium_review.update(medium_review_params(step).merge(user_id: current_user.id))
 
       if step=="s10" then @medium_review_score=get_score("medium","reliability","reliable")  end
-      render_wizard @medium_review
+
+      if step=="s13" then redirect_to media_path
+      else render_wizard @medium_review end
 ###Step conditions###
   end
 
