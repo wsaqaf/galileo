@@ -61,9 +61,9 @@ class ClaimReview::StepsController < ApplicationController
 #==> Does not work for previous step if img:no,vid:yes,txt:no ##
     if step.tr('s', '').to_i.between?(1,5) and @claim.has_image!=1 then jump_to2(:s6,:s6); return
     elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to2(:s1,:s6); return
-    elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to(:s12,:s12); return
+    elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to2(:s5,:s12); return
     elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to2(:s6,:s12); return
-    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to2(:s21,:s21); return
+    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to2(:s11,:s21); return
     elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to2(:s12,:s21); return
     elsif step=="s20" then @content_review_score=get_score("content","credibility","credible"); jump_to2(step,step); return
 #    else puts("\n\n\nGOT IN8! Doing: "+step+" and "+params[:s].to_s+"\n\n\n"); #jump_to2(step,step);
