@@ -56,18 +56,21 @@ class ClaimReview::StepsController < ApplicationController
     elsif @claim.has_text==1 then @first_step="s12"
     else  @first_step="s21"; end
 
+#puts("\n\n\nGOT IN0! Doing: "+step+" and "+params[:s].to_s+"\n\n\n");
+
 #==> Does not work for previous step if img:no,vid:yes,txt:no ##
-    if step.tr('s', '').to_i.between?(1,5) and @claim.has_image!=1 then jump_to(:s6);
-    elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to(:s1); @first_step=""
-    elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to(:s12);
-    elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to(:s6); @first_step=""
-    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to(:s21);
-    elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to(:s12); @first_step=""
-    elsif step=="s20" then @content_review_score=get_score("content","credibility","credible");
+    if step.tr('s', '').to_i.between?(1,5) and @claim.has_image!=1 then jump_to2(:s6,:s6); return
+    elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to2(:s1,:s6); return
+    elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to(:s12,:s12); return
+    elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to2(:s6,:s12); return
+    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to2(:s21,:s21); return
+    elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to2(:s12,:s21); return
+    elsif step=="s20" then @content_review_score=get_score("content","credibility","credible"); jump_to2(step,step); return
+#    else puts("\n\n\nGOT IN8! Doing: "+step+" and "+params[:s].to_s+"\n\n\n"); #jump_to2(step,step);
     end
-
+#    puts("\n\n\nGOT IN9! Doing: "+step+" and "+params[:s].to_s+"\n\n\n")
+#    redirect_to redirect_to claim_claim_review_step_path(@claim.id,@claim_review.id,step)
     render_wizard
-
   end
 
   def update
@@ -78,7 +81,7 @@ class ClaimReview::StepsController < ApplicationController
 
       if step == "s1" and @claim_review.img_review_started!=1 then jump_to(:s6)
       elsif step == "s6" and @claim_review.vid_review_started!=1 then jump_to(:s12)
-      elsif step == "s12" and @claim_review.txt_review_started!=1 then puts("\n\nhere!\n\n"); jump_to(:s21) end
+      elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s21) end
 
       if step=="s19" then @content_review_score=get_score("content","credibility","credible") end
       if step=="s22" then redirect_to claims_path
@@ -87,6 +90,19 @@ class ClaimReview::StepsController < ApplicationController
   end
 
   private
+
+  def jump_to2(dest_p,dest_n)
+#    puts("\n\n\nhere0: prev:"+params[:s].to_s+" cp:"+claim_claim_review_step_path(@claim.id,@claim_review.id,dest_p)+"?s=prev"+"\n\n\n")
+    if !params[:s].blank?
+#      puts("\n\n\nhere1: "+claim_claim_review_step_path(@claim.id,@claim_review.id,dest_p)+"?s=prev"+"\n\n\n")
+      redirect_to claim_claim_review_step_path(@claim.id,@claim_review.id,dest_p)+"?s=prev"; return
+    else
+#      puts("\n\n\nhere2: "+dest_n.to_s+"?s=prev"+"\n\n\n")
+      redirect_to claim_claim_review_step_path(@claim.id,@claim_review.id,dest_n); return
+    end
+    render_wizard
+  end
+
   def find_claim
     @claim = Claim.find(params[:claim_id])
   end
