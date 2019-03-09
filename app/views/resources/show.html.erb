@@ -6,7 +6,7 @@
 <% end %>
 <h4><%= link_to "Go to Resource", @resource.url, target: "_blank" %>
 <p><%= @resource.description %></p>
-<p>Tutorial: <%= link_to @resource.tutorial %></p>
+<p>Tutorial: <%= link_to @resource.tutorial,@resource.tutorial %></p>
 <p>Added by: <%= User.find(@resource.user_id).name %>
 <br>Created: <%= @resource.created_at %>
 <br>Updated: <%= @resource.updated_at %></p>
