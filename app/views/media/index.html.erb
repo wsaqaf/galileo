@@ -9,7 +9,7 @@
       <li><%= link_to medium.name, medium_path(medium) %>
       <small>(Reviews:
       <%
-        @reviews = MediumReview.where("medium_id="+medium.id.to_s+" AND user_id="+current_user.id.to_s+" OR (medium_review_sharing_mode=1 AND medium_review_verdict!='')")
+        @reviews = MediumReview.where("medium_id="+medium.id.to_s+" AND (user_id="+current_user.id.to_s+" OR (medium_review_sharing_mode=1 AND medium_review_verdict!=''))")
         if (@reviews.blank?) then @total_reviews=0
         else
           @total_reviews=@reviews.size
