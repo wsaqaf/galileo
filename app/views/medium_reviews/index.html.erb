@@ -1,5 +1,4 @@
 <div class="container">
-<% if user_signed_in? %>
 <h3>Medium Reviews</h3>
     <ul>
     <% @medium_reviews.each do |medium_review| %>
@@ -16,10 +15,4 @@
           <%= link_to 'More about Medium', medium_path(medium.id) %><hr>
       </li>
     <% end %>
-<% else %>
-  <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
-  You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
-  <br><br>
-  If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
-<% end %>
 </div>

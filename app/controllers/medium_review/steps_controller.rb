@@ -1,6 +1,8 @@
 class MediumReview::StepsController < ApplicationController
   include Wicked::Wizard
   before_action :find_medium
+  before_action :check_if_signed_in
+
 
   steps *MediumReview.form_steps
 
@@ -53,7 +55,9 @@ class MediumReview::StepsController < ApplicationController
 
       if step=="s10" then @medium_review_score=get_score("medium","reliability","reliable")  end
 
-      if step=="s13" then redirect_to media_path
+      if step=="s13"
+         if !params[:medium_review_sharing_mode].blank? then redirect_to media_path
+         else render_wizard @medium_review end
       else render_wizard @medium_review end
 ###Step conditions###
   end
@@ -91,11 +95,14 @@ when "s12"
 when "s13"
   [:medium_review_sharing_mode, :note_medium_review_sharing_mode]
 
-
-
-
 ########StepsToDo#########
       end
       params.require(:medium_review).permit(permitted_attributes).merge(form_step: step)
     end
+
+      def check_if_signed_in
+        if !user_signed_in?
+          redirect_to "/"
+        end
+      end
 end

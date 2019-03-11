@@ -47,11 +47,4 @@
 <br><br>
 
 <%= link_to "Back", media_path %>
-
-<% if user_signed_in? %>
-  <% if @medium.user_id == current_user.id %> -
-    <%= link_to "Edit", edit_medium_path(@medium) %> -
-    <%= link_to "Delete", medium_path(@medium), method: :delete, data: { confirm: @warning_msg} %>
-  <% end %>
-<% end %>
 </div>

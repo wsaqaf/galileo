@@ -1,5 +1,6 @@
 class ClaimReviewsController < ApplicationController
   before_action :find_claim
+  before_action :check_if_signed_in
 
   def index
     if (params[:term].present?)
@@ -57,5 +58,11 @@ class ClaimReviewsController < ApplicationController
 
   def find_claim
     @claim = Claim.find(params[:claim_id])
+  end
+
+  def check_if_signed_in
+    if !user_signed_in?
+      redirect_to "/"
+    end
   end
 end

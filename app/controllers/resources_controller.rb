@@ -1,5 +1,7 @@
 class ResourcesController < ApplicationController
   before_action :find_resource, only: [:show, :edit, :update, :destroy]
+  before_action :check_if_signed_in
+
 
     def index
       if (params[:term].present?)
@@ -55,4 +57,10 @@ class ResourcesController < ApplicationController
       def find_resource
         @resource = Resource.find(params[:id])
       end
+
+        def check_if_signed_in
+          if !user_signed_in?
+            redirect_to "/"
+          end
+        end
   end

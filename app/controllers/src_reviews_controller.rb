@@ -1,5 +1,7 @@
 class SrcReviewsController < ApplicationController
   before_action :find_src
+  before_action :check_if_signed_in
+
   def index
     if (params[:term].present?)
       @src_reviews = SrcReview.order(:id).where("name like ?", "%#{params[:term]}%")
@@ -50,4 +52,10 @@ class SrcReviewsController < ApplicationController
   def find_src
     @src = Src.find(params[:src_id])
   end
+
+    def check_if_signed_in
+      if !user_signed_in?
+        redirect_to "/"
+      end
+    end
 end

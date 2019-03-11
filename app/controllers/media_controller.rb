@@ -1,6 +1,8 @@
 class MediaController < ApplicationController
   before_action :find_medium, only: [:show, :edit, :update, :destroy]
   before_action :define_types
+  before_action :check_if_signed_in
+
 
   def index
     if (params[:filter]=="r")
@@ -103,4 +105,9 @@ class MediaController < ApplicationController
       end
     end
 
+      def check_if_signed_in
+        if !user_signed_in?
+          redirect_to "/"
+        end
+      end
 end

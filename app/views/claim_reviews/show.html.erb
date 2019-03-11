@@ -1,8 +1,7 @@
-
               <div class="form-claim">
               <h3>Showing review for claim:
                    <%= link_to @claim.title, claim_path(@claim.id) %>
-              </h3> 
+              </h3>
 
               <%= form_for @claim_review, method: :put, url: claim_claim_review_path(@claim,@claim_review) do |f| %>
               <% if f.object.errors.any? %>
@@ -21,238 +20,238 @@
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_img_old.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_img_old, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_img_old, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.img_forensic_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Has the image been doctored or manipulated (using tools such as Paint.Net or Photoshop)?
                       <%= f.select :img_forensic_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.img_forensic_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_img_forensic_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_img_forensic_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_img_forensic_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.img_metadata_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Does the image have metadata that show geo-location, date, software or other data that contradicts what is expected?
                       <%= f.select :img_metadata_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.img_metadata_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_img_metadata_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_img_metadata_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_img_metadata_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.img_logical_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Does the image show signs that do not add up or make sense such as incorrect lighting, shadow direction or size, unusual colors, copied/repeated objects?
                       <%= f.select :img_logical_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.img_logical_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_img_logical_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_img_logical_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_img_logical_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.vid_old.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Has the video been published or used out of context per reverse image search for snapshots?
                       <%= f.select :vid_old, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.vid_old), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_vid_old.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_vid_old, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_vid_old, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.vid_forensic_discrepency.blank? or @claim_review.user_id==current_user.id? %>
-                      <li>Have any of the frames of the video been doctored or manipulated per observed frames? 
+                      <li>Have any of the frames of the video been doctored or manipulated per observed frames?
                       <%= f.select :vid_forensic_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.vid_forensic_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_vid_forensic_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_vid_forensic_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_vid_forensic_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.vid_metadata_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Does the video have metadata that show geo-location, date, software or other data that contradicts what is expected?
                       <%= f.select :vid_metadata_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.vid_metadata_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_vid_metadata_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_vid_metadata_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_vid_metadata_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.vid_audio_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Has the video undergone any audio manipulation? Are the voices emerging from the characters in the video matching those who said them?
                       <%= f.select :vid_audio_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.vid_audio_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_vid_audio_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_vid_audio_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_vid_audio_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.vid_logical_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Are there any clues in the scenery, streets, landmarks, or voices in the background that indicate some discrepancy regarding time, location or identity of the individuals involved?
                       <%= f.select :vid_logical_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.vid_logical_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_vid_logical_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_vid_logical_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_vid_logical_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.txt_unreliable_news_content.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Can the article be implied or be seen as satire, opinion or other unserious news content?
                       <%= f.select :txt_unreliable_news_content, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_unreliable_news_content), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_txt_unreliable_news_content.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_txt_unreliable_news_content, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_txt_unreliable_news_content, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.txt_insufficient_verifiable_srcs.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Does the text clearly lack sufficient verifiable sources (news agencies, public agencies, official governmental websites, verified social media accounts)?
                       <%= f.select :txt_insufficient_verifiable_srcs, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_insufficient_verifiable_srcs), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_txt_insufficient_verifiable_srcs.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_txt_insufficient_verifiable_srcs, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_txt_insufficient_verifiable_srcs, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.txt_has_clickbait.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Does the article use a clickbait title?
                       <%= f.select :txt_has_clickbait, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_has_clickbait), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_txt_has_clickbait.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_txt_has_clickbait, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_txt_has_clickbait, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.txt_poor_language.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Does the text has poor language as it is linguistically incoherent or contain grammatical/spelling errors?
                       <%= f.select :txt_poor_language, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_poor_language), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_txt_poor_language.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_txt_poor_language, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_txt_poor_language, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.txt_crowds_distance_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Does the claim include a false statement about crowd sizes or distances?
                       <%= f.select :txt_crowds_distance_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_crowds_distance_discrepency), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_txt_crowds_distance_discrepency.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_txt_crowds_distance_discrepency, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_txt_crowds_distance_discrepency, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.txt_author_offers_little_evidence.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Did you reach out to the source to assess the claim and he/she failed to provide sufficient evidence to prove the claim? Skip if you have not reached out to the source, answer yes if he/she failed to provide sufficient evidence and no otherwise.
                       <%= f.select :txt_author_offers_little_evidence, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_author_offers_little_evidence), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_txt_author_offers_little_evidence.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_txt_author_offers_little_evidence, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_txt_author_offers_little_evidence, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.txt_reliable_sources_disapprove.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Do reliable sources, particularly from established authorities and well-founded institutions and experts, disapprove the claim?
                       <%= f.select :txt_reliable_sources_disapprove, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_reliable_sources_disapprove), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_txt_reliable_sources_disapprove.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_txt_reliable_sources_disapprove, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_txt_reliable_sources_disapprove, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.review_verdict.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Based on this review, what is your final assessment of this claim?
                       <%= f.select :review_verdict, options_for_select([['Select',''],['False', -3],[' Mostly false', -2],[' Mixed', -1],[' Mostly true', 1],[' True', 2],[' No decision', 0]], :selected => @claim_review.review_verdict), {}, disabled: @claim_review.user_id!=current_user.id? %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.review_description.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Explain your rationale to why you have given this assessment.
                       <%= f.text_area(:review_description, size: '50x10', class: 'field-long field-textarea', value:@claim_review.review_description, disabled: @claim_review.user_id!=current_user.id?) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if !@claim_review.note_review_description.blank? or @claim_review.user_id==current_user.id? %>
                       <li>Optional note
                       <%= f.text_area(:note_review_description, size: '50x10', class: 'field-long field-textarea', value:@claim_review.note_review_description, disabled: @claim_review.user_id!=current_user.id?) %>

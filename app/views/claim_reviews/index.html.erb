@@ -1,5 +1,4 @@
 <div class="container">
-<% if user_signed_in? %>
 <h3>Claim Reviews</h3>
     <% if (@claim_reviews.size==0) %>
       No results were returned.
@@ -42,11 +41,5 @@
           <li>Updated: <%= claim_review.updated_at %></li>
           <%= link_to 'More about this review', claim_claim_review_path(claim.id,claim_review.id) %>
       </ul><hr>
-  <% end %>
-  <% else %>
-    <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
-    You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
-    <br><br>
-    If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
   <% end %>
 </div>

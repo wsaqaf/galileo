@@ -1,5 +1,7 @@
 class QuestionController < ApplicationController
   before_action :find_question, only: [:show, :edit, :update, :destroy]
+  before_action :check_if_signed_in
+
   def index
       @questions = question.all.order("created_at DESC")
   end
@@ -49,4 +51,10 @@ class QuestionController < ApplicationController
     def find_question
       @question = question.find(params[:id])
     end
+
+      def check_if_signed_in
+        if !user_signed_in?
+          redirect_to "/"
+        end
+      end
 end

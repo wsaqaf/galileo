@@ -1,5 +1,6 @@
 class ClaimsController < ApplicationController
   before_action :find_claim, only: [:show, :edit, :update, :destroy]
+
   def index
 #    if (params[:filter].present?)
 
@@ -82,4 +83,5 @@ class ClaimsController < ApplicationController
     def find_claim
       @claim = Claim.find(params[:id])
     end
+
 end

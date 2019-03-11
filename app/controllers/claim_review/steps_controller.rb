@@ -2,6 +2,8 @@ class ClaimReview::StepsController < ApplicationController
   include Wicked::Wizard
   autocomplete :claim_review, :claim_review_medium_name
   before_action :find_claim
+  before_action :check_if_signed_in
+
 
   steps *ClaimReview.form_steps
 
@@ -157,4 +159,10 @@ when "s22"
       end
       params.require(:claim_review).permit(permitted_attributes).merge(form_step: step)
     end
+
+      def check_if_signed_in
+        if !user_signed_in?
+          redirect_to "/"
+        end
+      end
 end

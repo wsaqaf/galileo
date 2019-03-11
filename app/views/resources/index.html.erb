@@ -1,5 +1,4 @@
 <div class="container">
-<% if user_signed_in? %>
 <div class="row"><div class="columnl"></div><div class="columnr"><%= link_to "Add Resource", new_resource_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %></div></div><hr>
   <% if (@resources.size==0) %>
     No results were returned.
@@ -17,10 +16,4 @@
      </li></h4>
   <% end %>
   </ul>
-<% else %>
-  <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
-  You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
-  <br><br>
-  If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
-<% end %>
 </div>

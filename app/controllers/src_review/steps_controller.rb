@@ -52,7 +52,9 @@ class SrcReview::StepsController < ApplicationController
       if
          step=="s6" then @src_review_score=get_score("source","trustworthiness","trustworthy") end
 
-         if step=="s9" then redirect_to srcs_path
+         if step=="s9" 
+           if !params[:src_review_sharing_mode].blank? then redirect_to srcs_path
+           else render_wizard @src_review end
          else render_wizard @src_review end
 ###Step conditions###
   end
@@ -85,4 +87,10 @@ when "s9"
       end
       params.require(:src_review).permit(permitted_attributes).merge(form_step: step)
     end
+
+      def check_if_signed_in
+        if !user_signed_in?
+          redirect_to "/"
+        end
+      end
 end

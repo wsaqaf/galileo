@@ -32,10 +32,8 @@
 
 <%= link_to "Back", srcs_path %>
 
-<% if user_signed_in? %>
   <% if @src.user_id == current_user.id %> -
     <%= link_to "Edit", edit_src_path(@src) %> -
     <%= link_to "Delete", src_path(@src), method: :delete, data: { confirm: @warning_msg} %>
   <% end %>
-<% end %>
 </div>

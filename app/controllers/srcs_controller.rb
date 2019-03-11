@@ -1,6 +1,7 @@
 class SrcsController < ApplicationController
   before_action :find_src, only: [:show, :edit, :update, :destroy]
   before_action :define_types
+  before_action :check_if_signed_in
 
   def index
     if (params[:filter]=="r")
@@ -102,5 +103,11 @@ class SrcsController < ApplicationController
         @src_types.push([value,key])
       end
     end
+
+      def check_if_signed_in
+        if !user_signed_in?
+          redirect_to "/"
+        end
+      end
 
 end

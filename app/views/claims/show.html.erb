@@ -80,10 +80,8 @@ Not provided
 <br><br>
 <%= link_to "Back", claims_path %>
 
-<% if user_signed_in? %>
   <% if @claim.user_id == current_user.id %> -
     <%= link_to "Edit", edit_claim_path(@claim) %> -
     <%= link_to "Delete", claim_path(@claim), method: :delete, data: { confirm: @warning_msg} %>
   <% end %>
-<% end %>
 </div>
