@@ -12,7 +12,7 @@
           Assessment: <%= rating[medium_review.medium_review_verdict.to_s] %><br>
           Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
           Updated: <%= medium_review.updated_at %><br>
-          <%= link_to 'More about Medium', medium_path(medium.id) %><hr>
+          <%= link_to 'More about this review', medium_medium_review_path(medium.id,medium_review.id) %>
       </li>
     <% end %>
 </div>

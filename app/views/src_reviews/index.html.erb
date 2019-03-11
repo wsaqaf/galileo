@@ -1,5 +1,4 @@
 <div class="container">
-<% if user_signed_in? %>
 <h3>Src Reviews</h3>
 <% if (@src_reviews.size==0) %>
   No results were returned.
@@ -16,13 +15,7 @@
           Assessment: <%= rating[src_review.src_review_verdict.to_s] %><br>
           Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
           Updated: <%= src_review.updated_at %><br>
-          <%= link_to 'More about source', src_path(src.id) %><hr>
+          <%= link_to 'More about this review', src_src_review_path(src.id,src_review.id) %>
       </li>
     <% end %>
-<% else %>
-  <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
-  You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
-  <br><br>
-  If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
-<% end %>
 </div>

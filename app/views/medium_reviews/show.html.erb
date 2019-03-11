@@ -1,7 +1,8 @@
+
               <div class="form-claim">
               <h3>Showing review for medium:
                    <%= link_to @medium.name, medium_path(@medium.id) %>
-              </h3>
+              </h3> 
 
               <%= form_for @medium_review, method: :put, url: medium_medium_review_path(@medium,@medium_review) do |f| %>
               <% if f.object.errors.any? %>
@@ -14,169 +15,183 @@
               <fieldset>
                   <ul>
                       <b>
-                  <% if !@medium_review.medium_is_blacklisted.blank? or @medium_review.user_id==current_user.id? %>
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Is the medium on any public list of fake news websites?
-                      <%= f.select :medium_is_blacklisted, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_blacklisted), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_is_blacklisted, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_blacklisted), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_is_blacklisted.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_is_blacklisted, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_blacklisted, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_is_blacklisted, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_blacklisted, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_failed_factcheck_before.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Has the medium failed a fact-check in the past?
-                      <%= f.select :medium_failed_factcheck_before, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_failed_factcheck_before), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_failed_factcheck_before, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_failed_factcheck_before), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_failed_factcheck_before.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_failed_factcheck_before, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_failed_factcheck_before, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_failed_factcheck_before, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_failed_factcheck_before, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_has_poor_security.blank? or @medium_review.user_id==current_user.id? %>
-                      <li>Does the medium have poor technical security/safety standards  (contains viruses, scams, malware, etc.) and lacks encrypted communication (SSL certificate)?
-                      <%= f.select :medium_has_poor_security, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_has_poor_security), {}, disabled: @medium_review.user_id!=current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
+                      <li>Does the medium have poor technical security/safety standards  (contains viruses, scams, malware, etc.) and lacks encrypted communication (SSL certificate)? 
+                      <%= f.select :medium_has_poor_security, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_has_poor_security), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_has_poor_security.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_has_poor_security, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_has_poor_security, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_has_poor_security, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_has_poor_security, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_whois_info_discrepency.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Does the information in the Whois entry (including company name, physical address, company status, etc.) raise any concerns?
-                      <%= f.select :medium_whois_info_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_whois_info_discrepency), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_whois_info_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_whois_info_discrepency), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_whois_info_discrepency.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_whois_info_discrepency, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_whois_info_discrepency, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_whois_info_discrepency, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_whois_info_discrepency, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_hosting_discrepency.blank? or @medium_review.user_id==current_user.id? %>
-                      <li>Is there a concern regarding the location where the physical data stored and the company managing its physical infrastructure and whether it is hosted along with other less websites?
-                      <%= f.select :medium_hosting_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_hosting_discrepency), {}, disabled: @medium_review.user_id!=current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
+                      <li>Is there a concern regarding the location where the physical data stored and the company managing its physical infrastructure and whether it is hosted along with other less websites? 
+                      <%= f.select :medium_hosting_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_hosting_discrepency), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_hosting_discrepency.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_hosting_discrepency, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_hosting_discrepency, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_hosting_discrepency, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_hosting_discrepency, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_is_biased.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Is the medium known to have bias (political, social, religious, etc.)?
-                      <%= f.select :medium_is_biased, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_biased), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_is_biased, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_biased), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_is_biased.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_is_biased, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_biased, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_is_biased, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_biased, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_is_poorly_ranked.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Is the medium ranked poorly by others?
-                      <%= f.select :medium_is_poorly_ranked, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_poorly_ranked), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_is_poorly_ranked, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_poorly_ranked), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_is_poorly_ranked.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_is_poorly_ranked, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_poorly_ranked, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_is_poorly_ranked, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_poorly_ranked, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_is_not_liable.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Is the medium avoiding any liability terms (e.g., because the content is user-generated)?
-                      <%= f.select :medium_is_not_liable, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_not_liable), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_is_not_liable, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_not_liable), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_is_not_liable.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_is_not_liable, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_not_liable, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_is_not_liable, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_is_not_liable, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_lacks_flagging_means.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Does the medium lack means of flagging or reporting published content?
-                      <%= f.select :medium_lacks_flagging_means, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_lacks_flagging_means), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_lacks_flagging_means, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_lacks_flagging_means), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_lacks_flagging_means.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_lacks_flagging_means, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_lacks_flagging_means, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_lacks_flagging_means, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_lacks_flagging_means, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_other_problems.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Are there any other major problems that could make this medium unreliable? If yes, explain more in the note below.
-                      <%= f.select :medium_other_problems, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_other_problems), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_other_problems, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_other_problems), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_other_problems.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_other_problems, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_other_problems, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_other_problems, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_other_problems, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_review_verdict.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Considering the given score, how do you assess the medium's reliability for accurate information?
-                      <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', -4],[' Mostly unreliable', -3],[' Somewhat reliable', -2],[' Mostly reliable', -1],[' Totally reliable', 1],[' No decision', 0]], :selected => @medium_review.medium_review_verdict), {}, disabled: @medium_review.user_id!=current_user.id? %>
+                      <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', -4],[' Mostly unreliable', -3],[' Somewhat reliable', -2],[' Mostly reliable', -1],[' Totally reliable', 1],[' No decision', 0]], :selected => @medium_review.medium_review_verdict), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.medium_review_description.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Explain your rationale to why you have given this assessment.
-                      <%= f.text_area(:medium_review_description, size: '50x10', class: 'field-long field-textarea', value:@medium_review.medium_review_description, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:medium_review_description, size: '50x10', class: 'field-long field-textarea', value:@medium_review.medium_review_description, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-
-                  <% if !@medium_review.note_medium_review_description.blank? or @medium_review.user_id==current_user.id? %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Optional note
-                      <%= f.text_area(:note_medium_review_description, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_review_description, disabled: @medium_review.user_id!=current_user.id?) %>
+                      <%= f.text_area(:note_medium_review_description, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_review_description, disabled: @medium_review.user_id!=current_user.id) %>
+                      <br>
+                      </li>
+                  <% end %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
+                      <li>Do you wish to share your review of this medium?
+                      <%= f.select :medium_review_sharing_mode, options_for_select([['Select',''],['Yes', 1],[' No', -1]], :selected => @medium_review.medium_review_sharing_mode), {}, disabled: @medium_review.user_id!=current_user.id %>
+                      <br>
+                      </li>
+                  <% end %>
+              
+                  <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
+                      <li>Optional note
+                      <%= f.text_area(:note_medium_review_sharing_mode, size: '50x10', class: 'field-long field-textarea', value:@medium_review.note_medium_review_sharing_mode, disabled: @medium_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
               </b>
                     <li>
-                      <% if @medium_review.user_id==current_user.id? %>
+                      <% if @medium_review.user_id==current_user.id %>
     <%= f.submit 'Update', :class=>'btn btn btn-primary' %>
 <% end %>
 

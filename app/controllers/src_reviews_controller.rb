@@ -12,6 +12,12 @@ class SrcReviewsController < ApplicationController
   end
 
   def show
+    @tmp = SrcReview.where("id="+params[:id]+" AND (src_review_sharing_mode=1 OR user_id="+current_user.id.to_s+")").first
+    if (not @tmp.blank?)
+      @src_review=SrcReview.find(@tmp.id)
+    else
+      redirect_to srcs_path
+    end
   end
 
   def new
@@ -36,6 +42,12 @@ class SrcReviewsController < ApplicationController
   end
 
   def update
+    @tmp = SrcReview.where("src_id="+@src.id.to_s+" AND user_id="+current_user.id.to_s).first
+    if (not @tmp.blank?)
+      @src_review=SrcReview.find(@tmp.id)
+      @src_review.update(src_review_params)
+    end
+    redirect_to src_src_review_path(@src,@src_review)
   end
 
   def destroy
@@ -58,4 +70,8 @@ class SrcReviewsController < ApplicationController
         redirect_to "/"
       end
     end
+
+    def src_review_params
+      params.require(:src_review).permit(:id, :src_lacks_proper_credentials, :note_src_lacks_proper_credentials, :src_failed_factcheck_before, :note_src_failed_factcheck_before, :src_has_poor_writing_history, :note_src_has_poor_writing_history, :src_supported_by_trolls, :note_src_supported_by_trolls, :src_difficult_to_locate, :note_src_difficult_to_locate, :src_other_problems, :note_src_other_problems, :src_review_verdict, :src_review_description, :note_src_review_description, :src_review_sharing_mode, :note_src_review_sharing_mode)
+      end
 end

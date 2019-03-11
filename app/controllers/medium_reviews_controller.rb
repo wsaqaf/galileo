@@ -13,6 +13,12 @@ class MediumReviewsController < ApplicationController
   end
 
   def show
+    @tmp = MediumReview.where("id="+params[:id]+" AND (medium_review_sharing_mode=1 OR user_id="+current_user.id.to_s+")").first
+    if (not @tmp.blank?)
+      @medium_review=MediumReview.find(@tmp.id)
+    else
+      redirect_to mediums_path
+    end
   end
 
   def new
@@ -36,6 +42,12 @@ class MediumReviewsController < ApplicationController
   end
 
   def update
+    @tmp = MediumReview.where("medium_id="+@medium.id.to_s+" AND user_id="+current_user.id.to_s).first
+    if (not @tmp.blank?)
+      @medium_review=MediumReview.find(@tmp.id)
+      @medium_review.update(medium_review_params)
+    end
+    redirect_to medium_medium_review_path(@medium,@medium_review)
   end
 
   def destroy
@@ -58,4 +70,8 @@ class MediumReviewsController < ApplicationController
         redirect_to "/"
       end
     end
+
+  def medium_review_params
+    params.require(:medium_review).permit(:id, :medium_is_blacklisted, :note_medium_is_blacklisted, :medium_failed_factcheck_before, :note_medium_failed_factcheck_before, :medium_has_poor_security, :note_medium_has_poor_security, :medium_whois_info_discrepency, :note_medium_whois_info_discrepency, :medium_hosting_discrepency, :note_medium_hosting_discrepency, :medium_is_biased, :note_medium_is_biased, :medium_is_poorly_ranked, :note_medium_is_poorly_ranked, :medium_is_not_liable, :note_medium_is_not_liable, :medium_lacks_flagging_means, :note_medium_lacks_flagging_means, :medium_other_problems, :note_medium_other_problems, :medium_review_verdict, :medium_review_description, :note_medium_review_description, :medium_review_sharing_mode, :note_medium_review_sharing_mode)
+  end
 end
