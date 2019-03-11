@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190301180447) do
+ActiveRecord::Schema.define(version: 20190309194816) do
 
   create_table "claim_reviews", force: :cascade do |t|
     t.string "src_id"
@@ -100,7 +100,6 @@ ActiveRecord::Schema.define(version: 20190301180447) do
   end
 
   create_table "medium_reviews", force: :cascade do |t|
-    t.string "medium_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "medium_review_started"
@@ -132,7 +131,8 @@ ActiveRecord::Schema.define(version: 20190301180447) do
     t.string "note_medium_review_description"
     t.string "note_medium_review_sharing_mode"
     t.integer "user_id"
-    t.index ["medium_id"], name: "index_medium_reviews_on_medium_id", unique: true
+    t.integer "medium_id"
+    t.index ["medium_id"], name: "index_medium_reviews_on_medium_id"
     t.index ["medium_review_sharing_mode"], name: "index_medium_reviews_on_medium_review_sharing_mode"
     t.index ["medium_review_verdict"], name: "index_medium_reviews_on_medium_review_verdict"
   end
@@ -152,7 +152,6 @@ ActiveRecord::Schema.define(version: 20190301180447) do
   end
 
   create_table "src_reviews", force: :cascade do |t|
-    t.string "src_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "src_review_started"
@@ -176,7 +175,8 @@ ActiveRecord::Schema.define(version: 20190301180447) do
     t.string "note_src_review_description"
     t.string "note_src_review_sharing_mode"
     t.integer "user_id"
-    t.index ["src_id"], name: "index_src_reviews_on_src_id", unique: true
+    t.integer "src_id"
+    t.index ["src_id"], name: "index_src_reviews_on_src_id"
     t.index ["src_review_sharing_mode"], name: "index_src_reviews_on_src_review_sharing_mode"
     t.index ["src_review_verdict"], name: "index_src_reviews_on_src_review_verdict"
   end
