@@ -12,9 +12,9 @@
                   passed_step=true %>
                   <b>-&gt; <%= value %></b>
               <% elsif passed_step %>
-                  <%= link_to value, wizard_path(key), style: 'color:black' %>
+                  <%= link_to value, wizard_path(key), style: 'color:#A9A9A9' %>
               <% else %>
-                  <%= link_to value, wizard_path(key), style: 'color:grey' %>
+                  <%= link_to value, wizard_path(key), style: 'color:#C0C0C0' %>
               <% end %>
               </div></div>
          <% end %>
