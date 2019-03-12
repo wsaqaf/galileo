@@ -2,7 +2,7 @@ class MediumReview::StepsController < ApplicationController
   include Wicked::Wizard
   before_action :find_medium
   before_action :check_if_signed_in
-
+  helper_method :is_visible
 
   steps *MediumReview.form_steps
 
@@ -61,6 +61,11 @@ class MediumReview::StepsController < ApplicationController
       else render_wizard @medium_review end
 ###Step conditions###
   end
+
+
+    def is_visible(st)
+          return '<div class="divTableRow">'
+    end
 
   private
   def find_medium

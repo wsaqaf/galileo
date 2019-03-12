@@ -3,6 +3,7 @@ class ClaimReview::StepsController < ApplicationController
   autocomplete :claim_review, :claim_review_medium_name
   before_action :find_claim
   before_action :check_if_signed_in
+  helper_method :is_visible
 
 
   steps *ClaimReview.form_steps
@@ -14,13 +15,13 @@ class ClaimReview::StepsController < ApplicationController
     result=""
     fields=""
     if field=="content"
-      if @claim.has_image and @claim.img_review_started
+      if @claim.has_image and @claim_review.img_review_started
         fields=[@claim_review.img_forensic_discrepency,@claim_review.img_metadata_discrepency,@claim_review.img_logical_discrepency]
       end
-      if @claim.has_video and @claim.vid_review_started
+      if @claim.has_video and @claim_review.vid_review_started
         fields=fields+[@claim_review.vid_old,@claim_review.vid_forensic_discrepency,@claim_review.vid_metadata_discrepency,@claim_review.vid_audio_discrepency,@claim_review.vid_logical_discrepency]
       end
-      if @claim.has_text and @claim.txt_review_started
+      if @claim.has_text and @claim_review.txt_review_started
         fields=fields+[@claim_review.txt_unreliable_news_content,@claim_review.txt_insufficient_verifiable_srcs,@claim_review.txt_has_clickbait,@claim_review.txt_poor_language,@claim_review.txt_crowds_distance_discrepency,@claim_review.txt_author_offers_little_evidence,@claim_review.txt_reliable_sources_disapprove]
       end
       fields.each { |f| if (f.present? and not f.blank? and f!=0) then score=score+f.to_i; total=total+1; end }
@@ -67,7 +68,7 @@ class ClaimReview::StepsController < ApplicationController
     elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to2(:s6,:s12); return
     elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to2(:s11,:s21); return
     elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to2(:s12,:s21); return
-    elsif step=="s20" then @content_review_score=get_score("content","credibility","credible"); jump_to2(step,step); return
+    elsif step=="s20" then @content_review_score=get_score("content","credibility","credible");
 #    else puts("\n\n\nGOT IN8! Doing: "+step+" and "+params[:s].to_s+"\n\n\n"); #jump_to2(step,step);
     end
 #    puts("\n\n\nGOT IN9! Doing: "+step+" and "+params[:s].to_s+"\n\n\n")
@@ -89,6 +90,24 @@ class ClaimReview::StepsController < ApplicationController
       if step=="s22" then redirect_to claims_path
       else render_wizard @claim_review end
 ###Step conditions###
+  end
+
+  def is_visible(st)
+    if st.tr('s', '').to_i.between?(1,5) and @claim.has_image!=1
+      return '<div class="divTableRow" style="display: none;">'
+    elsif st.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1
+      return '<div class="divTableRow" style="display: none;">'
+    elsif st.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1
+      return '<div class="divTableRow" style="display: none;">'
+    elsif st.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1
+      return '<div class="divTableRow" style="display: none;">'
+    elsif st.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1
+      return '<div class="divTableRow" style="display: none;">'
+    elsif st.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1
+      return '<div class="divTableRow" style="display: none;">'
+    else
+        return '<div class="divTableRow">'
+    end
   end
 
   private

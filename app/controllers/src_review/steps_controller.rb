@@ -1,6 +1,7 @@
 class SrcReview::StepsController < ApplicationController
   include Wicked::Wizard
   before_action :find_src
+  helper_method :is_visible
 
   steps *SrcReview.form_steps
 
@@ -37,26 +38,24 @@ class SrcReview::StepsController < ApplicationController
 
   def show
     @src_review = SrcReview.find(params[:src_review_id])
-
     if step=="s7" then @src_review_score=get_score("source","trustworthiness","trustworthy") end
-
     render_wizard
-
   end
 
   def update
       @src_review = SrcReview.find(params[:src_review_id])
-
       @src_review.update(src_review_params(step).merge(user_id: current_user.id))
-
       if
          step=="s6" then @src_review_score=get_score("source","trustworthiness","trustworthy") end
-
-         if step=="s9" 
+         if step=="s9"
            if !params[:src_review_sharing_mode].blank? then redirect_to srcs_path
            else render_wizard @src_review end
          else render_wizard @src_review end
 ###Step conditions###
+  end
+
+  def is_visible(st)
+        return '<div class="divTableRow">'
   end
 
   private

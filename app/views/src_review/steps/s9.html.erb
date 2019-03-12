@@ -1,5 +1,27 @@
 
-              <div class="form-claim">
+        <div class="form-claim">
+        <div style="float: left; padding: 10px; width: 20%;">
+        <big>Claim review steps:</big>
+        <div class="divTable blueTable"><div class="divTableBody">
+         <% 
+          all_steps={'s1'=>'Author credentials','s2'=>'Fact-check history','s3'=>'Quality of previous writing','s4'=>'Connected to biased entities','s5'=>'Difficulty to verify authenticity','s6'=>'Other problems','s7'=>'Calculated score','s8'=>'Reviewer assessment','s9'=>'Sharing setting'};
+          passed_step=false
+          all_steps.each do |key,value| %>
+              <%= is_visible(key).html_safe %><div class="divTableCell">
+              <% if (step==File.basename(wizard_path(key)))
+                  passed_step=true %>
+                  <b>-&gt; <%= value %></b>
+              <% elsif passed_step %>
+                  <%= link_to value, wizard_path(key), style: 'color:black' %>
+              <% else %>
+                  <%= link_to value, wizard_path(key), style: 'color:grey' %>
+              <% end %>
+              </div></div>
+         <% end %>
+      </div>
+      </div>
+      </div>
+      <div style="float: left; padding: 10px; width: 80%;"
               <h3>Reviewing src:
                 <% if (not @src.url.blank?) %>
                    <%= link_to @src.name, src_path(@src.id) %>
@@ -7,20 +29,8 @@
                   <%= @src.name %>
                 <% end %>
               </h3> 
-              <% if current_user.id==1 %>
-                  <h4><% all_steps=['s1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9']; %>
-                  <% for i in 0 ... all_steps.size %>
-                      <% if (step==File.basename(wizard_path(all_steps[i]))) %>
-                          <font size=20>Step <%= (i+1) %></font>
-                      <% else %>
-                          <%= link_to (i+1).to_s+' ', wizard_path(all_steps[i]) %>
-                      <% end %>
-                  <% end %>
-                  </h4>
-                  <hr>
-              <% end %>
 
-              <%= form_for @src_review, method: :put, url: wizard_path do |f| %>
+      <%= form_for @src_review, method: :put, url: wizard_path do |f| %>
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -51,5 +61,5 @@
                   </ul>
               </fieldset>
               <% end %>
-              </div>
+              </div></div>
               
