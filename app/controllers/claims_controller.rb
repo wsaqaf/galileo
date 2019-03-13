@@ -3,7 +3,6 @@ class ClaimsController < ApplicationController
 
   def index
 #    if (params[:filter].present?)
-
       if (params[:filter]=="r")
         qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1)"
         @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r' selected>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
@@ -22,11 +21,14 @@ class ClaimsController < ApplicationController
         @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
 #        @claims = Claim.all.order("created_at DESC")
-        @pagy, @claims = pagy(Claim.all.order("created_at DESC"), items: 10)
+        tmp=Claim.all.order("created_at DESC")
+        @total_count=tmp.count
+        @pagy, @claims = pagy(tmp, items: 10)
         return
       end
-#      @claims = Claim.where(qry).order("created_at DESC")
-      @pagy, @claims = pagy(Claim.where(qry).order("created_at DESC"), items: 10)
+      tmp=Claim.where(qry).order("created_at DESC")
+      @total_count=tmp.count
+      @pagy, @claims = pagy(tmp, items: 10)
   end
 
   def show

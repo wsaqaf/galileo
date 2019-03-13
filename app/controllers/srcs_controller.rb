@@ -21,9 +21,14 @@ class SrcsController < ApplicationController
     else
       @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-      @page, @srcs = pagy(Src.all.order("created_at DESC"), items: 10); return
-    end
-    @page, @srcs = pagy(Src.where(qry).order("created_at DESC"), items: 10)
+       tmp=Src.all.order("created_at DESC")
+       @total_count=tmp.count
+       @pagy, @srcs = pagy(tmp, items: 1)
+       return
+     end
+     tmp=Src.where(qry).order("created_at DESC")
+     @total_count=tmp.count
+     @pagy, @srcs = pagy(tmp, items: 1)
   end
 
   def show

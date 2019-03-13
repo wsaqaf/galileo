@@ -22,9 +22,14 @@ class MediaController < ApplicationController
     else
       @filter_reviews ="<select id='filter_reviews'><option value='media' selected>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-      @page, @media = pagy(Medium.all.order("created_at DESC"), items: 10); return
-    end
-    @page, @media = pagy(Medium.where(qry).order("created_at DESC"), items: 10)
+       tmp=Medium.all.order("created_at DESC")
+       @total_count=tmp.count
+       @pagy, @media = pagy(tmp, items: 1)
+       return
+     end
+     tmp=Medium.where(qry).order("created_at DESC")
+     @total_count=tmp.count
+     @pagy, @media = pagy(tmp, items: 1)
   end
 
   def show
