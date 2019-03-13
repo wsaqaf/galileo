@@ -5,22 +5,25 @@ class SrcsController < ApplicationController
 
   def index
     if (params[:filter]=="r")
-      @srcs = Src.where("srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1)").order("created_at DESC")
-      @filter_reviews ="<select id='filter_reviews'><option value='.'>All Sources</option><option value='?filter=r' selected>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
+      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1)"
+      @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r' selected>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="u")
-      @srcs = Src.where("srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.user_id="+current_user.id.to_s+")").order("created_at DESC")
-      @filter_reviews ="<select id='filter_reviews'><option value='.'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u' selected>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
+      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.user_id="+current_user.id.to_s+")"
+      @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u' selected>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="n")
-      @srcs = Src.where("srcs.id not in (SELECT src_id FROM src_reviews WHERE (src_reviews.src_review_sharing_mode=1 OR src_reviews.user_id="+current_user.id.to_s+"))").order("created_at DESC")
-      @filter_reviews ="<select id='filter_reviews'><option value='.'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n' selected>Sources with no reviews yet</option></select>"+
+      qry="srcs.id not in (SELECT src_id FROM src_reviews WHERE (src_reviews.src_review_sharing_mode=1 OR src_reviews.user_id="+current_user.id.to_s+"))"
+      @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n' selected>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+    elsif (params[:q].present?)
+      qry="name like '%"+params[:q]+"%'"
     else
-      @filter_reviews ="<select id='filter_reviews'><option value='.' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
+      @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-      @srcs = Src.all.order("created_at DESC")
+      @page, @srcs = pagy(Src.all.order("created_at DESC"), items: 10); return
     end
+    @page, @srcs = pagy(Src.where(qry).order("created_at DESC"), items: 10)
   end
 
   def show

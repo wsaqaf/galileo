@@ -5,10 +5,12 @@ class ResourcesController < ApplicationController
 
     def index
       if (params[:term].present?)
-        @resources = Resource.order(:name).where("name like ?", "%#{params[:term]}%")
+        @resources = Resource.order(:name).where("name like '%"+params[:term]+"%'")
         render json: @resources.map(&:name)
+      elsif (params[:q].present?)
+        @pagy, @resources = pagy(Resource.order(:name).where("name like ?'%"+params[:q]+"%'"), items: 10)
       else
-        @resources = Resource.all.order("created_at DESC")
+        @pagy, @resources = pagy(Resource.all.order("created_at DESC"), items: 10)
       end
     end
 

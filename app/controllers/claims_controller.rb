@@ -5,22 +5,28 @@ class ClaimsController < ApplicationController
 #    if (params[:filter].present?)
 
       if (params[:filter]=="r")
-        @claims = Claim.where("claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1)").order("created_at DESC")
-        @filter_msg ="<select id='filter'><option value='.'>All Claims</option><option value='?filter=r' selected>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
+        qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1)"
+        @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r' selected>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       elsif (params[:filter]=="u")
-        @claims = Claim.where("claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.user_id="+current_user.id.to_s+")").order("created_at DESC")
-        @filter_msg ="<select id='filter'><option value='.'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u' selected>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
+        qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.user_id="+current_user.id.to_s+")"
+        @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u' selected>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       elsif (params[:filter]=="n")
-        @claims = Claim.where("claims.id not in (SELECT claim_id FROM claim_reviews WHERE (claim_reviews.review_sharing_mode=1 OR claim_reviews.user_id="+current_user.id.to_s+"))").order("created_at DESC")
-        @filter_msg ="<select id='filter'><option value='.'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n' selected>Claims with no reviews yet</option></select>"+
+        qry="claims.id not in (SELECT claim_id FROM claim_reviews WHERE (claim_reviews.review_sharing_mode=1 OR claim_reviews.user_id="+current_user.id.to_s+"))"
+        @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n' selected>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      elsif (params[:q].present?)
+        qry="title like '%"+params[:q]+"%'"
       else
-        @filter_msg ="<select id='filter'><option value='.' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
+        @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-        @claims = Claim.all.order("created_at DESC")
+#        @claims = Claim.all.order("created_at DESC")
+        @pagy, @claims = pagy(Claim.all.order("created_at DESC"), items: 10)
+        return
       end
+#      @claims = Claim.where(qry).order("created_at DESC")
+      @pagy, @claims = pagy(Claim.where(qry).order("created_at DESC"), items: 10)
   end
 
   def show

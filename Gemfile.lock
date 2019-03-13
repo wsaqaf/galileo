@@ -144,6 +144,7 @@ GEM
       ast
       ruby-ll (~> 2.1)
     orm_adapter (0.5.0)
+    pagy (2.1.0)
     public_suffix (3.0.3)
     puma (3.12.0)
     puma (3.12.0-java)
@@ -274,6 +275,7 @@ DEPENDENCIES
   jquery-ui-rails
   link_thumbnailer
   listen (>= 3.0.5, < 3.2)
+  pagy
   puma (~> 3.7)
   rails (~> 5.1.6, >= 5.1.6.1)
   rails-jquery-autocomplete
@@ -291,4 +293,4 @@ DEPENDENCIES
   wicked
 
 BUNDLED WITH
-   1.16.1
+   2.0.1

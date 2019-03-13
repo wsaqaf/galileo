@@ -41,6 +41,8 @@
       </li></h4>
     <% end %>
     </ul>
+    <% if @claims.size>10 then %> <%== pagy_bootstrap_nav(@pagy) %> <% end %>
+
     <% else %>
       <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
       You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.

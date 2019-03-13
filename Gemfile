@@ -24,6 +24,7 @@ gem 'rb-readline'
 gem 'hirb'
 gem 'link_thumbnailer'
 gem 'wicked'
+gem 'pagy'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

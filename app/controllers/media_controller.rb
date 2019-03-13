@@ -6,22 +6,25 @@ class MediaController < ApplicationController
 
   def index
     if (params[:filter]=="r")
-      @media = Medium.where("media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1)").order("created_at DESC")
-      @filter_reviews ="<select id='filter_reviews'><option value='.'>All Media</option><option value='?filter=r' selected>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
+      qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1)"
+      @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r' selected>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="u")
-      @media = Medium.where("media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.user_id="+current_user.id.to_s+")").order("created_at DESC")
-      @filter_reviews ="<select id='filter_reviews'><option value='.'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u' selected>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
+      qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.user_id="+current_user.id.to_s+")"
+      @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u' selected>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="n")
-      @media = Medium.where("media.id not in (SELECT medium_id FROM medium_reviews WHERE (medium_reviews.medium_review_sharing_mode=1 OR medium_reviews.user_id="+current_user.id.to_s+"))").order("created_at DESC")
-      @filter_reviews ="<select id='filter_reviews'><option value='.'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n' selected>Media with no reviews yet</option></select>"+
+      qry="media.id not in (SELECT medium_id FROM medium_reviews WHERE (medium_reviews.medium_review_sharing_mode=1 OR medium_reviews.user_id="+current_user.id.to_s+"))"
+      @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n' selected>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+    elsif (params[:q].present?)
+      qry="name like '%"+params[:q]+"%'"
     else
-      @filter_reviews ="<select id='filter_reviews'><option value='.' selected>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
+      @filter_reviews ="<select id='filter_reviews'><option value='media' selected>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-      @media = Medium.all.order("created_at DESC")
+      @page, @media = pagy(Medium.all.order("created_at DESC"), items: 10); return
     end
+    @page, @media = pagy(Medium.where(qry).order("created_at DESC"), items: 10)
   end
 
   def show
