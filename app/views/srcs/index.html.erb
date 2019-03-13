@@ -1,6 +1,12 @@
 <div class="container">
-<div class="row"><div class="columnl"><%= @filter_reviews.html_safe %></div><div class="columnr"><%= link_to "Add Source", new_src_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %></div></div><hr>
-
+  <div class="row"><div class="columnl"><%= link_to "Add Source", new_src_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+    <%= @filter_reviews.html_safe %>
+  </div><div class="columnr">
+    <%= form_tag(srcs_path, method: :get) do %>
+      Search: <%= text_field_tag :q, params[:q] %>
+      <%= submit_tag 'Search', name: nil, :class => 'btn btn btn-primary' %>
+    <% end %></div></div>
+    <hr>
 <% if (@srcs.size==0) %>
   No results were returned.
 <% end %>

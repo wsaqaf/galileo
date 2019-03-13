@@ -18,6 +18,8 @@ class MediaController < ApplicationController
       @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n' selected>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:q].present?)
+      @filter_reviews ="<select id='filter_reviews'><option value='media' selected>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
+                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       qry="name like '%"+params[:q]+"%'"
     else
       @filter_reviews ="<select id='filter_reviews'><option value='media' selected>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+

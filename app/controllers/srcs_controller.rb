@@ -17,6 +17,8 @@ class SrcsController < ApplicationController
       @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n' selected>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:q].present?)
+      @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
+                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       qry="name like '%"+params[:q]+"%'"
     else
       @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
