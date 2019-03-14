@@ -22,5 +22,8 @@
 
 .byebug_history
 
+#Ignore secret files
+/config/secrets.yml
+
 #Routine update commands
 update.sh
