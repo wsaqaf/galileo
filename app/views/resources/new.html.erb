@@ -16,8 +16,9 @@
       <div id="resource_note"></div>
       <li>
       URL
-      <%= f.text_field :url, class: 'field-long' %>
+      <%= f.text_field :url, :onfocusout => "URLPreview('resource')", class: 'field-long' %>
       </li>
+      <div id="url_preview"></div>
       <li>
       A link to the tutorial on how to use it
       <%= f.text_field :tutorial, class: 'field-long' %>
@@ -86,4 +87,26 @@ function NewResource(s,p,w) {
         }
     });
 }
+function URLPreview(s)
+ {
+  $("#url_preview").html("<br><center><img src='/assets/loading.gif' width=50></center><br>");
+  const element = document.getElementById(s+'_url');
+  var q = element.value;
+  q=$.trim(q);
+  if (q.length==0) { $("#url_preview").html(''); return ; }
+  $.ajax({
+    url: '/claims/',
+    type: 'get',
+    data: { url: q },
+    dataType: "text",
+    success:function(result)
+      {
+        $("#url_preview").html(result);
+      },
+    error:function()
+      {
+        $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>");
+      }
+    });
+ }
 </script>

@@ -8,9 +8,21 @@ class ResourcesController < ApplicationController
         @resources = Resource.order(:name).where("name like '%"+params[:term]+"%'")
         render json: @resources.map(&:name)
       elsif (params[:q].present?)
-        tmp=Resource.order(:name).where("name like ?'%"+params[:q]+"%'")
+        tmp=Resource.order(:name).where("name like '%"+params[:q]+"%'")
         @total_count=tmp.count
         @pagy, @resources = pagy(tmp, items: 10)
+      elsif (params[:url].present?)
+        @filter_msg=""
+        output=""
+        @preview = Thumbnail.new(params[:url])
+        if not @preview.blank?
+          output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
+          if defined?(@preview.images.first.src) then
+              output=output+'  <img src ="'+@preview.images.first.src.to_s+'" height=50 />'
+          end
+          output=output+"\n<h3>"+@preview.title+"</h3><p class=\"text\">"+@preview.description+"</p></a>"
+        end
+        render json: output; return
       else
         tmp=Resource.all.order("created_at DESC")
         @total_count=tmp.count

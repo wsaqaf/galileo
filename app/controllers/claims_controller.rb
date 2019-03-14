@@ -19,6 +19,19 @@ class ClaimsController < ApplicationController
         @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
         qry="title like '%"+params[:q]+"%'"
+      elsif (params[:url].present?)
+        @filter_msg=""
+        output=""
+        preview = Thumbnail.new(params[:url])
+        if not preview.blank?
+          output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
+          if defined?(preview.images.first.src) then
+              output=output+'  <img src ="'+preview.images.first.src.to_s+'" height=50 />'
+          end
+          output=output+"\n<h3>"+preview.title+"</h3><p class=\"text\">"+preview.description+"</p></a>"
+        end
+        render json: output;
+        return
       else
         @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
@@ -34,7 +47,6 @@ class ClaimsController < ApplicationController
   end
 
   def show
-#    @preview = Thumbnail.new(@claim.url)
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""

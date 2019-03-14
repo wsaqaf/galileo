@@ -20,6 +20,19 @@ class SrcsController < ApplicationController
       @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       qry="name like '%"+params[:q]+"%'"
+    elsif (params[:url].present?)
+      @filter_msg=""
+      output=""
+      preview = Thumbnail.new(params[:url])
+      if not preview.blank?
+        output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
+        if defined?(preview.images.first.src) then
+            output=output+'  <img src ="'+preview.images.first.src.to_s+'" height=50 />'
+        end
+        output=output+"\n<h3>"+preview.title+"</h3><p class=\"text\">"+preview.description+"</p></a>"
+      end
+      render json: output;
+      return
     else
       @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"

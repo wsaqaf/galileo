@@ -15,8 +15,9 @@
     </li>
     <li>
     URL of where the claim is found (if available)
-    <%= f.text_field :url, class: 'field-long' %>
+    <%= f.text_field :url, :onfocusout => "URLPreview('claim')", class: 'field-long' %>
     </li>
+    <div id="url_preview"></div>
     <li>
     What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.
     <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onfocusout => "NewMedium('medium','media','media')", class: 'field-long' %>
@@ -86,4 +87,26 @@
           }
       });
   }
+  function URLPreview(s)
+   {
+    $("#url_preview").html("<br><center><img src='/assets/loading.gif' width=50></center><br>");
+    const element = document.getElementById(s+'_url');
+    var q = element.value;
+    q=$.trim(q);
+    if (q.length==0) { $("#url_preview").html(''); return ; }
+    $.ajax({
+      url: '/claims/',
+      type: 'get',
+      data: { url: q },
+      dataType: "text",
+      success:function(result)
+        {
+          $("#url_preview").html(result);
+        },
+      error:function()
+        {
+          $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>");
+        }
+      });
+   }
   </script>

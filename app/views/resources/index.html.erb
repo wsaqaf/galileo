@@ -1,6 +1,12 @@
 <div class="container">
-<div class="row"><div class="columnl"></div><div class="columnr"><%= link_to "Add Resource", new_resource_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %></div></div><hr>
-  <% if (@resources.size==0) %>
+<div class="row"><div class="columnl"><%= link_to "Add Resource", new_resource_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+</div><div class="columnr">
+<%= form_tag(resources_path, method: :get) do %>
+  Search: <%= text_field_tag :q, params[:q] %>
+  <%= submit_tag 'Search', name: nil, :class => 'btn btn btn-primary' %>
+<% end %></div></div>
+<hr>
+<% if (@resources.size==0) %>
     No results were returned.
   <% end %>
   <ul>

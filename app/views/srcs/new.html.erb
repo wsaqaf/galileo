@@ -16,8 +16,9 @@
       <div id="src_note"></div>
       <li>
       URL
-      <%= f.text_field :url, class: 'field-long' %>
+      <%= f.text_field :url, :onfocusout => "URLPreview('src')", class: 'field-long' %>
       </li>
+      <div id="url_preview"></div>
       <li>
       What type is this source?
       <%= f.select :src_type, options_for_select(@src_types, :selected => @src.src_type) %>
@@ -70,4 +71,26 @@ function NewMedium(s,p,w) {
         }
     });
 }
+function URLPreview(s)
+ {
+  $("#url_preview").html("<br><center><img src='/assets/loading.gif' width=50></center><br>");
+  const element = document.getElementById(s+'_url');
+  var q = element.value;
+  q=$.trim(q);
+  if (q.length==0) { $("#url_preview").html(''); return ; }
+  $.ajax({
+    url: '/claims/',
+    type: 'get',
+    data: { url: q },
+    dataType: "text",
+    success:function(result)
+      {
+        $("#url_preview").html(result);
+      },
+    error:function()
+      {
+        $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>");
+      }
+    });
+ }
 </script>
