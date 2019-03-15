@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190315092312) do
+ActiveRecord::Schema.define(version: 20190315094247) do
 
   create_table "claim_reviews", force: :cascade do |t|
     t.string "src_id"
