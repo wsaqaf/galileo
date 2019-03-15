@@ -56,7 +56,7 @@ class MediumReview::StepsController < ApplicationController
       if step=="s10" then @medium_review_score=get_score("medium","reliability","reliable")  end
 
       if step=="s13"
-         if !params[:medium_review_sharing_mode].blank? then redirect_to media_path
+         if !params[:medium_review][:medium_review_sharing_mode].blank? then redirect_to media_path;
          else render_wizard @medium_review end
       else render_wizard @medium_review end
 ###Step conditions###

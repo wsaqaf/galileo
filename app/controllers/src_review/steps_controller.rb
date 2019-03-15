@@ -48,7 +48,7 @@ class SrcReview::StepsController < ApplicationController
       if
          step=="s6" then @src_review_score=get_score("source","trustworthiness","trustworthy") end
          if step=="s9"
-           if !params[:src_review_sharing_mode].blank? then redirect_to srcs_path
+           if !params[:src_review][:src_review_sharing_mode].blank? then redirect_to srcs_path;
            else render_wizard @src_review end
          else render_wizard @src_review end
 ###Step conditions###

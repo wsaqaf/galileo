@@ -19,9 +19,13 @@
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
             <li style="border-left:6px solid yellow;height:50px;"></li>
-            <li><%= link_to "Claims", claims_path %></li>
-            <li><%= link_to "Media", media_path %></li>
-            <li><%= link_to "Sources", srcs_path %></li>
+
+            <% if controller_name!="claims" then %><li><%= link_to "Claims", claims_path %></li>
+            <% else %><li><%= link_to "Claims", claims_path, style: 'color:#0A076D;font-weight:bold;' %></li><% end %>
+            <% if controller_name!="media" then %><li><%= link_to "Media", media_path %></li>
+            <% else %><li><%= link_to "Media", media_path, style: 'color:#0A076D;font-weight:bold;' %></li><% end %>
+            <% if controller_name!="srcs" then %><li><%= link_to "Sources", srcs_path %></li>
+            <% else %><li><%= link_to "Sources", srcs_path, style: 'color:#0A076D;font-weight:bold;' %></li><% end %>
           <% end %>
         </ul>
 

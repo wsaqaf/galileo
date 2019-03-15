@@ -4,12 +4,7 @@ class MediumReviewsController < ApplicationController
 
 
   def index
-    if (params[:term].present?)
-      @medium_reviews = MediumReview.where("medium_id="+@medium.id.to_s+" AND user_id="+current_user.id.to_s).first
-      render json: @medium_reviews.map(&:name).uniq
-    else
-      @medium_reviews = MediumReview.all.order("created_at DESC").where("medium_id="+@medium.id.to_s+" AND (medium_review_sharing_mode=1 OR user_id="+current_user.id.to_s+")")
-    end
+      @medium_reviews = MediumReview.all.order("created_at DESC").where("medium_id="+@medium.id.to_s+" AND ((medium_review_sharing_mode=1 AND medium_review_verdict!='') OR  user_id="+current_user.id.to_s+")")
   end
 
   def show

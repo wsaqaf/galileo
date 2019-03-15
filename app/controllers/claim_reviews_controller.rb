@@ -3,12 +3,7 @@ class ClaimReviewsController < ApplicationController
   before_action :check_if_signed_in
 
   def index
-    if (params[:term].present?)
-      @claim_reviews = ClaimReview.order(:id).where("name like ?", "%#{params[:term]}%")
-      render json: @claim_reviews.map(&:name).uniq
-    else
-      @claim_reviews = ClaimReview.all.order("created_at DESC").where("claim_id="+@claim.id.to_s+" AND (review_sharing_mode=1 OR user_id="+current_user.id.to_s+")")
-    end
+      @claim_reviews = ClaimReview.all.order("created_at DESC").where("claim_id="+@claim.id.to_s+" AND ((review_sharing_mode=1 AND review_verdict!='') OR user_id="+current_user.id.to_s+")")
   end
 
   def show
