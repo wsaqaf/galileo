@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190309194816) do
+ActiveRecord::Schema.define(version: 20190315092312) do
 
   create_table "claim_reviews", force: :cascade do |t|
     t.string "src_id"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20190309194816) do
     t.integer "src_id"
     t.integer "has_video"
     t.integer "has_text"
+    t.text "url_preview"
     t.index ["medium_id"], name: "index_claims_on_medium_id"
     t.index ["title"], name: "index_claims_on_title"
     t.index ["url"], name: "index_claims_on_url"
@@ -95,6 +96,7 @@ ActiveRecord::Schema.define(version: 20190309194816) do
     t.integer "user_id"
     t.integer "medium_type"
     t.string "name"
+    t.text "url_preview"
     t.index ["name"], name: "index_media_on_name", unique: true
     t.index ["url"], name: "index_media_on_url"
   end
@@ -147,6 +149,7 @@ ActiveRecord::Schema.define(version: 20190309194816) do
     t.datetime "updated_at", null: false
     t.text "used_for_qs"
     t.string "url"
+    t.text "url_preview"
     t.index ["name"], name: "index_resources_on_name", unique: true
     t.index ["url"], name: "index_resources_on_url"
   end
@@ -189,6 +192,7 @@ ActiveRecord::Schema.define(version: 20190309194816) do
     t.integer "user_id"
     t.integer "src_type"
     t.string "name"
+    t.text "url_preview"
     t.index ["name"], name: "index_srcs_on_name", unique: true
     t.index ["url"], name: "index_srcs_on_url"
   end

@@ -78,7 +78,7 @@ function URLPreview(s)
   const element = document.getElementById(s+'_url');
   var q = element.value;
   q=$.trim(q);
-  if (q.length==0) { $("#url_preview").html(''); return ; }
+  if (q.length==0) { $("#url_preview").html(""); return ; }
   $.ajax({
     url: '/claims/',
     type: 'get',
@@ -86,7 +86,8 @@ function URLPreview(s)
     dataType: "text",
     success:function(result)
       {
-        $("#url_preview").html(result);
+        if (result.length>0) { $("#url_preview").html(result); }
+        else { $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>"); }
       },
     error:function()
       {

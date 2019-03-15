@@ -23,12 +23,15 @@ class ClaimsController < ApplicationController
         @filter_msg=""
         output=""
         preview = Thumbnail.new(params[:url])
-        if not preview.blank?
-          output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
-          if defined?(preview.images.first.src) then
-              output=output+'  <img src ="'+preview.images.first.src.to_s+'" height=50 />'
+        if !preview.blank?
+          if !preview.title.nil? and !preview.description.nil?
+            puts("\n\n\nGOT IN!\n\n\n")
+            output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
+            if defined?(preview.images.first.src) then
+                output=output+'  <img src ="'+preview.images.first.src.to_s+'" height=50 />'
+            end
+            output=output+"\n<h3>"+preview.title+"</h3><p class=\"text\">"+preview.description+"</p></a>"
           end
-          output=output+"\n<h3>"+preview.title+"</h3><p class=\"text\">"+preview.description+"</p></a>"
         end
         render json: output;
         return
