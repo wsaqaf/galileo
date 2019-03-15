@@ -2,7 +2,6 @@ class ClaimsController < ApplicationController
   before_action :find_claim, only: [:show, :edit, :update, :destroy]
 
   def index
-#    if (params[:filter].present?)
       if (params[:filter]=="r")
         qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1)"
         @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r' selected>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
@@ -25,7 +24,7 @@ class ClaimsController < ApplicationController
         preview = Thumbnail.new(params[:url])
         if !preview.blank?
           if !preview.title.nil? and !preview.description.nil?
-            puts("\n\n\nGOT IN!\n\n\n")
+            puts("\n\n\n"+preview.inspect+"\n\n\n")
             output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
             if defined?(preview.images.first.src) then
                 output=output+'  <img src ="'+preview.images.first.src.to_s+'" height=50 />'

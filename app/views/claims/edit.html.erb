@@ -19,13 +19,13 @@
   </li>
   <div id="url_preview"></div>
   <li>
-  What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.
-  <%= f.text_field :medium_name, input_html: { data: {autocomplete_source: media_path }, :onfocusout => "NewMedium('medium','media','media')"} %>
+  What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.<br>
+  <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onfocusout => "NewMedium('medium','media','media')" %>
   </li>
   <div id="medium_note"></div>
   <li>
-  Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure.
-  <%= f.text_field :src_name, input_html: { data: {autocomplete_source: srcs_path }, :onfocusout => "NewMedium('src','srcs','sources')"} %>
+  Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure.<br>
+  <%= f.text_field :src_name, data: {autocomplete_source: srcs_path }, :onfocusout => "NewMedium('src','srcs','sources')" %>
   </li>
   <div id="src_note"></div>
   <li>

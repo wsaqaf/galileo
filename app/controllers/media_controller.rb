@@ -5,7 +5,10 @@ class MediaController < ApplicationController
 
 
   def index
-    if (params[:filter]=="r")
+    if (params[:term].present?)
+      @media = Medium.order(:name).where("name like ?", "%#{params[:term]}%")
+      render json: @media.map(&:name).uniq
+    elsif (params[:filter]=="r")
       qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1)"
       @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r' selected>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
