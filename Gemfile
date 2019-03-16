@@ -26,6 +26,7 @@ gem 'link_thumbnailer'
 gem 'wicked'
 gem 'pagy'
 gem 'onebox'
+gem 'jquery-turbolinks'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
