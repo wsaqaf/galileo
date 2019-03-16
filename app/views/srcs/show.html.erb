@@ -6,7 +6,7 @@
 <br>Created: <%= @src.created_at %>
 <br>Updated: <%= @src.updated_at %></p>
 
-<hr><%= link_to "Claims connected to this source", claims_path(:s => @src.id) %>
+<hr><%= link_to "Claims connected to this source", claims_path(:s => @src.id), target: "_blank" %>
 <br><br>
 <h5>
   <%

@@ -22,7 +22,7 @@
 <br>Created: <%= @medium.created_at %>
 <br>Updated: <%= @medium.updated_at %></p>
 
-<hr><%= link_to "Claims connected to this medium", claims_path(:m => @medium.id) %>
+<hr><%= link_to "Claims connected to this medium", claims_path(:m => @medium.id), target: "_blank" %>
 <br><br>
 <h5>
   <%
