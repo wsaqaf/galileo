@@ -47,19 +47,20 @@
                   <br>
                   
                   <br>
+                  <%
+                    require 'digest/sha1';
+                    current_code=Digest::SHA1.base64digest("@src_review."+"src_failed_factcheck_before")
+                    has_resources=Resource.where("used_for_qs like ?", "%"+current_code+"%")
+                  %>
                   <div class="panel-group" id="accordion1">
                   	<div class="panel panel-default">
                       	<div class="panel-heading">
                               	<a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-                                  Resources &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+                                  Resources (<%= has_resources.size.to_s %>) &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
                           </div>
                           <div class="panel-collapse collapse" id="Resources">
                           	<div class="panel-body">
-                              <%
-                                require 'digest/sha1';
-                                current_code=Digest::SHA1.base64digest("@src_review."+"src_failed_factcheck_before")
-                                has_resources=Resource.where("used_for_qs like ?", "%"+current_code+"%")
-                                if not has_resources.blank? %>
+                            <% if not has_resources.blank? %>
                                   <ul>
                                   <% has_resources.each do |r| %>
                                   <li><h4>- <%= link_to r.name, resource_path(r.id), target: "_blank" %></h4></li>
