@@ -6,7 +6,7 @@ class SrcsController < ApplicationController
   def index
     if (params[:term].present?)
       @srcs = Src.order(:name).where("name like ?", "%#{params[:term]}%")
-      render json: @srcs.map(&:name).uniq
+      render json: @srcs.map(&:name).uniq; return
     elsif (params[:filter]=="r")
       qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1)"
       @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r' selected>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
