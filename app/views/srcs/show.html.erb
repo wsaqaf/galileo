@@ -2,10 +2,11 @@
 <h2>Name: <%= @src.name %></h2>
 <h4>URL: <a href='<%= @src.url %>' target=_blank><%= @src.url %></a></h4>
 <h4>Details: <%= @src.description %></h4>
-<p>Added by: <%= User.find(@src.user_id).name %></p></p>
+<p>Added by: <%= User.find(@src.user_id).name %>
 <br>Created: <%= @src.created_at %>
 <br>Updated: <%= @src.updated_at %></p>
 
+<hr><%= link_to "Claims connected to this source", claims_path(:s => @src.id) %>
 <br><br>
 <h5>
   <%

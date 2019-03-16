@@ -4,7 +4,7 @@ class ClaimsController < ApplicationController
 
   def index
       if (params[:filter]=="r")
-        qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1)"
+        qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1 AND review_verdict!='')"
         @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r' selected>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       elsif (params[:filter]=="u")
@@ -12,13 +12,21 @@ class ClaimsController < ApplicationController
         @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u' selected>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       elsif (params[:filter]=="n")
-        qry="claims.id not in (SELECT claim_id FROM claim_reviews WHERE (claim_reviews.review_sharing_mode=1 OR claim_reviews.user_id="+current_user.id.to_s+"))"
+        qry="claims.id not in (SELECT claim_id FROM claim_reviews WHERE ((claim_reviews.review_sharing_mode=1 AND review_verdict!='') OR claim_reviews.user_id="+current_user.id.to_s+"))"
         @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n' selected>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       elsif (params[:q].present?)
         @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
         qry="title like '%"+params[:q]+"%'"
+      elsif (params[:m].present?)
+        @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
+                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+        qry="medium_id="+params[:m].to_s
+      elsif (params[:s].present?)
+        @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
+                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+        qry="src_id="+params[:s].to_s
       elsif (params[:url].present?)
         @filter_msg=""
         output=""
