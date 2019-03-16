@@ -41,12 +41,12 @@ class SrcsController < ApplicationController
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
        tmp=Src.all.order("created_at DESC")
        @total_count=tmp.count
-       @pagy, @srcs = pagy(tmp, items: 1)
+       @pagy, @srcs = pagy(tmp, items: 10)
        return
      end
      tmp=Src.where(qry).order("created_at DESC")
      @total_count=tmp.count
-     @pagy, @srcs = pagy(tmp, items: 1)
+     @pagy, @srcs = pagy(tmp, items: 10)
   end
 
   def show
