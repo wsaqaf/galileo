@@ -9,7 +9,7 @@ class MediaController < ApplicationController
       @media = Medium.order(:name).where("name like ?", "%#{params[:term]}%")
       render json: @media.map(&:name).uniq; return
     elsif (params[:filter]=="r")
-      qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1)"
+      qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='')"
       @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r' selected>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="u")
@@ -17,7 +17,7 @@ class MediaController < ApplicationController
       @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u' selected>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="n")
-      qry="media.id not in (SELECT medium_id FROM medium_reviews WHERE (medium_reviews.medium_review_sharing_mode=1 OR medium_reviews.user_id="+current_user.id.to_s+"))"
+      qry="media.id not in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='')"
       @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n' selected>Media with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:q].present?)

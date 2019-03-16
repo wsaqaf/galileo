@@ -8,7 +8,7 @@ class SrcsController < ApplicationController
       @srcs = Src.order(:name).where("name like ?", "%#{params[:term]}%")
       render json: @srcs.map(&:name).uniq; return
     elsif (params[:filter]=="r")
-      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1)"
+      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
       @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r' selected>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="u")
@@ -16,7 +16,7 @@ class SrcsController < ApplicationController
       @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u' selected>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:filter]=="n")
-      qry="srcs.id not in (SELECT src_id FROM src_reviews WHERE (src_reviews.src_review_sharing_mode=1 OR src_reviews.user_id="+current_user.id.to_s+"))"
+      qry="srcs.id not in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
       @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n' selected>Sources with no reviews yet</option></select>"+
                    "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
     elsif (params[:q].present?)
