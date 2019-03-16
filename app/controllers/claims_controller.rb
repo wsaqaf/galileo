@@ -1,4 +1,5 @@
 class ClaimsController < ApplicationController
+  before_action :check_if_signed_in, only: [:show, :edit, :update, :destroy, :new, :create]
   before_action :find_claim, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -106,6 +107,13 @@ class ClaimsController < ApplicationController
 
     def find_claim
       @claim = Claim.find(params[:id])
+    end
+
+    def check_if_signed_in
+      if !user_signed_in?
+        redirect_to "/"
+        return
+      end
     end
 
 end
