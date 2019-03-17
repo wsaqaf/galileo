@@ -241,7 +241,7 @@
               
                   <% if (@claim_review.user_id==current_user.id or @claim_review.review_sharing_mode==1) %>
                       <li>Based on this review, what is your final assessment of this claim?
-                      <%= f.select :review_verdict, options_for_select([['Select',''],['False', -3],[' Mostly false', -2],[' Mixed', -1],[' Mostly true', 1],[' True', 2],[' No decision', 0]], :selected => @claim_review.review_verdict), {}, disabled: @claim_review.user_id!=current_user.id %>
+                      <%= f.select :review_verdict, options_for_select([['Select',''],['False', 1],[' Mostly false', 2],[' Mixed', 3],[' Mostly true', 4],[' True', 5],[' No decision', 0]], :selected => @claim_review.review_verdict), {}, disabled: @claim_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>

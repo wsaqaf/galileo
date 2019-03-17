@@ -43,7 +43,7 @@
                   <ul>
                       
                   <li>Based on the barometer result, how do you assess the trustworthiness of the source?<span class='required'>*</span>
-                  <%= f.select :src_review_verdict, options_for_select([['Select',''],['Not trustworthy', -3],[' Marginally trustworthy', -2],[' Somewhat trustworthy', -1],[' Mostly trustworthy', 1],['  Fully trustworthy', 2],[' No decision', 0]], :selected => @src_review.src_review_verdict) %>
+                  <%= f.select :src_review_verdict, options_for_select([['Select',''],['Not trustworthy', 1],[' Marginally trustworthy', 2],[' Somewhat trustworthy', 3],[' Mostly trustworthy', 4],['  Fully trustworthy', 5],[' No decision', 0]], :selected => @src_review.src_review_verdict) %>
                   <br>
                   
                   </li>

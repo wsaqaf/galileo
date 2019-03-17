@@ -43,7 +43,7 @@
                   <ul>
                       
                   <li>Considering the given score, how do you assess the medium's reliability for accurate information?<span class='required'>*</span>
-                  <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', -3],[' Mostly unreliable', -2],[' Somewhat reliable', -1],[' Mostly reliable', 1],[' Totally reliable', 2],[' No decision', 0]], :selected => @medium_review.medium_review_verdict) %>
+                  <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', 1],[' Mostly unreliable', 2],[' Somewhat reliable', 3],[' Mostly reliable', 4],[' Totally reliable', 5],[' No decision', 0]], :selected => @medium_review.medium_review_verdict) %>
                   <br>
                   
                   </li>

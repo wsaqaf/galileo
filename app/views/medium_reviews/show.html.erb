@@ -157,7 +157,7 @@
               
                   <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) %>
                       <li>Considering the given score, how do you assess the medium's reliability for accurate information?
-                      <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', -3],[' Mostly unreliable', -2],[' Somewhat reliable', -1],[' Mostly reliable', 1],[' Totally reliable', 2],[' No decision', 0]], :selected => @medium_review.medium_review_verdict), {}, disabled: @medium_review.user_id!=current_user.id %>
+                      <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', 1],[' Mostly unreliable', 2],[' Somewhat reliable', 3],[' Mostly reliable', 4],[' Totally reliable', 5],[' No decision', 0]], :selected => @medium_review.medium_review_verdict), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
