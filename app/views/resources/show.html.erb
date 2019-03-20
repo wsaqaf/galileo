@@ -13,7 +13,13 @@
   <% else %>
   <small>Not provided</small>
   <% end %></h4>
-<h4><%= @resource.description %></h4>
+<h4>Description:
+    <% if @src.description.present? %>
+      <%= @src.description %>
+    <% else %>
+        Not provided
+    <% end %>
+</h4>
 <h4>Tutorial: <%= link_to @resource.tutorial,@resource.tutorial, target: "_blank" %></h4>
 <h4>Added by: <%= User.find(@resource.user_id).name %></h4>
 <h4>Created: <%= @resource.created_at %></h4>

@@ -32,13 +32,13 @@ Not provided
      Not provided
  <% end %>
 </h4>
-<p>Description:
+<h4>Description:
   <% if @claim.description.present? %>
     <%= @claim.description %>
   <% else %>
       Not provided
   <% end %>
-</p>
+</h4>
 
 <% if @claim.url.present? %>
   <% if not @preview.blank? %>
