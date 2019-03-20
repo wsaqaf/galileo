@@ -44,6 +44,9 @@
        - <%= link_to "Edit Your Review", src_src_reviews_path(src.id), method: :create %>, - <%= link_to "Delete Your Review", src_src_review_path(src.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
     <% end %>
      )</small>
+     <% if src.url_preview.present? %>
+       <br><%== src.url_preview.gsub('\"','"') %>
+     <% end %>
   </li></h4>
   <% end %>
 </ul>

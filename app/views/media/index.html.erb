@@ -44,6 +44,9 @@
          - <%= link_to "Edit Your Review", medium_medium_reviews_path(medium.id), method: :create %>, - <%= link_to "Delete Your Review", medium_medium_review_path(medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
       <% end %>
        )</small>
+       <% if medium.url_preview.present? %>
+         <br><%== medium.url_preview.gsub('\"','"') %>
+       <% end %>
     </li></h4>
 <% end %>
 </ul>

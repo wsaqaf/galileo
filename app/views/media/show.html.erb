@@ -1,23 +1,17 @@
 <div class="container">
 <h2>Name: <%= @medium.name %></h2>
-<h4>URL: <a href='<%= @medium.url %>' target=_blank><%= @medium.url %></a></h4>
+<h4>URL: 
+  <% if @medium.url.present? %>
+    <%= link_to @medium.url %>
+    <% if @medium.url_preview.present? %>
+      <br><%== @medium.url_preview.gsub('\"','"') %>
+    <% end %>
+  <% else %>
+  Not provided
+  <% end %>
+</h4>
 <h4>Details: <%= @medium.description %></h4>
 <h4>Type: <%= @medium_type %></h4>
-
-<% if @medium.url.present? %>
-  <% if not @preview.blank? %>
-    <a class="fragment" href="<%= @medium.url %>">
-    <% if defined?(@preview.images.first.src) then %>
-        <img src ='<%= @preview.images.first.src %>' width=50 />
-    <% end %>
-    <h3><%= @preview.title %></h3>
-    <p class="text">
-        <%= @preview.description %>
-    </p>
-    </a>
-  <% end %>
-<% end %>
-
 <p>Added by: <%= User.find(@medium.user_id).name %>
 <br>Created: <%= @medium.created_at %>
 <br>Updated: <%= @medium.updated_at %></p>

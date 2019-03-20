@@ -1,15 +1,23 @@
 <div class="container">
 <h2><%= @resource.name %></h2>
-<p>
+<h4>
 <% if not @resource.icon.blank? then %>
 <%= image_tag(@resource.icon, width: "200", :alt => @resource.name) %>
-<% end %>
-<h4><%= link_to "Go to Resource", @resource.url, target: "_blank" %>
-<p><%= @resource.description %></p>
-<p>Tutorial: <%= link_to @resource.tutorial,@resource.tutorial, target: "_blank" %></p>
-<p>Added by: <%= User.find(@resource.user_id).name %>
-<br>Created: <%= @resource.created_at %>
-<br>Updated: <%= @resource.updated_at %></p>
+<% end %></h4>
+<h4>URL:
+  <% if @resource.url.present? %>
+    <%= link_to @resource.url %>
+    <% if @resource.url_preview.present? %>
+      <br><%== @resource.url_preview.gsub('\"','"') %>
+    <% end %>
+  <% else %>
+  <small>Not provided</small>
+  <% end %></h4>
+<h4><%= @resource.description %></h4>
+<h4>Tutorial: <%= link_to @resource.tutorial,@resource.tutorial, target: "_blank" %></h4>
+<h4>Added by: <%= User.find(@resource.user_id).name %></h4>
+<h4>Created: <%= @resource.created_at %></h4>
+<h4>Updated: <%= @resource.updated_at %></h4>
 
 <%= link_to "Back", resources_path %>
 

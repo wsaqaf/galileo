@@ -33,7 +33,7 @@ class ClaimsController < ApplicationController
         preview = Thumbnail.new(params[:url])
         if !preview.blank?
           if !preview.title.nil? and !preview.description.nil?
-            puts("\n\n\n"+preview.inspect+"\n\n\n")
+#            puts("\n\n\n"+preview.inspect+"\n\n\n")
             output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
             if defined?(preview.images.first.src) then
                 output=output+'  <img src ="'+preview.images.first.src.to_s+'" height=50 />'
@@ -46,7 +46,6 @@ class ClaimsController < ApplicationController
       else
         @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
                      "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-#        @claims = Claim.all.order("created_at DESC")
         tmp=Claim.all.order("created_at DESC")
         @total_count=tmp.count
         @pagy, @claims = pagy(tmp, items: 10)
@@ -76,8 +75,8 @@ class ClaimsController < ApplicationController
   end
 
   def create
+#    puts("\n\n\nchecking all params:\n"+claim_params.inspect+"\n\n\n\n")
     @claim = current_user.claims.build(claim_params)
-
     if @claim.save
         redirect_to root_path
     else
@@ -110,7 +109,7 @@ class ClaimsController < ApplicationController
     end
 
     def claim_params
-      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video, :has_text)
+      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video, :has_text, :url_preview)
     end
 
     def find_claim

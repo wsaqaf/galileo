@@ -3,6 +3,9 @@
 <h4>URL:
 <% if @claim.url.present? %>
   <%= link_to @claim.url %>
+  <% if @claim.url_preview.present? %>
+    <br><%== @claim.url_preview.gsub('\"','"') %>
+  <% end %>
 <% else %>
 Not provided
 <% end %>

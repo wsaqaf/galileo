@@ -14,11 +14,12 @@
   <%= f.text_field :title, class: 'field-long' %>
   </li>
   <li>
-  URL of where the claim is found (if available)
-  <%= f.text_field :url, :onfocusout => "URLPreview('claim')", class: 'field-long' %>
-  </li>
-  <div id="url_preview"></div>
-  <li>
+    URL of where the claim is found (if available)
+    <%= f.text_field :url, :onfocusout => "URLPreview('claim')", class: 'field-long' %>
+    </li>
+    <div id="url_preview_block"></div>
+    <%= f.hidden_field :url_preview %>
+    <li>
   What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.<br>
   <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onfocusout => "NewMedium('medium','media','media')" %>
   </li>
@@ -50,66 +51,6 @@
 </ul>
 </fieldset>
 <% end %>
-
-<script>
-function NewMedium(s,p,w) {
-  const element = document.getElementById('claim_'+s+'_name');
-  var q = element.value;
-  q=$.trim(q);
-  const note = document.getElementById(s+'_note');
-  if (q.length==0) { note.innerHTML=''; return ; }
-
-  $.ajax({
-    url: '/'+p+'/?term='+q,
-    cache: false
-  })
-    .done(function( html ) {
-      var found=false;
-      var entry="";
-      for(var i = 0; i < html.length; i++)
-        {
-          if (html[i].toLowerCase()==q.toLowerCase())
-            {
-              entry=html[i]
-              found=true;
-              break;
-            }
-        }
-      if (found)
-        {
-          element.value=entry
-          note.innerHTML='';
-        }
-      else
-        {
-          note.innerHTML='<b><font color=red>'+q+'</font></b> is new and will be added automatically to the '+w+' database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a> after submitting this form.<br><br>';
-        }
-    });
-}
-function URLPreview(s)
- {
-  $("#url_preview").html("<br><center><img src='/loading.gif' width=50></center><br>");
-  const element = document.getElementById(s+'_url');
-  var q = element.value;
-  q=$.trim(q);
-  if (q.length==0) { $("#url_preview").html(""); return ; }
-  $.ajax({
-    url: '/claims/',
-    type: 'get',
-    data: { url: q },
-    dataType: "text",
-    success:function(result)
-      {
-        if (result.length>0) { $("#url_preview").html(result); }
-        else { $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>"); }
-      },
-    error:function()
-      {
-        $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>");
-      }
-    });
- }
-</script>
 
 <%= link_to 'Show', @claim %> |
 <%= link_to 'Back', claims_path %>

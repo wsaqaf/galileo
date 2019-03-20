@@ -1,7 +1,21 @@
 <div class="container">
 <h2>Name: <%= @src.name %></h2>
-<h4>URL: <a href='<%= @src.url %>' target=_blank><%= @src.url %></a></h4>
-<h4>Details: <%= @src.description %></h4>
+<h4>URL:
+  <% if @src.url.present? %>
+    <%= link_to @src.url %>
+    <% if @src.url_preview.present? %>
+      <br><%== @src.url_preview.gsub('\"','"') %>
+    <% end %>
+  <% else %>
+  <small>Not provided</small>
+  <% end %>
+</h4>
+<h4>Details:
+  <% if @src.description.present? %>
+  <% else %>
+  <small>Not provided</small>
+  <% end %>
+</h4>
 <p>Added by: <%= User.find(@src.user_id).name %>
 <br>Created: <%= @src.created_at %>
 <br>Updated: <%= @src.updated_at %></p>

@@ -46,6 +46,9 @@
            - <%= link_to "Edit Your Review", claim_claim_reviews_path(claim.id), method: :create %>, - <%= link_to "Delete Your Review", claim_claim_review_path(claim.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
         <% end %>
          )</small>
+         <% if claim.url_preview.present? %>
+           <br><%== claim.url_preview.gsub('\"','"') %>
+         <% end %>
       </li></h4>
     <% end %>
     </ul>

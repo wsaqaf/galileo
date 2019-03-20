@@ -69,7 +69,7 @@ class ResourcesController < ApplicationController
 
     private
       def resource_params
-        params.require(:resource).permit(:name, :url, :description, :tutorial, :icon, :used_for_qs, :ref)
+        params.require(:resource).permit(:name, :url, :description, :tutorial, :icon, :used_for_qs, :ref, :url_preview)
       end
 
       def find_resource

@@ -25,3 +25,77 @@
 jQuery(function() {
   $('#user_affiliation').autocomplete({source: $('#user_affiliation').data('autocomplete-source')});
 });
+
+function NewMedium(s,p,w) {
+  var element;
+  if (s=="claim") { element = document.getElementById('claim_'+s+'_name'); }
+  else { element = document.getElementById(s+'_name'); }
+  var q = element.value;
+  q=$.trim(q);
+  const note = document.getElementById(s+'_note');
+  if (q.length==0) { note.innerHTML=''; return ; }
+  $.ajax({
+    url: '/'+p+'/?term='+q,
+    cache: false
+  })
+    .done(function( html ) {
+      var found=false;
+      var entry="";
+      for(var i = 0; i < html.length; i++)
+        {
+          if (html[i].toLowerCase()==q.toLowerCase())
+            {
+              entry=html[i]
+              found=true;
+              break;
+            }
+        }
+      if (found)
+        {
+          if (s=="claim") { element.value=entry; note.innerHTML=''; }
+          else
+          {
+            note.innerHTML='<b><font color=red>'+q+'</font></b> cannot be added because it is already in the database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a><br>';
+            document.getElementById("submit").disabled = true;
+          }
+        }
+      else
+        {
+          if (s=="claim") { note.innerHTML='<b><font color=red>'+q+'</font></b> is new and will be added automatically to the '+w+' database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a> after submitting this form.<br><br>'; }
+          else
+          {
+            note.innerHTML='';
+            document.getElementById("submit").disabled = false;
+          }
+        }
+    });
+}
+function update_display(s)
+ {
+  if ($('#skip_preview').is(':checked')) { $("#preview_block").hide(); $('#'+s+'_url_preview').val(''); }
+  else { $("#preview_block").show(); URLPreview(s); }
+}
+function addslashes( str ) { return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0'); }
+function URLPreview(s)
+ {
+  $("#url_preview_block").html("<br><center><img src='/loading.gif' width=50></center><br>");
+  const element = document.getElementById(s+'_url');
+  var q = element.value;
+  q=$.trim(q);
+  if (q.length==0) { $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(''); return ; }
+  $.ajax({
+    url: '/claims/',
+    type: 'get',
+    data: { url: q },
+    dataType: "text",
+    success:function(result)
+      {
+        if (result.length>0) { $('#'+s+'_url_preview').val(addslashes(result)); $("#url_preview_block").html("<div id='preview_block'>"+result+"</div><input type='checkbox' id='skip_preview' value=1 onchange='update_display(\""+s+"\")'><small> Skip preview</small><br>"); }
+        else { $('#'+s+'_url_preview').val(''); $("#url_preview_block").html("<center><small>[URL does not have a preview]</small></center>"); }
+      },
+    error:function()
+      {
+        $('#'+s+'_url_preview').val(''); $("#url_preview_block").html("<center><small>[URL does not have a preview]</small></center>");
+      }
+    });
+ }

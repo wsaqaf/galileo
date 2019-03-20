@@ -17,6 +17,8 @@
       URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
       <%= f.text_field :url, class: 'field-long' %>
       </li>
+      <div id="url_preview_block"></div>
+      <%= f.hidden_field :url_preview %>
       <li>
       What type is this medium?
       <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
@@ -34,28 +36,3 @@
   <%= link_to 'Show', @medium %> |
   <%= link_to 'Back', media_path %>
   </div>
-  <script>
-  function URLPreview(s)
-   {
-    $("#url_preview").html("<br><center><img src='/loading.gif' width=50></center><br>");
-    const element = document.getElementById(s+'_url');
-    var q = element.value;
-    q=$.trim(q);
-    if (q.length==0) { $("#url_preview").html(""); return ; }
-    $.ajax({
-      url: '/claims/',
-      type: 'get',
-      data: { url: q },
-      dataType: "text",
-      success:function(result)
-        {
-          if (result.length>0) { $("#url_preview").html(result); }
-          else { $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>"); }
-        },
-      error:function()
-        {
-          $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>");
-        }
-      });
-   }
-  </script>

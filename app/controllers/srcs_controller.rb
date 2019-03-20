@@ -114,7 +114,7 @@ class SrcsController < ApplicationController
     end
 
     def src_params
-      params.require(:src).permit(:name, :url, :src_type, :description)
+      params.require(:src).permit(:name, :url, :src_type, :description, :url_preview)
     end
 
     def find_src

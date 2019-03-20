@@ -18,7 +18,8 @@
       URL
       <%= f.text_field :url, :onfocusout => "URLPreview('src')", class: 'field-long' %>
       </li>
-      <div id="url_preview"></div>
+      <div id="url_preview_block"></div>
+      <%= f.hidden_field :url_preview %>
       <li>
       What type is this source?
       <%= f.select :src_type, options_for_select(@src_types, :selected => @src.src_type) %>
@@ -34,64 +35,3 @@
     <% end %>
   </fieldset>
   </div>
-
-<script>
-function NewMedium(s,p,w) {
-  const element = document.getElementById(s+'_name');
-  var q = element.value;
-  q=$.trim(q);
-  const note = document.getElementById(s+'_note');
-  if (q.length==0) { note.innerHTML=''; return ; }
-  $.ajax({
-    url: '/'+p+'/?term='+q,
-    cache: false
-  })
-    .done(function( html ) {
-      var found=false;
-      var entry="";
-      for(var i = 0; i < html.length; i++)
-        {
-          if (html[i].toLowerCase()==q.toLowerCase())
-            {
-              entry=html[i]
-              found=true;
-              break;
-            }
-        }
-      if (found)
-        {
-          element.value=entry
-          note.innerHTML='<b><font color=red>'+q+'</font></b> is already in the database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a><br>';
-          document.getElementById("submit").disabled = true;
-        }
-      else
-        {
-          note.innerHTML='';
-          document.getElementById("submit").disabled = false;
-        }
-    });
-}
-function URLPreview(s)
- {
-  $("#url_preview").html("<br><center><img src='/loading.gif' width=50></center><br>");
-  const element = document.getElementById(s+'_url');
-  var q = element.value;
-  q=$.trim(q);
-  if (q.length==0) { $("#url_preview").html(""); return ; }
-  $.ajax({
-    url: '/claims/',
-    type: 'get',
-    data: { url: q },
-    dataType: "text",
-    success:function(result)
-      {
-        if (result.length>0) { $("#url_preview").html(result); }
-        else { $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>"); }
-      },
-    error:function()
-      {
-        $("#url_preview").html("<center><small>[URL does not have a preview]</small></center>");
-      }
-    });
- }
-</script>
