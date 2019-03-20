@@ -11,7 +11,7 @@
       <% end %>
     <ul>
       <li>What is the name of the resource<span class='required'>*</span>
-      <%= f.text_field :name, :onfocusout => "NewResource('resource','resources','resources')", class: 'field-long', disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id %>
+      <%= f.text_field :name, :onfocusout => "NewMedium(0,'resource','resources','resources')", class: 'field-long', disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id %>
       </li>
       <div id="resource_note"></div>
       <li>

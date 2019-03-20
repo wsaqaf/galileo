@@ -26,9 +26,9 @@ jQuery(function() {
   $('#user_affiliation').autocomplete({source: $('#user_affiliation').data('autocomplete-source')});
 });
 
-function NewMedium(s,p,w) {
+function NewMedium(c,s,p,w) {
   var element;
-  if (s=="claim") { element = document.getElementById('claim_'+s+'_name'); }
+  if (c==1) { element = document.getElementById('claim_'+s+'_name'); }
   else { element = document.getElementById(s+'_name'); }
   var q = element.value;
   q=$.trim(q);
@@ -52,7 +52,7 @@ function NewMedium(s,p,w) {
         }
       if (found)
         {
-          if (s=="claim") { element.value=entry; note.innerHTML=''; }
+          if (c==1) { element.value=entry; note.innerHTML=''; }
           else
           {
             note.innerHTML='<b><font color=red>'+q+'</font></b> cannot be added because it is already in the database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a><br>';
@@ -61,7 +61,7 @@ function NewMedium(s,p,w) {
         }
       else
         {
-          if (s=="claim") { note.innerHTML='<b><font color=red>'+q+'</font></b> is new and will be added automatically to the '+w+' database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a> after submitting this form.<br><br>'; }
+          if (c==1) { note.innerHTML='<b><font color=red>'+q+'</font></b> is new and will be added automatically to the '+w+' database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a> after submitting this form.<br><br>'; }
           else
           {
             note.innerHTML='';
