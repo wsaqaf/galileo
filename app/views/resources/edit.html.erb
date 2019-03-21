@@ -16,7 +16,7 @@
       <div id="resource_note"></div>
       <li>
       URL
-      <%= f.text_field :url, class: 'field-long', disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id %>
+      <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('resource')", disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id %>
       </li>
       <div id="url_preview_block">
         <% if @resource.url_preview.present? %><%== @resource.url_preview.gsub('\"','"').gsub("\\'", "'") %><% else %>No URL preview available<% end %>
