@@ -72,8 +72,11 @@ function NewMedium(c,s,p,w) {
 }
 function do_submit(s)
 {
-  $("#"+s+"_url_preview").val("<br><div id=\"final_url_preview\" class=\"fragment\">"+addslashes($("#final_url_preview").html())+"</div>");
-  return false;
+  if ($("#final_url_preview").html().length>10)
+  {
+    $("#"+s+"_url_preview").val("<br><div id=\"final_url_preview\" class=\"fragment\">"+addslashes($("#final_url_preview").html())+"</div>");
+    return false;
+  }
 }
 function update_display(s)
  {
