@@ -1,7 +1,7 @@
 <div class="form-claim">
   <fieldset>
     <legend>&nbsp;Add a new medium</legend>
-    <%= form_for @medium do |f| %>
+    <%= form_for @medium, :html => { :onsubmit => "do_submit('medium')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
           <% f.object.errors.full_messages.each do |error| %>
@@ -11,12 +11,12 @@
       <% end %>
     <ul>
       <li>What is the name of the medium<span class='required'>*</span>
-      <%= f.text_field :name, :onfocusout => "NewMedium(0,'medium','media','media')", class: 'field-long' %>
+      <%= f.text_field :name, :onchange => "NewMedium(0,'medium','media','media')", class: 'field-long' %>
       </li>
       <div id="medium_note"></div>
       <li>
       URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
-      <%= f.text_field :url, :onfocusout => "URLPreview('medium')", class: 'field-long' %>
+      <%= f.text_field :url, :onchange => "URLPreview('medium')", class: 'field-long' %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>

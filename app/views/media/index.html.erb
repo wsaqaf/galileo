@@ -45,7 +45,7 @@
       <% end %>
        )</small>
        <% if medium.url_preview.present? %>
-         <br><%== medium.url_preview.gsub('\"','"') %>
+         <br><%== medium.url_preview.gsub('\"','"').gsub("\\'", "'") %>
        <% end %>
     </li></h4>
 <% end %>

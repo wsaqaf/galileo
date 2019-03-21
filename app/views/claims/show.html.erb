@@ -4,7 +4,7 @@
 <% if @claim.url.present? %>
   <%= link_to @claim.url %>
   <% if @claim.url_preview.present? %>
-    <br><%== @claim.url_preview.gsub('\"','"') %>
+    <br><%== @claim.url_preview.gsub('\"','"').gsub("\\'", "'") %>
   <% end %>
 <% else %>
 Not provided
@@ -39,20 +39,6 @@ Not provided
       Not provided
   <% end %>
 </h4>
-
-<% if @claim.url.present? %>
-  <% if not @preview.blank? %>
-    <a class="fragment" href="<%= @claim.url %>">
-    <% if defined?(@preview.images.first.src) then %>
-          <img src ='<%= @preview.images.first.src %>' width=50 />
-    <% end %>
-    <h3><%= @preview.title %></h3>
-    <p class="text">
-        <%= @preview.description %>
-    </p>
-    </a>
-  <% end %>
-<% end %>
 <hr>
 <p>Added by: <%= User.find(@claim.user_id).name %>
 <br>Created: <%= @claim.created_at %>

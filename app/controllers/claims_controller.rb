@@ -31,14 +31,26 @@ class ClaimsController < ApplicationController
         @filter_msg=""
         output=""
         preview = Thumbnail.new(params[:url])
+        imglist=""
         if !preview.blank?
           if !preview.title.nil? and !preview.description.nil?
-#            puts("\n\n\n"+preview.inspect+"\n\n\n")
-            output='<br><a class="fragment" href="'+params[:url]+'" target=_blank>'
-            if defined?(preview.images.first.src) then
-                output=output+'  <img src ="'+preview.images.first.src.to_s+'" height=50 />'
+            i=0
+            imglist="var images= ["
+            preview.images.each do |img|
+              imglist=imglist+"'"+img.src.to_s+"',"
+#              puts("\n\n\nimage: "+i.to_s+"\n"+img.src.to_s+"\n\n\n")
+              i=i+1
             end
-            output=output+"\n<h3>"+preview.title+"</h3><p class=\"text\">"+preview.description+"</p></a>"
+            if i>1
+              imglist="<script>\nvar i=0;\n"+imglist.chomp(',')+"];\n"
+              imglist=imglist+"prev.onclick=function(){if(i==0){i="+i.to_s+";};document.getElementById('cimg').src=images[--i];}</script>"
+              output=output+"\n"+imglist
+              output=output+'<br><a href="#" id="prev">Change thumbnail</a><br><div id="final_url_preview" class="fragment">'
+              output=output+'<div style="text-align: left"><img src="'+preview.images.first.src.to_s+'" id="cimg" height=75 />'
+            elsif i==1
+              output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left"><img src="'+preview.images.first.src.to_s+'" id="cimg" height=75 /><br>'
+            end
+            output=output+"\n<h3><a href=\""+params[:url]+"\" target=_blank>"+preview.title+"</a></h3><p class=\"text\">"+preview.description+"</p><br></div></div>"
           end
         end
         render json: output;

@@ -1,7 +1,7 @@
 <div class="form-claim">
 <fieldset>
   <legend>&nbsp;Edit a claim</legend>
-<%= form_for @claim do |f| %>
+<%= form_for @claim, :html => { :onsubmit => "do_submit('claim')" } do |f| %>
   <% if f.object.errors.any? %>
   <div class="error_messages">
       <% f.object.errors.full_messages.each do |error| %>
@@ -15,18 +15,22 @@
   </li>
   <li>
     URL of where the claim is found (if available)
-    <%= f.text_field :url, :onfocusout => "URLPreview('claim')", class: 'field-long' %>
+    <%= f.text_field :url, :onchange => "URLPreview('claim')", class: 'field-long' %>
     </li>
-    <div id="url_preview_block"></div>
+    <div id="url_preview_block">
+      <% if @claim.url_preview.present? %>
+        <%== @claim.url_preview.gsub('\"','"').gsub("\\'", "'") %>
+      <% end %>
+    </div>
     <%= f.hidden_field :url_preview %>
     <li>
   What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.<br>
-  <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onfocusout => "NewMedium(1,'medium','media','media')" %>
+  <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onchange => "NewMedium(1,'medium','media','media')" %>
   </li>
   <div id="medium_note"></div>
   <li>
   Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure.<br>
-  <%= f.text_field :src_name, data: {autocomplete_source: srcs_path }, :onfocusout => "NewMedium(1,'src','srcs','sources')" %>
+  <%= f.text_field :src_name, data: {autocomplete_source: srcs_path }, :onchange => "NewMedium(1,'src','srcs','sources')" %>
   </li>
   <div id="src_note"></div>
   <li>

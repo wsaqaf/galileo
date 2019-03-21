@@ -1,7 +1,7 @@
 <div class="form-claim">
   <fieldset>
     <legend>&nbsp;Edit source</legend>
-    <%= form_for @src do |f| %>
+    <%= form_for @src, :html => { :onsubmit => "do_submit('src')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
           <% f.object.errors.full_messages.each do |error| %>
@@ -15,9 +15,13 @@
       </li>
       <li>
       URL (e.g., Jackson Brown, Amnesty International, White House)
-      <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('src')", class: 'field-long' %>
+      <%= f.text_field :url, class: 'field-long', :onchange => "URLPreview('src')", class: 'field-long' %>
       </li>
-      <div id="url_preview_block"></div>
+      <div id="url_preview_block">
+        <% if @src.url_preview.present? %>
+          <%== @src.url_preview.gsub('\"','"').gsub("\\'", "'") %>
+        <% end %>
+      </div>
       <%= f.hidden_field :url_preview %>
       <li>
       What type is this source?

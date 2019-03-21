@@ -1,7 +1,7 @@
 <div class="form-claim">
   <fieldset>
     <legend>&nbsp;Edit Medium</legend>
-    <%= form_for @medium do |f| %>
+    <%= form_for @medium, :html => { :onsubmit => "do_submit('medium')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
           <% f.object.errors.full_messages.each do |error| %>
@@ -15,9 +15,11 @@
       </li>
       <li>
       URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
-      <%= f.text_field :url, class: 'field-long' %>
+      <%= f.text_field :url, class: 'field-long', :onchange => "URLPreview('medium')", class: 'field-long' %>
       </li>
-      <div id="url_preview_block"></div>
+      <div id="url_preview_block">
+        <% if @medium.url_preview.present? %><%== @medium.url_preview.gsub('\"','"').gsub("\\'", "'") %><% else %>No URL preview available<% end %>
+      </div>
       <%= f.hidden_field :url_preview %>
       <li>
       What type is this medium?

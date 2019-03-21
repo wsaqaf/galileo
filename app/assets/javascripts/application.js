@@ -70,6 +70,11 @@ function NewMedium(c,s,p,w) {
         }
     });
 }
+function do_submit(s)
+{
+  $("#"+s+"_url_preview").val("<br><div id=\"final_url_preview\" class=\"fragment\">"+addslashes($("#final_url_preview").html())+"</div>");
+  return false;
+}
 function update_display(s)
  {
   if ($('#skip_preview').is(':checked')) { $("#preview_block").hide(); $('#'+s+'_url_preview').val(''); }

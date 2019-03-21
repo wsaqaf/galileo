@@ -4,7 +4,7 @@
   <% if @src.url.present? %>
     <%= link_to @src.url %>
     <% if @src.url_preview.present? %>
-      <br><%== @src.url_preview.gsub('\"','"') %>
+      <br><%== @src.url_preview.gsub('\"','"').gsub("\\'", "'") %>
     <% end %>
   <% else %>
   <small>Not provided</small>

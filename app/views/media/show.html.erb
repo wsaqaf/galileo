@@ -4,7 +4,7 @@
   <% if @medium.url.present? %>
     <%= link_to @medium.url %>
     <% if @medium.url_preview.present? %>
-      <br><%== @medium.url_preview.gsub('\"','"') %>
+      <br><%== @medium.url_preview.gsub('\"','"').gsub("\\'", "'") %>
     <% end %>
   <% else %>
   Not provided
@@ -48,4 +48,9 @@
 <br><br>
 
 <%= link_to "Back", media_path %>
+
+  <% if @medium.user_id == current_user.id %> -
+    <%= link_to "Edit", edit_medium_path(@medium) %> -
+    <%= link_to "Delete", medium_path(@medium), method: :delete, data: { confirm: @warning_msg} %>
+  <% end %>
 </div>

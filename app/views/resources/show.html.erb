@@ -8,14 +8,14 @@
   <% if @resource.url.present? %>
     <%= link_to @resource.url %>
     <% if @resource.url_preview.present? %>
-      <br><%== @resource.url_preview.gsub('\"','"') %>
+      <br><%== @resource.url_preview.gsub('\"','"').gsub("\\'", "'") %>
     <% end %>
   <% else %>
   <small>Not provided</small>
   <% end %></h4>
 <h4>Description:
-    <% if @src.description.present? %>
-      <%= @src.description %>
+    <% if @resource.description.present? %>
+      <%= @resource.description %>
     <% else %>
         Not provided
     <% end %>

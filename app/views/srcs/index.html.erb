@@ -45,7 +45,7 @@
     <% end %>
      )</small>
      <% if src.url_preview.present? %>
-       <br><%== src.url_preview.gsub('\"','"') %>
+       <br><%== src.url_preview.gsub('\"','"').gsub("\\'", "'") %>
      <% end %>
   </li></h4>
   <% end %>

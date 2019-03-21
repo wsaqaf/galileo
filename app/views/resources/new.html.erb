@@ -1,7 +1,7 @@
 <div class="form-claim">
   <fieldset>
     <legend>&nbsp;Add a new resource</legend>
-    <%= form_for @resource do |f| %>
+    <%= form_for @resource, :html => { :onsubmit => "do_submit('resource')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
           <% f.object.errors.full_messages.each do |error| %>
@@ -11,12 +11,12 @@
       <% end %>
     <ul>
       <li>What is the name of the resource<span class='required'>*</span>
-      <%= f.text_field :name, :onfocusout => "NewMedium(0,'resource','resources','resources')", class: 'field-long' %>
+      <%= f.text_field :name, :onchange => "NewMedium(0,'resource','resources','resources')", class: 'field-long' %>
       </li>
       <div id="resource_note"></div>
       <li>
       URL
-      <%= f.text_field :url, :onfocusout => "URLPreview('resource')", class: 'field-long' %>
+      <%= f.text_field :url, :onchange => "URLPreview('resource')", class: 'field-long' %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>
