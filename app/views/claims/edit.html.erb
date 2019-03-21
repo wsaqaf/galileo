@@ -15,7 +15,7 @@
   </li>
   <li>
     URL of where the claim is found (if available)
-    <%= f.text_field :url, :onchange => "URLPreview('claim')", class: 'field-long' %>
+    <%= f.text_field :url, :onfocusout => "URLPreview('claim')", class: 'field-long' %>
     </li>
     <div id="url_preview_block">
       <% if @claim.url_preview.present? %>
