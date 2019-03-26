@@ -20,8 +20,8 @@
       if (@reviews.blank?) then @total_reviews=0
       else
         @total_reviews=@reviews.size
-        assessments={"-3"=>"Not trustworthy","-2"=>"Marginally trustworthy","-1"=>"Somewhat trustworthy","1"=>"Mostly trustworthy","2"=>"Fully trustworthy","0"=>"No decision"}
-        assessments2={"-3"=>0,"-2"=>0,"-1"=>0,"1"=>0,"2"=>0,"0"=>0}
+        assessments={"1"=>"Not trustworthy","2"=>"Marginally trustworthy","3"=>"Somewhat trustworthy","4"=>"Mostly trustworthy","5"=>"Fully trustworthy","0"=>"No decision"}
+        assessments2={"1"=>0,"2"=>0,"3"=>0,"4"=>0,"5"=>0,"0"=>0}
         @reviews.each do |rev|
           if rev.src_review_verdict.present? then assessments2[rev.src_review_verdict.to_s]=assessments2[rev.src_review_verdict.to_s]+1 end
         end
