@@ -10,11 +10,11 @@ class ResourcesController < ApplicationController
       elsif (params[:q].present?)
         tmp=Resource.order(:name).where("name like '%"+params[:q]+"%'")
         @total_count=tmp.count
-        @pagy, @resources = pagy(tmp, items: 10)
+        @pagy, @resources = pagy(tmp, items: 50)
       else
         tmp=Resource.all.order("created_at DESC")
         @total_count=tmp.count
-        @pagy, @resources = pagy(tmp, items: 10)
+        @pagy, @resources = pagy(tmp, items: 50)
       end
     end
 
