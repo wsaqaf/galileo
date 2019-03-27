@@ -49,10 +49,12 @@ class ClaimsController < ApplicationController
               output=output+'<div style="text-align: left"><img src="'+preview.images.first.src.to_s+'" id="cimg" height=75 />'
             elsif i==1
               output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left"><img src="'+preview.images.first.src.to_s+'" id="cimg" height=75 /><br>'
+            else
+              output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left"><br>'
             end
             output=output+"\n<h3><a href=\""+params[:url]+"\" target=_blank>"+preview.title+"</a></h3><p class=\"text\">"+preview.description+"</p><br></div></div>"
           end
-        end
+        end 
         render json: output;
         return
       else
