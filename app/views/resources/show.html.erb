@@ -6,7 +6,7 @@
 <% end %></h4>
 <h4>URL:
   <% if @resource.url.present? %>
-    <%= link_to @resource.url %>
+    <%= link_to @resource.url,@resource.url %>
     <% if @resource.url_preview.present? %>
       <br><%== @resource.url_preview.gsub('\"','"').gsub("\\'", "'") %>
     <% end %>
