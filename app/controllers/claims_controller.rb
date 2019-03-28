@@ -38,7 +38,6 @@ class ClaimsController < ApplicationController
             imglist="var images= ["
             preview.images.each do |img|
               imglist=imglist+"'"+img.src.to_s+"',"
-#              puts("\n\n\nimage: "+i.to_s+"\n"+img.src.to_s+"\n\n\n")
               i=i+1
             end
             if i>1
@@ -54,7 +53,7 @@ class ClaimsController < ApplicationController
             end
             output=output+"\n<h3><a href=\""+params[:url]+"\" target=_blank>"+preview.title+"</a></h3><p class=\"text\">"+preview.description+"</p><br></div></div>"
           end
-        end 
+      end
         render json: output;
         return
       else
@@ -89,7 +88,6 @@ class ClaimsController < ApplicationController
   end
 
   def create
-#    puts("\n\n\nchecking all params:\n"+claim_params.inspect+"\n\n\n\n")
     @claim = current_user.claims.build(claim_params)
     if @claim.save
         redirect_to root_path

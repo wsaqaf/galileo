@@ -16,6 +16,7 @@
     <li><%= link_to src.name, src_path(src) %>
     <small>(Reviews:
     <%
+      @result2="<table><tr>"
       @reviews = SrcReview.where("src_id="+src.id.to_s+" AND (user_id="+current_user.id.to_s+" OR (src_review_sharing_mode=1 AND src_review_verdict!=''))")
       if (@reviews.blank?) then @total_reviews=0
       else
@@ -24,31 +25,45 @@
         assessments2={"1"=>0,"2"=>0,"3"=>0,"4"=>0,"5"=>0,"0"=>0}
         @reviews.each do |rev|
           if rev.src_review_verdict.present? then assessments2[rev.src_review_verdict.to_s]=assessments2[rev.src_review_verdict.to_s]+1 end
-        end
-        result=""
-        assessments.each do |key, value|
-            if assessments2[key]>0 then result=result+" "+value+": "+assessments2[key].to_s end
-        end
-      end %>
-      <%= link_to @total_reviews, src_src_reviews_path(src.id) %>
-   <% if (@total_reviews>0) %>
-      <% if !result.empty? %>
-        [<%= result %>]
-      <% end %>
-  <% end %>
-  <%
-    @my_review = SrcReview.where("src_id="+src.id.to_s+" AND user_id="+current_user.id.to_s).first
-    if (@my_review.blank?) %>
-       - <%= link_to "Add Review", src_src_reviews_path(src.id), method: :create %>
-    <% else %>
-       - <%= link_to "Edit Your Review", src_src_reviews_path(src.id), method: :create %>, - <%= link_to "Delete Your Review", src_src_review_path(src.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+          end
+          result1=""
+          assessments.each do |key, value|
+              if assessments2[key]>0
+                result1=result1+" "+value+": "+assessments2[key].to_s
+                @result2=@result2+"<td><a href='"+src_src_reviews_path(src.id)+"' target=_blank><img src='/"+key.to_s+".png' height=50 alt='"+value+" ("+assessments2[key].to_s+")' title='"+value+" ("+assessments2[key].to_s+")'></a></td>"
+              end
+          end
+        end %>
+        <%= link_to @total_reviews, src_src_reviews_path(src.id) %>
+     <% if (@total_reviews>0) %>
+        <% if !result1.empty? %>
+          [<%= result1 %>]
+        <% end %>
     <% end %>
-     )</small>
-     <% if src.url_preview.present? %>
-       <br><%== src.url_preview.gsub('\"','"').gsub("\\'", "'") %>
-     <% end %>
-  </li></h4>
+    <%
+      @my_review = SrcReview.where("src_id="+src.id.to_s+" AND user_id="+current_user.id.to_s).first
+      if (@my_review.blank?)
+          revtype ="Add" %>
+         - <%= link_to "Add Review", src_src_reviews_path(src.id), method: :create %>
+      <% else
+          revtype ="Edit" %>
+         - <%= link_to "Edit Your Review", src_src_reviews_path(src.id), method: :create %>, - <%= link_to "Delete Your Review", src_src_review_path(src.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+      <% end %>
+       )</small>
+       <% if src.url_preview.present? %>
+         <% if @total_reviews>0 %>
+          <br>
+          <%
+            url_prev=src.url_preview.gsub('\"','"').gsub("\\'", "'")
+            url_prev=url_prev.sub("</h3>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='/srcs/"+src.id.to_s+"/src_reviews' target=_blank><img src='/"+revtype+".png' height=70 alt='"+revtype+" review' title='"+revtype+" review'></a></td></tr></table></div></h3>")
+          else
+            url_prev=src.url_preview.gsub('\"','"').gsub("\\'", "'")
+            url_prev=url_prev.sub("</h3>","<div style='float: right'><a rel='nofollow' data-method='create' href='/srcs/"+src.id.to_s+"/src_reviews' target=_blank><img src='/Add.png' height=70 alt='Add a review' title='Add a review'></a></div></h3>")
+         end %>
+        <%== url_prev %>
+       <% end %>
+    </li></h4>
   <% end %>
-</ul>
+  </ul>
 <% if @total_count>10 then %> <%== pagy_bootstrap_nav(@pagy) %> <% end %>
 </div>
