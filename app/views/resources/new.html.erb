@@ -11,22 +11,22 @@
       <% end %>
     <ul>
       <li>What is the name of the resource<span class='required'>*</span>
-      <%= f.text_field :name, :onchange => "NewMedium(0,'resource','resources','resources')", class: 'field-long' %>
+      <%= f.text_field :name, :onchange => "NewMedium(0,'resource','resources','resources')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="resource_note"></div>
       <li>
       URL
-      <%= f.text_field :url, :onchange => "URLPreview('resource')", class: 'field-long' %>
+      <%= f.text_field :url, :onchange => "URLPreview('resource')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>
       <li>
       A link to the tutorial on how to use it
-      <%= f.text_field :tutorial, class: 'field-long' %>
+      <%= f.text_field :tutorial, class: 'field-long', :autocomplete=>"off" %>
       </li>
       <li>
       URL for the icon (logo) representing this resource
-      <%= f.text_field :icon, class: 'field-long' %>
+      <%= f.text_field :icon, class: 'field-long', :autocomplete=>"off" %>
       </li>
       <li>
       Provide more details about this resource and what it is useful for:
@@ -36,7 +36,7 @@
         <li>
         Reference code(s) of the step(s) which this resource is associated to:<br>
         <small><i>(Use commas or spaces to add multiple references)</i></small>
-        <%= f.text_field :used_for_qs, class: 'field-long' %>
+        <%= f.text_field :used_for_qs, class: 'field-long', :autocomplete=>"off" %>
         </li>
       <% else %>
       <div style="display:none">
