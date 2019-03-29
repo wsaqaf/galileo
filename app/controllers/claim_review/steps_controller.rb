@@ -13,7 +13,7 @@ class ClaimReview::StepsController < ApplicationController
     score=0
     confidence=0
     result=""
-    fields=""
+    fields=[]
     if field=="content"
       if @claim.has_image and @claim_review.img_review_started
         fields=[@claim_review.img_forensic_discrepency,@claim_review.img_metadata_discrepency,@claim_review.img_logical_discrepency]
@@ -57,7 +57,7 @@ class ClaimReview::StepsController < ApplicationController
     if @claim.has_image==1 then @first_step="s1"
     elsif @claim.has_video==1 then @first_step="s6"
     elsif @claim.has_text==1 then @first_step="s12"
-    else  @first_step="s21"; end
+    else  @first_step="s20"; end
 
 #puts("\n\n\nGOT IN0! Doing: "+step+" and "+params[:s].to_s+"\n\n\n");
 
@@ -66,20 +66,15 @@ class ClaimReview::StepsController < ApplicationController
     elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to2(:s1,:s6); return
     elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to2(:s5,:s12); return
     elsif step.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1 then jump_to2(:s6,:s12); return
-    elsif step.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1 then jump_to2(:s11,:s21); return
-    elsif step.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to2(:s12,:s21); return
+    elsif step.tr('s', '').to_i.between?(12,19) and @claim.has_text!=1 then jump_to2(:s11,:s20); return
+    elsif step.tr('s', '').to_i.between?(13,19) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to2(:s12,:s20); return
     elsif step=="s20" then @content_review_score=get_score("content","credibility","credible");
-#    else puts("\n\n\nGOT IN8! Doing: "+step+" and "+params[:s].to_s+"\n\n\n"); #jump_to2(step,step);
     end
-#    puts("\n\n\nGOT IN9! Doing: "+step+" and "+params[:s].to_s+"\n\n\n")
-#    redirect_to redirect_to claim_claim_review_step_path(@claim.id,@claim_review.id,step)
     render_wizard
   end
 
   def update
-#    puts("\n\n\nparams:"+claim_review_params(step).inspect+"\n\n\n")
       @claim_review = ClaimReview.find(params[:claim_review_id])
-
       @claim_review.update(claim_review_params(step).merge(user_id: current_user.id))
 
       if step == "s1" and @claim_review.img_review_started!=1 then jump_to(:s6)
@@ -101,9 +96,9 @@ class ClaimReview::StepsController < ApplicationController
       return '<div class="divTableRow" style="display: none;">'
     elsif st.tr('s', '').to_i.between?(7,11) and @claim.has_video==1 and @claim_review.vid_review_started!=1
       return '<div class="divTableRow" style="display: none;">'
-    elsif st.tr('s', '').to_i.between?(12,20) and @claim.has_text!=1
+    elsif st.tr('s', '').to_i.between?(12,19) and @claim.has_text!=1
       return '<div class="divTableRow" style="display: none;">'
-    elsif st.tr('s', '').to_i.between?(13,20) and @claim.has_text==1 and @claim_review.txt_review_started!=1
+    elsif st.tr('s', '').to_i.between?(13,19) and @claim.has_text==1 and @claim_review.txt_review_started!=1
       return '<div class="divTableRow" style="display: none;">'
     else
         return '<div class="divTableRow">'
