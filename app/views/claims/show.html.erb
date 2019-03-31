@@ -2,7 +2,7 @@
 <h2>Title: <%= @claim.title %></h2>
 <h4>URL:
 <% if @claim.url.present? %>
-  <%= link_to @claim.url %>
+  <%= link_to @claim.url,@claim.url %>
   <% if @claim.url_preview.present? %>
     <br><%== @claim.url_preview.gsub('\"','"').gsub("\\'", "'") %>
   <% end %>
@@ -47,7 +47,7 @@ Not provided
 <br><br>
 <h5>
   <%
-    @reviews = ClaimReview.where("claim_id="+@claim.id.to_s+" AND (review_sharing_mode=1 OR user_id="+current_user.id.to_s+")")
+    @reviews = ClaimReview.where("claim_id=? AND (review_sharing_mode=1 OR user_id=?)",@claim.id,current_user.id)
     if (@reviews.blank?) then @total_reviews=0 else @total_reviews=@reviews.size end %>
  <% if (@total_reviews>0) %>
     <%  @my_review = ClaimReview.where(claim_id: @claim.id, user_id: current_user.id)

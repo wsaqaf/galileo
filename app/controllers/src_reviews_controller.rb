@@ -7,12 +7,12 @@ class SrcReviewsController < ApplicationController
       @src_reviews = SrcReview.order(:id).where("name like ?", "%#{params[:term]}%")
       render json: @src_reviews.map(&:name).uniq
     else
-      @src_reviews = SrcReview.all.order("created_at DESC").where("src_id="+@src.id.to_s+" AND ((src_review_sharing_mode=1 AND src_review_verdict!='') OR user_id="+current_user.id.to_s+")")
+      @src_reviews = SrcReview.all.order("created_at DESC").where("src_id=? AND ((src_review_sharing_mode=1 AND src_review_verdict!='') OR user_id=?)",@src.id,current_user.id)
     end
   end
 
   def show
-    @tmp = SrcReview.where("id="+params[:id]+" AND (src_review_sharing_mode=1 OR user_id="+current_user.id.to_s+")").first
+    @tmp = SrcReview.where("id=? AND (src_review_sharing_mode=1 OR user_id=?)",params[:id],current_user.id).first
     if (not @tmp.blank?)
       @src_review=SrcReview.find(@tmp.id)
     else
@@ -24,7 +24,7 @@ class SrcReviewsController < ApplicationController
   end
 
   def create
-    @tmp = SrcReview.where("src_id="+@src.id.to_s+" AND user_id="+current_user.id.to_s).first
+    @tmp = SrcReview.where("src_id=? AND user_id=?",@src.id,current_user.id).first
     if (not @tmp.blank?)
       @src_review=SrcReview.find(@tmp.id)
       redirect_to src_src_review_step_path(@src,@src_review, SrcReview.form_steps.first)
@@ -39,10 +39,19 @@ class SrcReviewsController < ApplicationController
   end
 
   def edit
+    @tmp = SrcReview.where("src_id=? AND user_id=?",@src.id,current_user.id).first
+    if (@tmp.blank?)
+      @src_review=SrcReview.find(@tmp.id)
+      if current_user.id!=@src_review.user_id
+        redirect_to src_src_review_path(@src,@src_review)
+      end
+    else
+      redirect_to src_path(@src)
+    end
   end
 
   def update
-    @tmp = SrcReview.where("src_id="+@src.id.to_s+" AND user_id="+current_user.id.to_s).first
+    @tmp = SrcReview.where("src_id=? AND user_id=?",@src.id,current_user.id).first
     if (not @tmp.blank?)
       @src_review=SrcReview.find(@tmp.id)
       @src_review.update(src_review_params)
@@ -51,7 +60,7 @@ class SrcReviewsController < ApplicationController
   end
 
   def destroy
-    @tmp = SrcReview.where("src_id="+@src.id.to_s+" AND user_id="+current_user.id.to_s).first
+    @tmp = SrcReview.where("src_id=? AND user_id=?",@src.id,current_user.id).first
     if (not @tmp.blank?)
       @src_review=SrcReview.find(@tmp.id)
       @src_review.destroy

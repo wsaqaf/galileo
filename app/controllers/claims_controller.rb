@@ -32,9 +32,13 @@ class ClaimsController < ApplicationController
         output=""
         preview = Thumbnail.new(params[:url])
         imglist=""
+        titl=""
+        desc=""
         if !preview.blank?
           if !preview.title.nil? and !preview.description.nil?
             i=0
+            titl=preview.title
+            desc=preview.description
             imglist="var images= ["
             preview.images.each do |img|
               imglist=imglist+"'"+img.src.to_s+"',"
@@ -48,10 +52,14 @@ class ClaimsController < ApplicationController
               output=output+'<div style="text-align: left"><img src="'+preview.images.first.src.to_s+'" id="cimg" height=75 />'
             elsif i==1
               output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left"><img src="'+preview.images.first.src.to_s+'" id="cimg" height=75 /><br>'
+            elsif is_img(params[:url])
+              output=output+'<div id="final_url_preview" class="fragment"><div style="text-align: left"><img src="'+params[:url]+'" id="cimg" height=70 /><br>'
+              titl=params[:url]
+              desc="Image URL"
             else
-              output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left"><br>'
+              output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left">'
             end
-            output=output+"\n<h3><a href=\""+params[:url]+"\" target=_blank>"+preview.title+"</a></h3><p class=\"text\">"+preview.description+"</p><br></div></div>"
+            output=output+"\n<h3><a href=\""+params[:url]+"\" target=_blank>"+titl+"</a></h3><p class=\"text\">"+desc+"</p><br></div></div>"
           end
       end
         render json: output;
@@ -73,7 +81,7 @@ class ClaimsController < ApplicationController
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""
-    dependent_reviews=ClaimReview.where("claim_id = "+@claim.id.to_s).count("id")
+    dependent_reviews=ClaimReview.where("claim_id = ?",@claim.id).count("id")
     if (dependent_reviews>0)
       @warning_msg="Deleting this record will also delete "
       @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")+".\n"
@@ -97,6 +105,9 @@ class ClaimsController < ApplicationController
   end
 
   def edit
+    if current_user.id!=@claim.user_id
+      redirect_to claim_path(@claim)
+    end
   end
 
   def update
@@ -108,12 +119,21 @@ class ClaimsController < ApplicationController
   end
 
   def destroy
-    ClaimReview.where("claim_id = "+@claim.id.to_s).destroy_all
+    ClaimReview.where("claim_id = ?",@claim.id).destroy_all
     @claim.destroy
     redirect_to root_path
   end
 
   private
+
+    def is_img(url)
+      require 'open-uri'
+      str = open(url)
+      if str.content_type.to_s.include? "image" or str.content_type.to_s.include? "img"
+        return true
+      end
+      return false
+    end
 
     def pl(nmbr,wrd)
       if nmbr>1 then return wrd+"s" end

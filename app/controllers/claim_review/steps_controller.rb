@@ -5,7 +5,6 @@ class ClaimReview::StepsController < ApplicationController
   before_action :check_if_signed_in
   helper_method :is_visible
 
-
   steps *ClaimReview.form_steps
 
   def get_score(field,noun,adj)
@@ -51,17 +50,13 @@ class ClaimReview::StepsController < ApplicationController
   def show
     @claim_review = ClaimReview.find(params[:claim_review_id])
 
-#    if (!params[:s].blank?) then puts("\n\n\n\nprev\n\n\n\n")
-#    else puts("\n\n\n\nnext\n\n\n\n") end
+    if current_user.id!=@claim_review.user_id then redirect_to claim_path(@claim); return end
 
     if @claim.has_image==1 then @first_step="s1"
     elsif @claim.has_video==1 then @first_step="s6"
     elsif @claim.has_text==1 then @first_step="s12"
     else  @first_step="s20"; end
 
-#puts("\n\n\nGOT IN0! Doing: "+step+" and "+params[:s].to_s+"\n\n\n");
-
-#==> Does not work for previous step if img:no,vid:yes,txt:no ##
     if step.tr('s', '').to_i.between?(1,5) and @claim.has_image!=1 then jump_to2(:s6,:s6); return
     elsif step.tr('s', '').to_i.between?(2,5) and @claim.has_image==1 and @claim_review.img_review_started!=1 then jump_to2(:s1,:s6); return
     elsif step.tr('s', '').to_i.between?(6,11) and @claim.has_video!=1 then jump_to2(:s5,:s12); return
@@ -75,6 +70,8 @@ class ClaimReview::StepsController < ApplicationController
 
   def update
       @claim_review = ClaimReview.find(params[:claim_review_id])
+      if current_user.id!=@claim_review.user_id then redirect_to claim_path(@claim); return end
+
       @claim_review.update(claim_review_params(step).merge(user_id: current_user.id))
 
       if step == "s1" and @claim_review.img_review_started!=1 then jump_to(:s6)

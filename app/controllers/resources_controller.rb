@@ -5,10 +5,10 @@ class ResourcesController < ApplicationController
 
     def index
       if (params[:term].present?)
-        @resources = Resource.order(:name).where("name like '%"+params[:term]+"%'")
+        @resources = Resource.order(:name).where("name like ?","'%"+params[:term]+"%'")
         render json: @resources.map(&:name)
       elsif (params[:q].present?)
-        tmp=Resource.order(:name).where("name like '%"+params[:q]+"%'")
+        tmp=Resource.order(:name).where("name like ?","'%"+params[:q]+"%'")
         @total_count=tmp.count
         @pagy, @resources = pagy(tmp, items: 10)
       else
@@ -40,9 +40,16 @@ class ResourcesController < ApplicationController
     end
 
     def edit
+      if current_user.id!=@resource.user_id
+        redirect_to resource_path(@resource)
+      end
     end
 
     def update
+      if current_user.id!=@resource.user_id
+        redirect_to resource_path(@resource)
+        return
+      end
       if @resource.update(resource_params)
         redirect_to resource_path(@resource)
       else

@@ -41,8 +41,8 @@ class SrcsController < ApplicationController
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""
-    dependent_claims=Claim.where("src_id = "+@src.id.to_s).count("id")
-    dependent_reviews=SrcReview.where("src_id = "+@src.id.to_s).count("id")
+    dependent_claims=Claim.where("src_id = ?",@src.id).count("id")
+    dependent_reviews=SrcReview.where("src_id = ?",@src.id).count("id")
     if (dependent_claims>0 or dependent_reviews>0)
         @warning_msg="Deleting this record will also delete "
         if (dependent_claims>0)
@@ -72,9 +72,16 @@ class SrcsController < ApplicationController
   end
 
   def edit
+    if current_user.id!=@src.user_id
+      redirect_to src_path(@src)
+    end
   end
 
   def update
+    if current_user.id!=@src.user_id
+      redirect_to src_path(@src)
+      return
+    end
     if @src.update(src_params)
       redirect_to src_path(@src)
     else
@@ -83,12 +90,12 @@ class SrcsController < ApplicationController
   end
 
   def destroy
-    dependent_claims = Claim.where("src_id = "+@src.id.to_s)
+    dependent_claims = Claim.where("src_id = ?",@src.id)
     dependent_claims.each do |d_claim|
-        ClaimReview.where("claim_id = "+d_claim.id.to_s).destroy_all
+        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
     end
     dependent_claims.destroy_all
-    SrcReview.where("src_id = "+@src.id.to_s).destroy_all
+    SrcReview.where("src_id = ?",@src.id).destroy_all
     @src.destroy
     redirect_to srcs_path
   end

@@ -43,8 +43,8 @@ class MediaController < ApplicationController
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""
-    dependent_claims=Claim.where("medium_id = "+@medium.id.to_s).count("id")
-    dependent_reviews=MediumReview.where("medium_id = "+@medium.id.to_s).count("id")
+    dependent_claims=Claim.where("medium_id = ?",@medium.id).count("id")
+    dependent_reviews=MediumReview.where("medium_id = ?",@medium.id).count("id")
     if (dependent_claims>0 or dependent_reviews>0)
         @warning_msg="Deleting this record will also delete "
         if (dependent_claims>0)
@@ -73,9 +73,16 @@ class MediaController < ApplicationController
   end
 
   def edit
+    if current_user.id!=@medium.user_id
+      redirect_to medium_path(@medium)
+    end
   end
 
   def update
+    if current_user.id!=@medium.user_id
+      redirect_to medium_path(@medium)
+      return
+    end
     if @medium.update(medium_params)
       redirect_to medium_path(@medium)
     else
@@ -84,12 +91,12 @@ class MediaController < ApplicationController
   end
 
   def destroy
-    dependent_claims = Claim.where("medium_id = "+@medium.id.to_s)
+    dependent_claims = Claim.where("medium_id = ?",@medium.id)
     dependent_claims.each do |d_claim|
-        ClaimReview.where("claim_id = "+d_claim.id.to_s).destroy_all
+        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
     end
     dependent_claims.destroy_all
-    MediumReview.where("medium_id = "+@medium.id.to_s).destroy_all
+    MediumReview.where("medium_id = ?",@medium.id).destroy_all
     @medium.destroy
     redirect_to media_path
   end

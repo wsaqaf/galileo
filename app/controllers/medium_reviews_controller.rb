@@ -4,11 +4,11 @@ class MediumReviewsController < ApplicationController
 
 
   def index
-      @medium_reviews = MediumReview.all.order("created_at DESC").where("medium_id="+@medium.id.to_s+" AND ((medium_review_sharing_mode=1 AND medium_review_verdict!='') OR  user_id="+current_user.id.to_s+")")
+      @medium_reviews = MediumReview.all.order("created_at DESC").where("medium_id=? AND ((medium_review_sharing_mode=1 AND medium_review_verdict!='') OR  user_id=?)",@medium.id,current_user.id)
   end
 
   def show
-    @tmp = MediumReview.where("id="+params[:id]+" AND (medium_review_sharing_mode=1 OR user_id="+current_user.id.to_s+")").first
+    @tmp = MediumReview.where("id=? AND (medium_review_sharing_mode=1 OR user_id=?)",params[:id],current_user.id).first
     if (not @tmp.blank?)
       @medium_review=MediumReview.find(@tmp.id)
     else
@@ -34,10 +34,19 @@ class MediumReviewsController < ApplicationController
   end
 
   def edit
+    @tmp = MediumReview.where("medium_id=? AND user_id=?",@medium.id,current_user.id).first
+    if (@tmp.blank?)
+      @medium_review=MediumReview.find(@tmp.id)
+      if current_user.id!=@medium_review.user_id
+        redirect_to medium_medium_review_path(@medium,@medium_review)
+      end
+    else
+      redirect_to medium_path(@medium)
+    end
   end
 
   def update
-    @tmp = MediumReview.where("medium_id="+@medium.id.to_s+" AND user_id="+current_user.id.to_s).first
+    @tmp = MediumReview.where("medium_id=? AND user_id=?",@medium.id,current_user.id).first
     if (not @tmp.blank?)
       @medium_review=MediumReview.find(@tmp.id)
       @medium_review.update(medium_review_params)
@@ -46,7 +55,7 @@ class MediumReviewsController < ApplicationController
   end
 
   def destroy
-    @tmp = MediumReview.where("medium_id="+@medium.id.to_s+" AND user_id="+current_user.id.to_s).first
+    @tmp = MediumReview.where("medium_id=? AND user_id=?",@medium.id,current_user.id).first
     if (not @tmp.blank?)
       @medium_review=MediumReview.find(@tmp.id)
       @medium_review.destroy
