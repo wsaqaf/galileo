@@ -39,7 +39,5 @@
   <% if @resource.user_id == current_user.id %>
     <%= link_to "Edit", edit_resource_path(@resource) %>
     <%= link_to "Delete", resource_path(@resource), method: :delete, data: { confirm: "Are you sure?"} %>
-  <% else %>
-  <%= link_to "Associate", edit_resource_path(@resource) %>
   <% end %>
 </div>

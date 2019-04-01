@@ -80,7 +80,7 @@ function do_submit(s)
 }
 function update_display(s)
  {
-  if ($('#skip_preview').is(':checked')) { $("#preview_block").hide(); $('#'+s+'_url_preview').val(''); }
+  if ($('#skip_preview').is(':checked')) { $("#preview_block").hide(); $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(' '); }
   else { $("#preview_block").show(); URLPreview(s); }
 }
 function addslashes( str ) { return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0'); }
@@ -90,7 +90,7 @@ function URLPreview(s)
   const element = document.getElementById(s+'_url');
   var q = element.value;
   q=$.trim(q);
-  if (q.length==0) { $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(''); return ; }
+  if (q.length==0) { $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(' '); return ; }
   $.ajax({
     url: '/claims/',
     type: 'get',
@@ -99,11 +99,11 @@ function URLPreview(s)
     success:function(result)
       {
         if (result.length>0) { $('#'+s+'_url_preview').val(addslashes(result)); $("#url_preview_block").html("<div id='preview_block'>"+result+"</div><input type='checkbox' id='skip_preview' value=1 onchange='update_display(\""+s+"\")'><small> Skip preview</small><br>"); }
-        else { $('#'+s+'_url_preview').val(''); $("#url_preview_block").html("<center><small>[URL does not have a preview]</small></center>"); }
+        else { $('#'+s+'_url_preview').val(' '); $("#url_preview_block").html("<center><small>[URL does not have a preview]</small></center>"); }
       },
     error:function()
       {
-        $('#'+s+'_url_preview').val(''); $("#url_preview_block").html("<center><small>[URL does not have a preview]</small></center>");
+        $('#'+s+'_url_preview').val(' '); $("#url_preview_block").html("<center><small>[URL does not have a preview]</small></center>");
       }
     });
  }

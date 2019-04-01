@@ -46,23 +46,19 @@ module ApplicationHelper
     end
 
     #Related Fact Checks
+    if resource.url.downcase.include? "mediabiasfactcheck.com"
+      if (@medium.present?)
+        results="<strong><a href='"+resource.url+"/?s="+@medium.name+"' target=_blank>Check if media is rated</a></strong> by "
+      end
+    end
+
+    #Related Fact Checks
     if resource.url.downcase.include? "relatedfactchecks.org"
       if (@claim.present?)
         results="<strong><a href='"+resource.url+"/search?url="+@claim.url+"' target=_blank>Check if claim is already fact-checked</a></strong> using "
       end
     end
 
-    #TinEye Reverse Image Search
-    if name.include? "tineye"
-      if @claim.present?
-        puts("\n\n\n\n["+resource_name+"!!!]\n\n\n\n")
-        require "uri"
-        require 'net/http'
-        uri = URI('https://tineye.com/search')
-        res = Net::HTTP.post_form(uri, 'url_box' => 'https://www.newstarget.com/wp-content/uploads/2016/09/BALLOT.jpg')
-        puts res.body
-      end
-    end
 
     return results
   end
