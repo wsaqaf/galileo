@@ -114,7 +114,7 @@
                   <% end %>
               
                   <% if (@claim_review.user_id==current_user.id or @claim_review.review_sharing_mode==1) %>
-                      <li>Has the video undergone any audio manipulation? Are the voices emerging from the characters in the video matching those who said them?
+                      <li>Has the video undergone any audio manipulation? Are there discrepancies in the voices/audio in the video  (e.g., mismatch between character and his voice)?
                       <%= f.select :vid_audio_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.vid_audio_discrepency), {}, disabled: @claim_review.user_id!=current_user.id %>
                       <br>
                       </li>
