@@ -13,12 +13,12 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-            <%= link_to "Fact Check Assistant (FCA)", root_path, class: "navbar-brand" %>
+          <%= link_to image_tag('/logo.png', alt: 'Fact Check Assistant', title: 'Fact Check Assistant'), root_path %>&nbsp;&nbsp;&nbsp;
         </div>
 
         <ul class="nav navbar-nav">
           <% if user_signed_in? %>
-            <li style="border-left:6px solid yellow;height:50px;"></li>
+            <li style="border-left:1px solid black;height:50px; left-padding:5px;"></li>
             <% if !request.fullpath.include? "claim" then %><li><%= link_to "Claims", claims_path %></li>
             <% else %><li><%= link_to "Claims", claims_path, style: 'color:#0A076D;font-weight:bold;' %></li><% end %>
             <% if !request.fullpath.include? "medi" then %><li><%= link_to "Media", media_path %></li>
