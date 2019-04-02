@@ -7,14 +7,14 @@ module ApplicationHelper
     resource = Resource.where("name=?",resource_name).first
 
     #Google fact-check resource
-    if name.include? "google" and name.include? "fact"
+    if name.include? "google" and name.include? "search"
       if (@claim.present?)
-        results="<strong><a href='"+resource.url+@claim.title+"' target=_blank>Search title</a></strong>"
+        results="<strong><a href='https://www.google.com/search?q=\"fact-check\""+@claim.title+"' target=_blank>Search title</a></strong>"
         if (!@claim.url_preview.blank?)
             if (@claim.url_preview.include? "<p")
               description=@claim.url_preview.match(/<p[^>]+?>([^<]+)/)[1]
               if (!description.blank?)
-                results=results+" - <strong><a href='"+resource.url+description+"' target=_blank>Search description</a></strong>"
+                results=results+" - <strong><a href='https://www.google.com/search?q=\"fact-check\""+description+"' target=_blank>Search description</a></strong>"
               end
             end
         end
@@ -46,16 +46,16 @@ module ApplicationHelper
     end
 
     #Related Fact Checks
-    if resource.url.downcase.include? "mediabiasfactcheck.com"
+    if name..include? "media" and name.include? "bias"
       if (@medium.present?)
-        results="<strong><a href='"+resource.url+"/?s="+@medium.name+"' target=_blank>Check if media is rated</a></strong> by "
+        results="<strong><a href='https://mediabiasfactcheck.com/?s="+@medium.name+"' target=_blank>Check if media is rated</a></strong> by "
       end
     end
 
     #Related Fact Checks
-    if resource.url.downcase.include? "relatedfactchecks.org"
+    if name.include? "related" and name.include? "factchecks"
       if (@claim.present?)
-        results="<strong><a href='"+resource.url+"/search?url="+@claim.url+"' target=_blank>Check if claim is already fact-checked</a></strong> using "
+        results="<strong><a href='https://relatedfactchecks.org/search?url="+@claim.url+"' target=_blank>Check if claim was fact-checked</a></strong> using "
       end
     end
 
