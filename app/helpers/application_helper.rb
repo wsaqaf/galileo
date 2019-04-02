@@ -9,12 +9,12 @@ module ApplicationHelper
     #Google fact-check resource
     if name.include? "google" and name.include? "search"
       if (@claim.present?)
-        results="<strong><a href='https://www.google.com/search?q=\"fact-check\""+@claim.title+"' target=_blank>Search title</a></strong>"
+        results="<strong><a href='https://www.google.com/search?q=\"fact-check\"+"+@claim.title+"' target=_blank>Search title</a></strong>"
         if (!@claim.url_preview.blank?)
             if (@claim.url_preview.include? "<p")
               description=@claim.url_preview.match(/<p[^>]+?>([^<]+)/)[1]
               if (!description.blank?)
-                results=results+" - <strong><a href='https://www.google.com/search?q=\"fact-check\""+description+"' target=_blank>Search description</a></strong>"
+                results=results+" - <strong><a href='https://www.google.com/search?q=\"fact-check\"+"+description+"' target=_blank>Search description</a></strong>"
               end
             end
         end
