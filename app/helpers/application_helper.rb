@@ -46,7 +46,7 @@ module ApplicationHelper
     end
 
     #Related Fact Checks
-    if name..include? "media" and name.include? "bias"
+    if name.include? "media" and name.include? "bias"
       if (@medium.present?)
         results="<strong><a href='https://mediabiasfactcheck.com/?s="+@medium.name+"' target=_blank>Check if media is rated</a></strong> by "
       end
