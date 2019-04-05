@@ -4,15 +4,16 @@ module ApplicationHelper
   def try_resource(resource_name,type)
     results=""
     name_field=""
-    url_field=""
+    domain_name=""
     if (type=="medium") then obj=@medium; elsif (type=="src") then obj=@src; else obj=@claim; end
     if type=="claim" then name_field=obj.title else name_field=obj.name; end
+    if (type=="src") then type="source"; end
     if (obj.present?)
       if (obj.url.present?)
         begin
-          url_field=URI.parse(obj.url).host
+          domain_name=URI.parse(obj.url).host
         rescue
-          url_field=obj.url
+          domain_name=obj.url
         end
       end
     end
@@ -24,13 +25,13 @@ module ApplicationHelper
 
     #Google Reverse Image Search
     if name.include? "google" and name.include? "image"
-      if url_field
+      if domain_name
         results="<strong><a href='https://www.google.com/searchbyimage?image_url="+obj.url+"' target=_blank>Reverse image search</a></strong> using "
       end
     end
 
     if name.include? "yandex"
-      if url_field
+      if domain_name
         results="<strong><a href='https://yandex.com/images/search?source=collections&url="+obj.url+"&rpt=imageview' target=_blank>Reverse image search</a></strong> using "
       end
     end
@@ -41,7 +42,7 @@ module ApplicationHelper
 
     #WatchFrameByFrame
     if name.include? "watchframebyframe"
-      if url_field
+      if domain_name
         if (obj.url.include? "youtube.com" or obj.url.include? "youtu.be" or obj.url.include? "vimeo.com")
           results="<strong><a href='http://www.watchframebyframe.com/search?search="+obj.url+"' target=_blank>Open video</a></strong> using "
         end
@@ -76,33 +77,59 @@ module ApplicationHelper
 
     #List of fake websites
     if name.include? "wikipedia" or name.include? "factcheck.org"
-      if (!url_field.blank?)
-        results="<strong><a href='https://www.google.com/search?q="+url_field+"+site%3A"+resource.url+"' target=_blank>Check if medium is blacklisted</a></strong> on "
+      if (!domain_name.blank?)
+        results="<strong><a href='https://www.google.com/search?q="+domain_name+"+site%3A"+resource.url+"' target=_blank>Check if "+type+" is blacklisted</a></strong> on "
       else
-        results="<strong><a href='https://www.google.com/search?q="+name_field+"+site%3A"+resource.url+"' target=_blank>Check if medium is blacklisted</a></strong> on "
+        results="<strong><a href='https://www.google.com/search?q="+name_field+"+site%3A"+resource.url+"' target=_blank>Check if "+type+" is blacklisted</a></strong> on "
       end
     end
 
     #Related Fact Checks
     if name.include? "media" and name.include? "bias"
-      results="<strong><a href='https://mediabiasfactcheck.com/?s="+name_field+"' target=_blank>Check ratings of the medium </a>"
-      if (!url_field.blank?)
-        results=results+" or its <a href='https://mediabiasfactcheck.com/?s="+url_field+"' target=_blank>website</a></strong> using "
+      results="<strong><a href='https://mediabiasfactcheck.com/?s="+name_field+"' target=_blank>Check ratings of the "+type+" </a>"
+      if (!domain_name.blank?)
+        results=results+" or its <a href='https://mediabiasfactcheck.com/?s="+domain_name+"' target=_blank>URL</a></strong> using "
       end
     end
 
     #Related Fact Checks
     if name.include? "related" and name.include? "factchecks"
-      if (!url_field.blank?)
+      if (!domain_name.blank?)
           results="<strong><a href='https://relatedfactchecks.org/search?url="+obj.url+"' target=_blank>Check if claim was fact-checked</a></strong> using "
       end
     end
 
     #Web of Trust
     if name.include? "web" and name.include? "trust"
-      if (!url_field.blank?)
-          results="<strong><a href='https://www.mywot.com/en/scorecard/"+url_field+"' target=_blank>Check the medium's reputation</a></strong> by "
+      if (!domain_name.blank?)
+          results="<strong><a href='https://www.mywot.com/en/scorecard/"+domain_name+"' target=_blank>Check the website's reputation</a></strong> by "
       end
+    end
+
+    if name.include? "viewdns" or name.include? "view dns"
+      if (!domain_name.blank?)
+          results="<strong><a href='https://viewdns.info/whois/?domain="+domain_name+"' target=_blank>Get domain's WHOIS details</a></strong> using "
+      end
+    end
+
+    if name.include? "alexa"
+      if (!domain_name.blank?)
+          results="<strong><a href='https://www.alexa.com/siteinfo/"+domain_name+"' target=_blank>Get domain's ranking</a></strong> using "
+      end
+    end
+
+    if name.include? "similarweb" or name.include? "similar web"
+      if (!domain_name.blank?)
+          results="<strong><a href='https://www.similarweb.com/website/"+domain_name+"' target=_blank>Get information about the domain</a></strong> using "
+      end
+    end
+
+    if name.include? "pipl"
+      results="<strong><a href='https://pipl.com/search/?q="+name_field+"' target=_blank>Learn more about this "+type+"</a></strong> using "
+    end
+
+    if name.include? "twitter"
+      results="<strong><a href='https://twitter.com/search?l=&q=%22"+name_field+"%22&src=typd&lang=en' target=_blank>Search this "+type+"</a></strong> on "
     end
 
     return results
