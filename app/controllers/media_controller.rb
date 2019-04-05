@@ -31,7 +31,7 @@ class MediaController < ApplicationController
         tmp=Medium.joins(:medium_reviews).where("media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
         @total_count=tmp.count.length
       else
-        tmp=Medium.where(qry)
+        tmp=Medium.where(qry).order("created_at DESC")
         @total_count=tmp.count
       end
        @pagy, @media = pagy(tmp, items: 10)
@@ -41,7 +41,7 @@ class MediaController < ApplicationController
      tmp=Medium.joins(:medium_reviews).where("media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
      @total_count=tmp.count.length
    else
-     tmp=Medium.where(qry)
+     tmp=Medium.where(qry).order("created_at DESC")
      @total_count=tmp.count
    end
    @pagy, @media = pagy(tmp, items: 10)

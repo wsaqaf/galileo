@@ -42,9 +42,9 @@ class ApplicationController < ActionController::Base
         when "r"
           return "count("+page+"_reviews."+page2+"review_verdict) DESC"
         when "rp"
-          return "sum("+page+"_reviews."+page2+"review_verdict) DESC"
+          return "sum("+page+"_reviews."+page2+"review_verdict)/(count("+page+"_reviews."+page2+"review_verdict)) DESC"
         when "rn"
-          return "sum("+page+"_reviews."+page2+"review_verdict) ASC"
+          return "sum("+page+"_reviews."+page2+"review_verdict)/(count("+page+"_reviews."+page2+"review_verdict)) ASC"
         end
       end
 

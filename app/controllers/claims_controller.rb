@@ -70,7 +70,7 @@ class ClaimsController < ApplicationController
           tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
           @total_count=tmp.count.length
         else
-          tmp=Claim.where(qry)
+          tmp=Claim.where(qry).order("created_at DESC")
           @total_count=tmp.count
         end
         @pagy, @claims = pagy(tmp, items: 10)
@@ -80,7 +80,7 @@ class ClaimsController < ApplicationController
         tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
         @total_count=tmp.count.length
       else
-        tmp=Claim.where(qry)
+        tmp=Claim.where(qry).order("created_at DESC")
       end
       @total_count=tmp.count
       @pagy, @claims = pagy(tmp, items: 10)

@@ -30,7 +30,7 @@ class SrcsController < ApplicationController
         tmp=Src.joins(:src_reviews).where("srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
         @total_count=tmp.count.length
       else
-        tmp=Src.where(qry)
+        tmp=Src.where(qry).order("created_at DESC")
         @total_count=tmp.count
       end
        @pagy, @srcs = pagy(tmp, items: 10)
@@ -40,7 +40,7 @@ class SrcsController < ApplicationController
      tmp=Src.joins(:src_reviews).where("srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
      @total_count=tmp.count.length
    else
-     tmp=Src.where(qry)
+     tmp=Src.where(qry).order("created_at DESC")
      @total_count=tmp.count
    end
      @pagy, @srcs = pagy(tmp, items: 10)
