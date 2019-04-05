@@ -74,6 +74,8 @@ module ApplicationHelper
     if name.include? "wikipedia" or name.include? "factcheck.org"
       if (obj.present?)
         if (obj.url?)
+          results="<strong><a href='https://www.google.com/search?q="+obj.url+"+site%3A"+resource.url+"' target=_blank>Check if medium is blacklisted</a></strong> on "
+        else
           results="<strong><a href='https://www.google.com/search?q="+name_field+"+site%3A"+resource.url+"' target=_blank>Check if medium is blacklisted</a></strong> on "
         end
       end
