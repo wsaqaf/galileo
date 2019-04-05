@@ -5,36 +5,46 @@ class MediaController < ApplicationController
 
 
   def index
+    if (params[:sort].present?)
+      @sort_msg=sort_bar("Media",params[:sort])
+    else
+      @sort_msg=sort_bar("Media","td")
+    end
     if (params[:term].present?)
       @media = Medium.order(:name).where("name like ?", "%#{params[:term]}%")
       render json: @media.map(&:name).uniq; return
     elsif (params[:filter]=="r")
       qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='')"
-      @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r' selected>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Media","r")
     elsif (params[:filter]=="u")
       qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.user_id="+current_user.id.to_s+")"
-      @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u' selected>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Media","u")
     elsif (params[:filter]=="n")
       qry="media.id not in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='')"
-      @filter_reviews ="<select id='filter_reviews'><option value='media'>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n' selected>Media with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Media","n")
     elsif (params[:q].present?)
-      @filter_reviews ="<select id='filter_reviews'><option value='media' selected>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Media","a")
       qry="name like '%"+params[:q]+"%'"
     else
-      @filter_reviews ="<select id='filter_reviews'><option value='media' selected>All Media</option><option value='?filter=r'>Media with shared reviews</option><option value='?filter=u'>Media you reviewed</option><option value='?filter=n'>Media with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-       tmp=Medium.all.order("created_at DESC")
-       @total_count=tmp.count
+      @filter_msg=filter_bar("Media","a")
+      if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+        tmp=Medium.joins(:medium_reviews).where("media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
+        @total_count=tmp.count.length
+      else
+        tmp=Medium.where(qry)
+        @total_count=tmp.count
+      end
        @pagy, @media = pagy(tmp, items: 10)
        return
      end
-     tmp=Medium.where(qry).order("created_at DESC")
+   if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+     tmp=Medium.joins(:medium_reviews).where("media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
+     @total_count=tmp.count.length
+   else
+     tmp=Medium.where(qry)
      @total_count=tmp.count
-     @pagy, @media = pagy(tmp, items: 10)
+   end
+   @pagy, @media = pagy(tmp, items: 10)
   end
 
   def show

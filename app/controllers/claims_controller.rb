@@ -3,31 +3,31 @@ class ClaimsController < ApplicationController
   before_action :find_claim, only: [:show, :edit, :update, :destroy]
 
   def index
-      if (params[:filter]=="r")
-        qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1 AND review_verdict!='')"
-        @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r' selected>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
-                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-      elsif (params[:filter]=="u")
-        qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.user_id="+current_user.id.to_s+")"
-        @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u' selected>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
-                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-      elsif (params[:filter]=="n")
-        qry="claims.id not in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1 AND review_verdict!='')"
-        @filter_msg="<select id='filter'><option value='claims'>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n' selected>Claims with no reviews yet</option></select>"+
-                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-      elsif (params[:q].present?)
-        @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
-                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-        qry="title like '%"+params[:q]+"%'"
-      elsif (params[:m].present?)
-        @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
-                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-        qry="medium_id="+params[:m].to_s
-      elsif (params[:s].present?)
-        @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
-                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-        qry="src_id="+params[:s].to_s
-      elsif (params[:url].present?)
+    order=""
+    if (params[:sort].present?)
+      @sort_msg=sort_bar("Claims",params[:sort])
+    else
+      @sort_msg=sort_bar("Claims","td")
+    end
+    if (params[:filter]=="r")
+      qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1 AND review_verdict!='')"
+      @filter_msg=filter_bar("Claims","r")
+    elsif (params[:filter]=="u")
+      qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.user_id="+current_user.id.to_s+")"
+      @filter_msg=filter_bar("Claims","u")
+    elsif (params[:filter]=="n")
+      qry="claims.id not in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1 AND review_verdict!='')"
+      @filter_msg=filter_bar("Claims","n")
+    elsif (params[:q].present?)
+      @filter_msg=filter_bar("Claims","a")
+      qry="title like '%"+params[:q]+"%'"
+    elsif (params[:m].present?)
+      @filter_msg=filter_bar("Claims","a")
+      qry="medium_id="+params[:m].to_s
+    elsif (params[:s].present?)
+      @filter_msg=filter_bar("Claims","a")
+      qry="src_id="+params[:s].to_s
+    elsif (params[:url].present?)
         @filter_msg=""
         output=""
         preview = Thumbnail.new(params[:url])
@@ -65,14 +65,23 @@ class ClaimsController < ApplicationController
         render json: output;
         return
       else
-        @filter_msg ="<select id='filter'><option value='claims' selected>All Claims</option><option value='?filter=r'>Claims with shared reviews</option><option value='?filter=u'>Claims you reviewed</option><option value='?filter=n'>Claims with no reviews yet</option></select>"+
-                     "<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-        tmp=Claim.all.order("created_at DESC")
-        @total_count=tmp.count
+        @filter_msg=filter_bar("Claims","a")
+        if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+          tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+          @total_count=tmp.count.length
+        else
+          tmp=Claim.where(qry)
+          @total_count=tmp.count
+        end
         @pagy, @claims = pagy(tmp, items: 10)
         return
       end
-      tmp=Claim.where(qry).order("created_at DESC")
+      if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+        tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+        @total_count=tmp.count.length
+      else
+        tmp=Claim.where(qry)
+      end
       @total_count=tmp.count
       @pagy, @claims = pagy(tmp, items: 10)
   end

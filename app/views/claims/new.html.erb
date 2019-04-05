@@ -16,6 +16,7 @@
     <li>
     URL of where the claim is found (if available)
     <%= f.text_field :url, :onchange => "URLPreview('claim')", class: 'field-long', :autocomplete=>"off" %>
+    <i><small>* Note: If the claim is an image, use that link as the URL (e.g., http://website.com/image.jpg)</small></i>
     </li>
     <div id="url_preview_block"></div>
     <%= f.hidden_field :url_preview %>

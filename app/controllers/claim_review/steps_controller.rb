@@ -105,12 +105,9 @@ class ClaimReview::StepsController < ApplicationController
   private
 
   def jump_to2(dest_p,dest_n)
-#    puts("\n\n\nhere0: prev:"+params[:s].to_s+" cp:"+claim_claim_review_step_path(@claim.id,@claim_review.id,dest_p)+"?s=prev"+"\n\n\n")
     if !params[:s].blank?
-#      puts("\n\n\nhere1: "+claim_claim_review_step_path(@claim.id,@claim_review.id,dest_p)+"?s=prev"+"\n\n\n")
       redirect_to claim_claim_review_step_path(@claim.id,@claim_review.id,dest_p)+"?s=prev"; return
     else
-#      puts("\n\n\nhere2: "+dest_n.to_s+"?s=prev"+"\n\n\n")
       redirect_to claim_claim_review_step_path(@claim.id,@claim_review.id,dest_n); return
     end
     render_wizard

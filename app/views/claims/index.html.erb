@@ -1,7 +1,7 @@
 <div class="container">
   <% if user_signed_in? %>
     <div class="row"><div class="columnl"><%= link_to "Add Claim", new_claim_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
-      <%= @filter_msg.html_safe %>
+      <%= @filter_msg.html_safe %><%= @sort_msg.html_safe %>
     </div><div class="columnr">
       <%= form_tag(claims_path, method: :get) do %>
         Search: <%= text_field_tag :q, params[:q] %>

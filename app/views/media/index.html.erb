@@ -1,6 +1,6 @@
 <div class="container">
   <div class="row"><div class="columnl"><%= link_to "Add Medium", new_medium_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
-    <%= @filter_reviews.html_safe %>
+    <%= @filter_msg.html_safe %><%= @sort_msg.html_safe %>
   </div><div class="columnr">
     <%= form_tag(media_path, method: :get) do %>
       Search: <%= text_field_tag :q, params[:q] %>

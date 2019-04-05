@@ -4,35 +4,45 @@ class SrcsController < ApplicationController
   before_action :check_if_signed_in
 
   def index
+    if (params[:sort].present?)
+      @sort_msg=sort_bar("Srcs",params[:sort])
+    else
+      @sort_msg=sort_bar("Srcs","td")
+    end
     if (params[:term].present?)
       @srcs = Src.order(:name).where("name like ?", "%#{params[:term]}%")
       render json: @srcs.map(&:name).uniq; return
     elsif (params[:filter]=="r")
       qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
-      @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r' selected>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Srcs","r")
     elsif (params[:filter]=="u")
       qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.user_id="+current_user.id.to_s+")"
-      @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u' selected>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Srcs","u")
     elsif (params[:filter]=="n")
       qry="srcs.id not in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
-      @filter_reviews ="<select id='filter_reviews'><option value='srcs'>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n' selected>Sources with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Srcs","n")
     elsif (params[:q].present?)
-      @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+      @filter_msg=filter_bar("Srcs","a")
       qry="name like '%"+params[:q]+"%'"
     else
-      @filter_reviews ="<select id='filter_reviews'><option value='srcs' selected>All Sources</option><option value='?filter=r'>Sources with shared reviews</option><option value='?filter=u'>Sources you reviewed</option><option value='?filter=n'>Sources with no reviews yet</option></select>"+
-                   "<script>$(function(){$('#filter_reviews').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
-       tmp=Src.all.order("created_at DESC")
-       @total_count=tmp.count
+      @filter_msg=filter_bar("Srcs","a")
+      if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+        tmp=Src.joins(:src_reviews).where("srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
+        @total_count=tmp.count.length
+      else
+        tmp=Src.where(qry)
+        @total_count=tmp.count
+      end
        @pagy, @srcs = pagy(tmp, items: 10)
        return
      end
-     tmp=Src.where(qry).order("created_at DESC")
+   if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+     tmp=Src.joins(:src_reviews).where("srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
+     @total_count=tmp.count.length
+   else
+     tmp=Src.where(qry)
      @total_count=tmp.count
+   end
      @pagy, @srcs = pagy(tmp, items: 10)
   end
 
