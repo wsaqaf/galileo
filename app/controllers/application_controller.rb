@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
         f.each do |key, value|
             if key==filter_option then f[key]="selected"; end
         end
-        return "<select id='filter'><option value='"+page1+"' "+f['a']+">All "+page2+"</option><option value='?filter=r' "+f['r']+">"+page+" with shared reviews</option><option value='?filter=u' "+f['u']+">"+page+" you reviewed</option><option value='?filter=n' "+f['n']+">"+page+" with no reviews yet</option></select>\n<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+        return "<select id='filter'><option value='"+page1+"' "+f['a']+">All "+page2+"</option><option value='?filter=r' "+f['r']+">"+page+" that have been reviewed</option><option value='?filter=u' "+f['u']+">"+page+" you reviewed</option><option value='?filter=n' "+f['n']+">"+page+" with no reviews yet</option></select>\n<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       end
 
       def sort_statement(page,sorting)
