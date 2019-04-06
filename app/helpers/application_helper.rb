@@ -135,5 +135,11 @@ module ApplicationHelper
     return results
   end
 
+  if name.include? "real" and name.include? "satire"
+    if (!domain_name.blank?)
+        results="<strong><a href='https://realorsatire.com/?s="+domain_name+"' target=_blank>See if the "+type+" is satire or real</a></strong> using "
+    end
+  end
+
 
 end
