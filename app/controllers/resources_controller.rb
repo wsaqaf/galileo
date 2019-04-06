@@ -40,13 +40,13 @@ class ResourcesController < ApplicationController
     end
 
     def edit
-      if current_user.id!=@resource.user_id
+      if current_user.id!=@resource.user_id and current_user.id!=1
         redirect_to resource_path(@resource)
       end
     end
 
     def update
-      if current_user.id!=@resource.user_id
+      if current_user.id!=@resource.user_id and current_user.id!=1
         redirect_to resource_path(@resource)
         return
       end

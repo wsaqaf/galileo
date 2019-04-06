@@ -11,12 +11,12 @@
       <% end %>
     <ul>
       <li>What is the name of the resource<span class='required'>*</span>
-      <%= f.text_field :name, :onchange => "NewMedium(0,'resource','resources','resources')", class: 'field-long', disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id, :autocomplete=>"off" %>
+      <%= f.text_field :name, :onchange => "NewMedium(0,'resource','resources','resources')", class: 'field-long', disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <div id="resource_note"></div>
       <li>
       URL
-      <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('resource')", disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id, :autocomplete=>"off" %>
+      <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('resource')", disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block">
         <% if @resource.url_preview.present? %><%== @resource.url_preview.gsub('\"','"').gsub("\\'", "'") %><% else %>No URL preview available<% end %>
@@ -24,15 +24,15 @@
       <%= f.hidden_field :url_preview %>
       <li>
       A link to the tutorial on how to use it
-      <%= f.text_field :tutorial, class: 'field-long', disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id, :autocomplete=>"off" %>
+      <%= f.text_field :tutorial, class: 'field-long', disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <li>
       URL for the icon (logo) representing this resource
-      <%= f.text_field :icon, class: 'field-long', disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id, :autocomplete=>"off" %>
+      <%= f.text_field :icon, class: 'field-long', disabled: (@resource.user_id!=current_user.id and current_user.id!=1), readonly: (@resource.user_id!=current_user.id and current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <li>
       Provide more details about this resource and what it is useful for:
-      <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea', disabled: @resource.user_id!=current_user.id, readonly: @resource.user_id!=current_user.id)%>
+      <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea', disabled: (@resource.user_id!=current_user.id and current_user.id!=1), readonly: (@resource.user_id!=current_user.id and current_user.id!=1)) %>
       </li>
       <li>
       Reference code(s) of the step(s) which this resource is associated to<br>

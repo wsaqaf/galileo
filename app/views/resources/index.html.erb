@@ -14,7 +14,7 @@
     <h4>
      <li><%= link_to resource.name, resource_path(resource) %>
        <%
-          @my_entry = Resource.where(id: resource.id, user_id: current_user.id).first
+          @my_entry = Resource.where("id=? and (user_id=? or ?=1)",resource.id,current_user.id,current_user.id).first
           if (not @my_entry.blank?) %>
             <small>(<%= link_to "Edit", edit_resource_path(@my_entry) %> | <%= link_to "Delete", resource_path(@my_entry), method: :delete, data: { confirm: "Are you sure?"} %>)</small>
          <% end %>
