@@ -74,6 +74,14 @@ class ClaimReview::StepsController < ApplicationController
 
       @claim_review.update(claim_review_params(step).merge(user_id: current_user.id))
 
+      if (params['commit']=="Previous Step")
+          redirect_to previous_wizard_path+'?s=prev'
+          return
+      elsif (params['commit']!="Next Step" && params['commit']!="Finish")
+        all_steps_r=@all_steps.invert
+        redirect_to wizard_path(all_steps_r[params['commit']])
+        return
+      end
       if step == "s1" and @claim_review.img_review_started!=1 then jump_to(:s6)
       elsif step == "s6" and @claim_review.vid_review_started!=1 then jump_to(:s12)
       elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s21) end
@@ -114,6 +122,8 @@ class ClaimReview::StepsController < ApplicationController
   end
 
   def find_claim
+    @all_steps={'s1'=>'Confirm image review','s2'=>'Misleading image context','s3'=>'Image manipulation','s4'=>'Metadata image discrepency','s5'=>'Suspicious attributes','s6'=>'Confirm video review','s7'=>'Misleading context','s8'=>'Video manipulation','s9'=>'Metadata video discrepency','s10'=>'Audio manipulation','s11'=>'Additional clues','s12'=>'Confirm text review','s13'=>'Confirm seriousness','s14'=>'Verifiable sources','s15'=>'Clickbait title','s16'=>'Language quality','s17'=>'Crowd/distance discrepency','s18'=>'Internal source confirmation','s19'=>'External source confirmation','s20'=>'Calculated score','s21'=>'Reviewer Assessment','s22'=>'Sharing setting'}
+
     @claim = Claim.find(params[:claim_id])
   end
 

@@ -45,12 +45,21 @@ class SrcReview::StepsController < ApplicationController
   def update
       @src_review = SrcReview.find(params[:src_review_id])
       @src_review.update(src_review_params(step).merge(user_id: current_user.id))
-      if
-         step=="s6" then @src_review_score=get_score("source","trustworthiness","trustworthy") end
-         if step=="s9"
-           if !params[:src_review][:src_review_sharing_mode].blank? then redirect_to srcs_path;
-           else render_wizard @src_review end
-         else render_wizard @src_review end
+
+      if (params['commit']=="Previous Step")
+          redirect_to previous_wizard_path+'?s=prev'
+          return
+      elsif (params['commit']!="Next Step" && params['commit']!="Finish")
+        all_steps_r=@all_steps.invert
+        redirect_to wizard_path(all_steps_r[params['commit']])
+        return
+      end
+
+      if step=="s6" then @src_review_score=get_score("source","trustworthiness","trustworthy") end
+      if step=="s9"
+        if !params[:src_review][:src_review_sharing_mode].blank? then redirect_to srcs_path;
+        else render_wizard @src_review end
+      else render_wizard @src_review end
 ###Step conditions###
   end
 
@@ -61,6 +70,9 @@ class SrcReview::StepsController < ApplicationController
   private
   def find_src
     @src = Src.find(params[:src_id])
+
+    @all_steps={'s1'=>'Author credentials','s2'=>'Fact-check history','s3'=>'Quality of previous writing','s4'=>'Connected to biased entities','s5'=>'Difficulty to verify authenticity','s6'=>'Other problems','s7'=>'Calculated score','s8'=>'Reviewer assessment','s9'=>'Sharing setting'}
+
   end
 
     def src_review_params(step)

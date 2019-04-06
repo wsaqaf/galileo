@@ -53,6 +53,15 @@ class MediumReview::StepsController < ApplicationController
 
       @medium_review.update(medium_review_params(step).merge(user_id: current_user.id))
 
+      if (params['commit']=="Previous Step")
+          redirect_to previous_wizard_path+'?s=prev'
+          return
+      elsif (params['commit']!="Next Step" && params['commit']!="Finish")
+        all_steps_r=@all_steps.invert
+        redirect_to wizard_path(all_steps_r[params['commit']])
+        return
+      end
+
       if step=="s10" then @medium_review_score=get_score("medium","reliability","reliable")  end
 
       if step=="s13"
@@ -70,6 +79,8 @@ class MediumReview::StepsController < ApplicationController
   private
   def find_medium
     @medium = Medium.find(params[:medium_id])
+
+    @all_steps={'s1'=>'Check blacklist','s2'=>'Fact-check history','s3'=>'Technical security','s4'=>'Whois discrepency','s5'=>'Contact/address discrepency','s6'=>'Known bias','s7'=>'Poor ranking','s8'=>'Lack of liability terms','s9'=>'Lack of flagging means','s10'=>'Other problems','s11'=>'Calculated score','s12'=>'Reviewer assessment','s13'=>'Sharing setting'}
   end
 
     def medium_review_params(step)
