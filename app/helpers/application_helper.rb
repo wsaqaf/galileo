@@ -12,6 +12,7 @@ module ApplicationHelper
       if (obj.url.present?)
         begin
           domain_name=URI.parse(obj.url).host
+          domain_name=domain_name.sub(/^www\./, '')
         rescue
           domain_name=obj.url
         end
@@ -132,13 +133,13 @@ module ApplicationHelper
       results="<strong><a href='https://twitter.com/search?l=&q=%22"+name_field+"%22&src=typd&lang=en' target=_blank>Search this "+type+"</a></strong> on "
     end
 
-    return results
-  end
-
-  if name.include? "real" and name.include? "satire"
-    if (!domain_name.blank?)
-        results="<strong><a href='https://realorsatire.com/?s="+domain_name+"' target=_blank>See if the "+type+" is satire or real</a></strong> using "
+    if name.include? "real" and name.include? "satire"
+      if (!domain_name.blank?)
+          results="<strong><a href='https://realorsatire.com/?s="+domain_name+"' target=_blank>See if the "+type+" is satire or real</a></strong> using "
+      end
     end
+
+    return results
   end
 
 
