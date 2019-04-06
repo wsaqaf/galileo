@@ -22,9 +22,10 @@ module ApplicationHelper
     resource = Resource.where("name=?",resource_name).first
 
 ##################################################
-    #Image-related resources
 
-    #Google Reverse Image Search
+#Image-related resources
+
+#Google Reverse Image Search
     if name.include? "google" and name.include? "image"
       if domain_name
         results="<strong><a href='https://www.google.com/searchbyimage?image_url="+obj.url+"' target=_blank>Reverse image search</a></strong> using "
@@ -37,11 +38,11 @@ module ApplicationHelper
       end
     end
 
-
 ##################################################
-    #video-related resources
 
-    #WatchFrameByFrame
+#video-related resources
+
+#WatchFrameByFrame
     if name.include? "watchframebyframe"
       if domain_name
         if (obj.url.include? "youtube.com" or obj.url.include? "youtu.be" or obj.url.include? "vimeo.com")
@@ -50,16 +51,17 @@ module ApplicationHelper
       end
     end
 
-    #WatchFrameByFrame
+#WatchFrameByFrame
     if name.include? "invid"
       results="<strong><a href='https://chrome.google.com/webstore/detail/mhccpoafgdgbhnjfhkcmgknndkeenfhe' target=_blank>Download</a> and use the browser plugin</a></strong> from "
     end
 
 ##################################################
-    #content-related and general resources
 
+#content-related and general resources
+##################################################
 
-    #Google fact-check resource
+###### Google search for fact-checked stories
     if name.include? "google" and name.include? "search"
 
       if (obj.present?)
@@ -76,7 +78,7 @@ module ApplicationHelper
      end
     end
 
-    #List of fake websites
+#### List of fake websites on wikipedia and factcheck.org (using Google search)
     if name.include? "wikipedia" or name.include? "factcheck.org"
       if (!domain_name.blank?)
         results="<strong><a href='https://www.google.com/search?q="+domain_name+"+site%3A"+resource.url+"' target=_blank>Check if "+type+" is blacklisted</a></strong> on "
@@ -85,7 +87,7 @@ module ApplicationHelper
       end
     end
 
-    #Related Fact Checks
+###### Media Bias Fact Check
     if name.include? "media" and name.include? "bias"
       results="<strong><a href='https://mediabiasfactcheck.com/?s="+name_field+"' target=_blank>Check ratings of the "+type+" </a>"
       if (!domain_name.blank?)
@@ -93,52 +95,70 @@ module ApplicationHelper
       end
     end
 
-    #Related Fact Checks
+#####Related Fact Checks
     if name.include? "related" and name.include? "factchecks"
       if (!domain_name.blank?)
           results="<strong><a href='https://relatedfactchecks.org/search?url="+obj.url+"' target=_blank>Check if claim was fact-checked</a></strong> using "
       end
     end
 
-    #Web of Trust
+#####Web of Trust
     if name.include? "web" and name.include? "trust"
       if (!domain_name.blank?)
           results="<strong><a href='https://www.mywot.com/en/scorecard/"+domain_name+"' target=_blank>Check the website's reputation</a></strong> by "
       end
     end
 
+#### ViewDNS
     if name.include? "viewdns" or name.include? "view dns"
       if (!domain_name.blank?)
           results="<strong><a href='https://viewdns.info/whois/?domain="+domain_name+"' target=_blank>Get domain's WHOIS details</a></strong> using "
       end
     end
 
+##### Alexa website ranking
     if name.include? "alexa"
       if (!domain_name.blank?)
           results="<strong><a href='https://www.alexa.com/siteinfo/"+domain_name+"' target=_blank>Get domain's ranking</a></strong> using "
       end
     end
 
+#### SimilarWeb
     if name.include? "similarweb" or name.include? "similar web"
       if (!domain_name.blank?)
           results="<strong><a href='https://www.similarweb.com/website/"+domain_name+"' target=_blank>Get information about the domain</a></strong> using "
       end
     end
 
+#### Pipl
     if name.include? "pipl"
       results="<strong><a href='https://pipl.com/search/?q="+name_field+"' target=_blank>Learn more about this "+type+"</a></strong> using "
     end
 
+##### Twitter search
     if name.include? "twitter"
       results="<strong><a href='https://twitter.com/search?l=&q=%22"+name_field+"%22&src=typd&lang=en' target=_blank>Search this "+type+"</a></strong> on "
     end
 
+####### Real or Satire
     if name.include? "real" and name.include? "satire"
       if (!domain_name.blank?)
           results="<strong><a href='https://realorsatire.com/?s="+domain_name+"' target=_blank>See if the "+type+" is satire or real</a></strong> using "
       end
     end
 
+####### Assessing stories with unnamed sources
+    if name.include? "assess" and name.include? "unnamed sources"
+      results="<strong><a href='"+resource.url+"' target=_blank>Read tips</a></strong> on "
+    end
+
+####### Detecting clickbait titles
+    if name.include? "clickbait" and name.include? "title"
+      results="<strong><a href='"+resource.url+"' target=_blank>Read tips</a></strong> on "
+      
+    end
+
+#######################################################################
     return results
   end
 
