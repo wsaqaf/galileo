@@ -23,7 +23,7 @@ class SrcsController < ApplicationController
       @filter_msg=filter_bar("Srcs","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Srcs","a")
-      qry="name like '%"+params[:q]+"%'"
+      qry="lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')"
     else
       @filter_msg=filter_bar("Srcs","a")
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")

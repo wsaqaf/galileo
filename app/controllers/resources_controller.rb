@@ -8,7 +8,7 @@ class ResourcesController < ApplicationController
         @resources = Resource.order(:name).where("name like ?","'%"+params[:term]+"%'")
         render json: @resources.map(&:name)
       elsif (params[:q].present?)
-        tmp=Resource.order(:name).where("name like ?","'%"+params[:q]+"%'")
+        tmp=Resource.order(:name).where("lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')")
         @total_count=tmp.count
         @pagy, @resources = pagy(tmp, items: 10)
       else

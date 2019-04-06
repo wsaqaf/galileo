@@ -24,7 +24,7 @@ class MediaController < ApplicationController
       @filter_msg=filter_bar("Media","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Media","a")
-      qry="name like '%"+params[:q]+"%'"
+      qry="lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')"
     else
       @filter_msg=filter_bar("Media","a")
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")

@@ -20,7 +20,7 @@ class ClaimsController < ApplicationController
       @filter_msg=filter_bar("Claims","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Claims","a")
-      qry="title like '%"+params[:q]+"%'"
+      qry="lower(title) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')"
     elsif (params[:m].present?)
       @filter_msg=filter_bar("Claims","a")
       qry="medium_id="+params[:m].to_s
