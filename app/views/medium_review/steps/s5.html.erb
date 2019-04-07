@@ -1,7 +1,7 @@
 
         <div class="form-claim">
       <%= form_for @medium_review, method: :put, url: wizard_path do |f| %>
-        <div style="float: left; padding: 10px; width: 20%;">
+        <div class="sidenav">
         <big>Claim review steps:</big><br>
         <div class="divTable blueTable"><div class="divTableBody">
          <% 
@@ -21,14 +21,14 @@
       </div>
       </div>
       </div>
-      <div style="float: left; padding: 10px; width: 80%;"
-              <h3>Reviewing medium:
+      <div class="main">
+              <h4>Reviewing medium:
                 <% if (not @medium.url.blank?) %>
                    <%= link_to @medium.name, medium_path(@medium.id) %>
                 <% else %>
                   <%= @medium.name %>
                 <% end %>
-              </h3> 
+              </h4> 
 
               <% if f.object.errors.any? %>
               <div class="error_messages">
@@ -38,7 +38,7 @@
               </div>
               <% end %>
               <fieldset>
-                <legend>Reviewing the medium</legend>
+                <h5><strong>Reviewing the medium</strong></h5>
                   <ul>
                       
                   <li>Is there a concern regarding the location where the physical data stored and the company managing its physical infrastructure and whether it is hosted along with other less websites? 
@@ -96,5 +96,5 @@
                   </ul>
               </fieldset>
               <% end %>
-              </div></div>
+              </div>
               
