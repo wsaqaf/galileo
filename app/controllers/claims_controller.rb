@@ -16,7 +16,7 @@ class ClaimsController < ApplicationController
       qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Claims","u")
     elsif (params[:filter]=="n")
-      qry="claims.id not in (SELECT claim_id FROM claim_reviews WHERE claim_reviews.review_sharing_mode=1 AND review_verdict!='')"
+      qry="claims.id not in (SELECT claim_id FROM claim_reviews WHERE (claim_reviews.review_sharing_mode=1 AND review_verdict!='') OR claim_reviews.user_id=="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Claims","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Claims","a")
