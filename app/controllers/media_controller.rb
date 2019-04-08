@@ -20,7 +20,7 @@ class MediaController < ApplicationController
       qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Media","u")
     elsif (params[:filter]=="n")
-      qry="media.id not in (SELECT medium_id FROM medium_reviews WHERE (medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='') OR medium_reviews.user_id="+current_user.id.to_s+")"
+      qry="NOT EXISTS (SELECT medium_id FROM medium_reviews WHERE media.id=medium_reviews.medium_id AND ((medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='') OR medium_reviews.user_id="+current_user.id.to_s+"))"
       @filter_msg=filter_bar("Media","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Media","a")

@@ -19,7 +19,7 @@ class SrcsController < ApplicationController
       qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Srcs","u")
     elsif (params[:filter]=="n")
-      qry="srcs.id not in (SELECT src_id FROM src_reviews WHERE (src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='') OR src_reviews.user_id="+current_user.id.to_s+")"
+      qry="NOT EXISTS (SELECT src_id FROM src_reviews WHERE srcs.id=src_reviews.src_id AND ((src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='') OR src_reviews.user_id="+current_user.id.to_s+"))"
       @filter_msg=filter_bar("Srcs","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Srcs","a")
