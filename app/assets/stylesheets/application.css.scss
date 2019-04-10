@@ -194,6 +194,7 @@ ul.ui-autocomplete {
 
 
 .form-claim {
+  display: flex;
 	margin:0px auto;
 	max-width: 90%;
 	padding: 0px 12px 0px 20px;
@@ -356,21 +357,15 @@ div.blueTable {
   }
 
 .sidenav {
-  width: 250px;
-  position: fixed;
-  z-index: 1;
-  overflow-x: hidden;
-  padding-left: 20px;
+  max-width: 250px;
 }
 
 .sidenav input {
   padding: 6px 8px 6px 16px;
-  display: block;
 }
 
 .main {
-  margin-left: 250px; /* Same as the width of the sidenav */
-  padding: 10px;
+  padding: 10px 10px 10px 40px;
 }
 
 @media screen and (max-height: 450px) {

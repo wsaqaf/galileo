@@ -69,6 +69,9 @@ class ClaimsController < ApplicationController
         if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
           tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
           @total_count=tmp.count.length
+        elsif  (params[:sort]=="rt")
+          tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+          @total_count=tmp.count.length
         else
           tmp=Claim.where(qry).order("created_at DESC")
           @total_count=tmp.count
@@ -77,6 +80,9 @@ class ClaimsController < ApplicationController
         return
       end
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+        tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+        @total_count=tmp.count.length
+      elsif  (params[:sort]=="rt")
         tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
         @total_count=tmp.count.length
       else

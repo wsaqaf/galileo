@@ -45,18 +45,20 @@ class ApplicationController < ActionController::Base
           return "sum("+page+"_reviews."+page2+"review_verdict)/(count("+page+"_reviews."+page2+"review_verdict)) DESC"
         when "rn"
           return "sum("+page+"_reviews."+page2+"review_verdict)/(count("+page+"_reviews."+page2+"review_verdict)) ASC"
+        when "rt"
+          return page+"_reviews.updated_at DESC,"+page+"_reviews.created_at DESC"
         end
       end
 
       def sort_bar(page,sort_option)
-        s={"td"=>"","r"=>"","rp"=>"","rn"=>""}
+        s={"td"=>"","r"=>"","rt"=>"","rp"=>"","rn"=>""}
         page1=page.downcase
         page2=page
         if (page=="Srcs") then page2="Sources"; end
         s.each do |key, value|
             if key==sort_option then s[key]="selected"; end
         end
-        return "Sort by: <select id='sort'><option value='?sort=td' "+s['td']+">"+page2+" sorted by time (newest first)</option><option value='?sort=r' "+s['r']+">"+page2+" sorted by reviews (most reviewed first)</option><option value='?sort=rp' "+s['rp']+">"+page2+" sorted by positive reviews</option><option value='?sort=rn' "+s['rn']+">"+page2+" sorted by negative reviews</option><select>\n<script>$(function(){$('#sort').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+        return "Sort by: <select id='sort'><option value='?sort=td' "+s['td']+">"+page2+" sorted by time (latest first)</option><option value='?sort=rt' "+s['rt']+">"+page2+" sorted by review time (latest first)</option><option value='?sort=r' "+s['r']+">"+page2+" sorted by reviews (most reviewed first)</option><option value='?sort=rp' "+s['rp']+">"+page2+" sorted by positive reviews</option><option value='?sort=rn' "+s['rn']+">"+page2+" sorted by negative reviews</option><select>\n<script>$(function(){$('#sort').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       end
 
     def linkpreview
