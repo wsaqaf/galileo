@@ -6,7 +6,7 @@
     <% @claim_reviews.each do |claim_review| %>
       <ul>
           <%
-            claim = Claim.find(claim_review.claim_id); rating={"-4"=>"False", "-3"=>"Mostly false","-2"=>"Mixed","-1"=>"Mostly true","1"=>"True","0"=>"Not sure"}
+            claim = Claim.find(claim_review.claim_id); rating={"1"=>"False", "2"=>"Mostly false","3"=>"Mixed","4"=>"Mostly true","5"=>"True","0"=>"Not sure"}
             usr = User.find(claim_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
             md_name="Not provided"; sr_name="Not provided";
             if not claim.medium_id.blank?

@@ -8,7 +8,7 @@
     <% @src_reviews.each do |src_review| %>
       <li>
           <%
-            src = Src.find(src_review.src_id); rating={"-4"=>"Totally untrustworthy", "-3"=>"Mostly untrustworthy","-2"=>"Somewhat trustworthy","-1"=>"Mostly trustworthy","1"=>"Totally trustworthy","0"=>"Not sure"}
+            src = Src.find(src_review.src_id); rating={"1"=>"Totally untrustworthy", "2"=>"Mostly untrustworthy","3"=>"Somewhat trustworthy","4"=>"Mostly trustworthy","5"=>"Totally trustworthy","0"=>"Not sure"}
             usr = User.find(src_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
             if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
           %>

@@ -4,7 +4,7 @@
     <% @medium_reviews.each do |medium_review| %>
       <li>
           <%
-            medium = Medium.find(medium_review.medium_id); rating={"-4"=>"Totally unreliable", "-3"=>"Mostly unreliable","-2"=>"Somewhat reliable","-1"=>"Mostly reliable","1"=>"Totally reliable","0"=>"Not sure"}
+            medium = Medium.find(medium_review.medium_id); rating={"1"=>"Totally unreliable", "2"=>"Mostly unreliable","3"=>"Somewhat reliable","4"=>"Mostly reliable","5"=>"Totally reliable","0"=>"Not sure"}
             usr = User.find(medium_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
             if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
           %>
