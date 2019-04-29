@@ -18,7 +18,7 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'walid.al-saqaf@sh.se'
+  config.mailer_sender = 'walid@al-saqaf.se'
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -288,5 +288,5 @@ Devise.setup do |config|
   #   include Turbolinks::Controller
   # end
 config.secret_key = '730483c911184babf725ba22a925b32c64d05f8dcc809f3eeeb47f79be35556cbf832873ff1d8914b979026d0bd5f6081d172bffb1fa70baa8e52e2e97cc0d51'
-  
+
 end
