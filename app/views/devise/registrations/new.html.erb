@@ -8,24 +8,24 @@
                 required: true,
                 hint: ("You will need this email to log in everytime"),
                 autofocus: true ,
-                input_html: { autocomplete: "email" }%>
+                input_html: { autocomplete: "email", :style=> 'width: 400px' }%>
     <%= f.input :name,
                 required: true,
                 hint: ("Your name will be included in meta data of your claim reviews"),
                 autofocus: true ,
-                input_html: { autocomplete: "name" }%>
+                input_html: { autocomplete: "name", :style=> 'width: 400px' }%>
     <%= f.input :affiliation,
                 required: false,
-                input_html: { data: {autocomplete_source: affiliations_path } },
+                input_html: { data: {autocomplete_source: affiliations_path }, :style=> 'width: 400px' },
                 hint: ("This will be useful to identify peers in your organisation and for networking purposes"),
                 autofocus: true %>
     <%= f.input :password,
                 required: true,
                 hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
+                input_html: { autocomplete: "new-password", :style=> 'width: 200px' } %>
     <%= f.input :password_confirmation,
                 required: true,
-                input_html: { autocomplete: "new-password" } %>
+                input_html: { autocomplete: "new-password", :style=> 'width: 200px' } %>
 
   <div class="form-claim">
     <%= f.button :submit, "Sign up" %>

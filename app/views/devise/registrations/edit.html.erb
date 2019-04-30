@@ -14,23 +14,23 @@
                 required: true,
                 hint: ("Your name will be included in meta data of your claim reviews"),
                 autofocus: true ,
-                input_html: { autocomplete: "name" }%>
+                input_html: { autocomplete: "name", :style=> 'width: 400px' }%>
     <%= f.input :affiliation,
                 required: false,
                 hint: ("This will be useful to identify peers in your organisation and for networking purposes"),
                 autofocus: true ,
-                input_html: { autocomplete: "affiliation" }%>
+                input_html: { autocomplete: "affiliation", :style=> 'width: 400px' }%>
     <%= f.input :current_password,
                 hint: "we need your current password to confirm your changes",
                 required: true,
-                input_html: { autocomplete: "current-password" } %>
+                input_html: { autocomplete: "current-password", :style=> 'width: 400px' } %>
     <%= f.input :password,
                 hint: "leave it blank if you don't want to change it",
                 required: false,
-                input_html: { autocomplete: "new-password" } %>
+                input_html: { autocomplete: "new-password", :style=> 'width: 400px' } %>
     <%= f.input :password_confirmation,
                 required: false,
-                input_html: { autocomplete: "new-password" } %>
+                input_html: { autocomplete: "new-password", :style=> 'width: 400px' } %>
   </div>
 
   <div class="form-claim">
