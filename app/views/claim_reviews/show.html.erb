@@ -3,11 +3,12 @@
                    <table><tr><td>
                      <li><b>Claim:</b> <%= link_to @claim.title, claim_path(@claim.id), target: "_blank" %></li>
                      <li><b>Assessment:</b>
-                       <%=
+                       <%
                         usr = User.find(@claim_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
                         rating={"1"=>"False", "2"=>"Mostly false","3"=>"Mixed","4"=>"Mostly true","5"=>"True","0"=>"Not sure"}
-                        rating[@claim_review.review_verdict.to_s]
+                        txt="<a href='"+claim_claim_review_path(@claim.id,@claim_review.id)+"' target=_blank><img src='/"+@claim_review.review_verdict.to_s+".png' height=30 alt='"+rating[@claim_review.review_verdict.to_s].to_s+"' title='"+rating[@claim_review.review_verdict.to_s].to_s+"'></a> ["+rating[@claim_review.review_verdict.to_s].to_s+"]"
                        %>
+                       <%== txt %>
                      </li>
                      <li><b>Reviewer:</b> <%= reviewer_name %> - <%= reviewer_aff %></li>
                      <li><b>Updated:</b> <%= @claim_review.updated_at %></li>

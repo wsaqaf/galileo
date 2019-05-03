@@ -3,11 +3,12 @@
                 <table><tr><td>
                   <li><b>Medium:</b> <%= link_to @medium.name, claim_path(@medium.id), target: "_blank" %></li>
                   <li><b>Assessment:</b>
-                    <%=
+                    <%
                      usr = User.find(@medium_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
                      rating={"1"=>"Totally unreliable", "2"=>"Mostly unreliable","3"=>"Somewhat reliable","4"=>"Mostly reliable","5"=>"Totally reliable","0"=>"Not sure"}
-                     rating[@medium_review.medium_review_verdict.to_s]
+                     txt="<a href='"+medium_medium_review_path(@medium.id,@medium_review.id)+"' target=_blank><img src='/"+@medium_review.medium_review_verdict.to_s+".png' height=30 alt='"+rating[@medium_review.medium_review_verdict.to_s].to_s+"' title='"+rating[@medium_review.medium_review_verdict.to_s].to_s+"'></a> ["+rating[@medium_review.medium_review_verdict.to_s].to_s+"]"
                     %>
+                    <%== txt %>
                   </li>
                   <li><b>Reviewer:</b> <%= reviewer_name %> - <%= reviewer_aff %></li>
                   <li><b>Updated:</b> <%= @medium_review.updated_at %></li>

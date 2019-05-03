@@ -9,10 +9,15 @@
             if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
           %>
           Medium's Name: <%= link_to medium.name, medium_path(medium_review.medium_id), target: "_blank" %><br>
-          Assessment: <%= rating[medium_review.medium_review_verdict.to_s] %><br>
+          Assessment:
+          <%
+          txt="<a href='"+medium_medium_review_path(medium.id,medium_review.id)+"' target=_blank><img src='/"+medium_review.medium_review_verdict.to_s+".png' height=30 alt='"+rating[medium_review.medium_review_verdict.to_s].to_s+"' title='"+rating[medium_review.medium_review_verdict.to_s].to_s+"'></a> ["+rating[medium_review.medium_review_verdict.to_s].to_s+"]"
+          %>
+         <%== txt %>
+          <br>
           Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
           Updated: <%= medium_review.updated_at %><br>
-          <%= link_to 'More about this review', medium_medium_review_path(medium.id,medium_review.id) %>
-      </li>
+          <br><b><%= link_to 'More about this review', medium_medium_review_path(medium.id,medium_review.id) %></b>
+      </li><hr>
     <% end %>
 </div>
