@@ -1,8 +1,17 @@
 
               <div class="form-claim">
-              <h3>Showing review for claim:
-                   <%= link_to @claim.title, claim_path(@claim.id) %>
-              </h3>
+                   <table><tr><td>
+                     <li><b>Claim:</b> <%= link_to @claim.title, claim_path(@claim.id), target: "_blank" %></li>
+                     <li><b>Assessment:</b>
+                       <%=
+                        usr = User.find(@claim_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
+                        rating={"1"=>"False", "2"=>"Mostly false","3"=>"Mixed","4"=>"Mostly true","5"=>"True","0"=>"Not sure"}
+                        rating[@claim_review.review_verdict.to_s]
+                       %>
+                     </li>
+                     <li><b>Reviewer:</b> <%= reviewer_name %> - <%= reviewer_aff %></li>
+                     <li><b>Updated:</b> <%= @claim_review.updated_at %></li>
+                   </td></tr></table>
 
               <%= form_for @claim_review, method: :put, url: claim_claim_review_path(@claim,@claim_review) do |f| %>
               <% if f.object.errors.any? %>

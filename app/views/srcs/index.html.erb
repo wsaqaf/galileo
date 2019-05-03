@@ -24,13 +24,15 @@
         assessments={"1"=>"Not trustworthy","2"=>"Marginally trustworthy","3"=>"Somewhat trustworthy","4"=>"Mostly trustworthy","5"=>"Fully trustworthy","0"=>"No decision"}
         assessments2={"1"=>0,"2"=>0,"3"=>0,"4"=>0,"5"=>0,"0"=>0}
         @reviews.each do |rev|
-          if rev.src_review_verdict.present? then assessments2[rev.src_review_verdict.to_s]=assessments2[rev.src_review_verdict.to_s]+1 end
+          if rev.src_review_verdict.present?
+              assessments2[rev.src_review_verdict.to_s]=assessments2[rev.src_review_verdict.to_s]+1
+              @result2=@result2+"<td><a href='"+src_src_reviews_path(src.id)+"' target=_blank><img src='/"+rev.src_review_verdict.to_s+".png' height=30 alt='"+assessments[rev.src_review_verdict].to_s+"' title='"+assessments[rev.src_review_verdict].to_s+"'></a></td>"
+            end
           end
           result1=""
           assessments.each do |key, value|
               if assessments2[key]>0
                 result1=result1+" "+value+": "+assessments2[key].to_s
-                @result2=@result2+"<td><a href='"+src_src_reviews_path(src.id)+"' target=_blank><img src='/"+key.to_s+".png' height=50 alt='"+value+" ("+assessments2[key].to_s+")' title='"+value+" ("+assessments2[key].to_s+")'></a></td>"
               end
           end
         end %>

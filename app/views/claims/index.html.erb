@@ -32,13 +32,13 @@
                   elsif (rev.updated_at>@last_review_time) then @last_review_time=rev.updated_at
                   end
                   assessments2[rev.review_verdict.to_s]=assessments2[rev.review_verdict.to_s]+1
+                  @result2=@result2+"<td><a href='"+claim_claim_review_path(claim.id,rev.id)+"' target=_blank><img src='/"+rev.review_verdict.to_s+".png' height=30 alt='"+assessments[rev.review_verdict.to_s].to_s+"' title='"+assessments[rev.review_verdict.to_s].to_s+"'></a></td>"
                 end
             end
             result1=""
             assessments.each do |key, value|
                 if assessments2[key]>0
                   result1=result1+" "+value+": "+assessments2[key].to_s
-                  @result2=@result2+"<td><a href='"+claim_claim_reviews_path(claim.id)+"' target=_blank><img src='/"+key.to_s+".png' height=50 alt='"+value+" ("+assessments2[key].to_s+")' title='"+value+" ("+assessments2[key].to_s+")'></a></td>"
                 end
             end
           end %>
