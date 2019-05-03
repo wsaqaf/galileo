@@ -43,6 +43,7 @@
         <% end %>
     <% end %>
     <%
+      begin
       @my_review = SrcReview.where("src_id=? AND user_id=?",src.id,current_user.id).first
       if (@my_review.blank?)
           revtype ="Add" %>
@@ -64,6 +65,9 @@
          end %>
         <%== url_prev %>
        <% end %>
+       <%
+       rescue
+       end %>
     </li></h4>
   <% end %>
   </ul>
