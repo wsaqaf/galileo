@@ -59,7 +59,6 @@
         <% end %>
         </small>
         <%
-          begin
            if claim.url_preview.present? %>
            <% if @total_reviews>0 %>
             <small> - Latest review: <%== @last_review_time %></small>
@@ -77,10 +76,6 @@
             output=output+"\n<h3><a href=\""+claim.url+"\" target=_blank>"+claim.title+"</a></h3><p class=\"text\">"+claim.description+"</p><br></div></div>" %>
             <%== output %>
           <% end %>
-          <%
-          rescue
-          end %>
-
       </li></h4>
     <% end %>
     </ul>

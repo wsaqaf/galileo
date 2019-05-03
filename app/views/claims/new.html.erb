@@ -19,7 +19,6 @@
     <i><small>* Note: If the claim is an image, use that link as the URL (e.g., http://website.com/image.jpg)</small></i>
     </li>
     <div id="url_preview_block"></div>
-    <%= f.hidden_field :url_preview %>
     <li>
     What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.
     <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onchange => "NewMedium(1,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
