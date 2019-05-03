@@ -59,7 +59,16 @@ class ClaimsController < ApplicationController
             else
               output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left">'
             end
-            output=output+"\n<h3><a href=\""+params[:url]+"\" target=_blank>"+titl+"</a></h3><p class=\"text\">"+desc+"</p><br></div></div>"
+            url=params[:url]
+            if (url.present?)
+                begin
+                  domain_name=URI.parse(url).host
+                  domain_name=domain_name.sub(/^www\./, '')
+                rescue
+                  domain_name=url
+                end
+            end
+            output=output+"\n<h4><a href=\""+params[:url]+"\" target=_blank>"+titl+"</a></h4><br><i>"+domain_name.to_s+"</i><br><p class=\"text\">"+desc+"</p></div></div>"
           end
       end
         render json: output;
