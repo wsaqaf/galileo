@@ -152,7 +152,7 @@ class ClaimsController < ApplicationController
   end
 
   def destroy
-    ClaimReview.where("claim_id = ? and claim_id in (select claims.claim_id from claims where (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+"))",@claim.id).destroy_all
+    ClaimReview.where("claim_id = ? and claim_id in (select claims.id from claims where (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+"))",@claim.id).destroy_all
     @claim.destroy
     redirect_to root_path
   end
