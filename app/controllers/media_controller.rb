@@ -16,6 +16,9 @@ class MediaController < ApplicationController
     elsif (params[:filter]=="r")
       qry="(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='')"
       @filter_msg=filter_bar("Media","r")
+    elsif (params[:filter]=="m")
+      qry="media.user_id="+current_user.id.to_s
+      @filter_msg=filter_bar("Media","m")
     elsif (params[:filter]=="u")
       qry="(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Media","u")

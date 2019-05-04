@@ -21,14 +21,14 @@ class ApplicationController < ActionController::Base
 
 
       def filter_bar(page,filter_option)
-        f={"a"=>"","r"=>"","u"=>"","n"=>""}
+        f={"a"=>"","m"=>"","r"=>"","u"=>"","n"=>""}
         page1=page.downcase
         page2=page
         if (page=="Srcs") then page2="Sources"; end
         f.each do |key, value|
             if key==filter_option then f[key]="selected"; end
         end
-        return "<select id='filter'><option value='"+page1+"' "+f['a']+">All "+page2+"</option><option value='?filter=r' "+f['r']+">"+page+" that have been reviewed</option><option value='?filter=u' "+f['u']+">"+page+" you reviewed</option><option value='?filter=n' "+f['n']+">"+page+" with no reviews yet</option></select>\n<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+        return "<select id='filter'><option value='"+page1+"' "+f['a']+">All "+page2+"</option><option value='?filter=m' "+f['m']+">"+page2+" you created</option><option value='?filter=r' "+f['r']+">"+page2+" that have been reviewed</option><option value='?filter=u' "+f['u']+">"+page2+" you reviewed</option><option value='?filter=n' "+f['n']+">"+page2+" with no reviews yet</option></select>\n<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       end
 
       def sort_statement(page,sorting)

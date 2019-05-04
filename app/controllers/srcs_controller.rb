@@ -15,6 +15,9 @@ class SrcsController < ApplicationController
     elsif (params[:filter]=="r")
       qry="srcs.id in (SELECT src_id FROM src_reviews WHERE (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
       @filter_msg=filter_bar("Srcs","r")
+    elsif (params[:filter]=="m")
+      qry="srcs.user_id="+current_user.id.to_s
+      @filter_msg=filter_bar("Srcs","m")
     elsif (params[:filter]=="u")
       qry="srcs.id in (SELECT src_id FROM src_reviews WHERE (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND src_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Srcs","u")
