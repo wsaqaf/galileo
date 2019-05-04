@@ -1,21 +1,28 @@
 <div class="container">
 <h2>Name: <%= @src.name %></h2>
-<h4>URL:
+<h5>URL:
   <% if @src.url.present? %>
     <%= link_to @src.url,@src.url %>
     <% if @src.url_preview.present? %>
       <br><%== @src.url_preview.gsub('\"','"').gsub("\\'", "'") %>
     <% end %>
   <% else %>
-  <small>Not provided</small>
+  Not provided
   <% end %>
-</h4>
-<h4>Details:
+</h5>
+<h5>Privacy:
+  <% if @src.sharing_mode==1 %>
+    Public
+  <% else %>
+      Private
+  <% end %>
+</h5>
+<h5>Description:
   <% if @src.description.present? %>
   <% else %>
-  <small>Not provided</small>
+  Not provided
   <% end %>
-</h4>
+</h5>
 <p>Added by: <%= User.find(@src.user_id).name %>
 <br>Created: <%= @src.created_at %>
 <br>Updated: <%= @src.updated_at %></p>

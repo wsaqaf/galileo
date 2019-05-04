@@ -11,26 +11,27 @@ class MediaController < ApplicationController
       @sort_msg=sort_bar("Media","td")
     end
     if (params[:term].present?)
-      @media = Medium.order(:name).where("name like ?", "%#{params[:term]}%")
+      @media = Medium.order(:name).where("(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND name like ?", "%#{params[:term]}%")
       render json: @media.map(&:name).uniq; return
     elsif (params[:filter]=="r")
-      qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='')"
+      qry="(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='')"
       @filter_msg=filter_bar("Media","r")
     elsif (params[:filter]=="u")
-      qry="media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.user_id="+current_user.id.to_s+")"
+      qry="(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id in (SELECT medium_id FROM medium_reviews WHERE medium_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Media","u")
     elsif (params[:filter]=="n")
-      qry="NOT EXISTS (SELECT medium_id FROM medium_reviews WHERE media.id=medium_reviews.medium_id AND ((medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='') OR medium_reviews.user_id="+current_user.id.to_s+"))"
+      qry="(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND NOT EXISTS (SELECT medium_id FROM medium_reviews WHERE media.id=medium_reviews.medium_id AND ((medium_reviews.medium_review_sharing_mode=1 AND medium_reviews.medium_review_verdict!='') OR medium_reviews.user_id="+current_user.id.to_s+"))"
       @filter_msg=filter_bar("Media","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Media","a")
-      qry="lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')"
+      qry="(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND (lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%'))"
     else
       @filter_msg=filter_bar("Media","a")
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-        tmp=Medium.joins(:medium_reviews).where("media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
+        tmp=Medium.joins(:medium_reviews).where("(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
         @total_count=tmp.count.length
       else
+        if qry.nil? then qry="media.sharing_mode=1 OR media.user_id="+current_user.id.to_s; end
         tmp=Medium.where(qry).order("created_at DESC")
         @total_count=tmp.count
       end
@@ -38,9 +39,10 @@ class MediaController < ApplicationController
        return
      end
    if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-     tmp=Medium.joins(:medium_reviews).where("media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
+     tmp=Medium.joins(:medium_reviews).where("(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict!=''").group("medium_reviews.medium_id").order(sort_statement("medium",params[:sort]))
      @total_count=tmp.count.length
    else
+     if qry.nil? then qry="media.sharing_mode=1 OR media.user_id="+current_user.id.to_s; end
      tmp=Medium.where(qry).order("created_at DESC")
      @total_count=tmp.count
    end
@@ -48,13 +50,18 @@ class MediaController < ApplicationController
   end
 
   def show
-    @medium_type=@all_medium_types[@medium.medium_type.to_s]
+    begin
+      @medium_type=@all_medium_types[@medium.medium_type.to_s]
+    rescue
+      redirect_to root_path
+      return
+    end
 #    @preview = Thumbnail.new(@medium.url)
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""
-    dependent_claims=Claim.where("medium_id = ?",@medium.id).count("id")
-    dependent_reviews=MediumReview.where("medium_id = ?",@medium.id).count("id")
+    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND medium_id = ?",@medium.id).count("id")
+    dependent_reviews=MediumReview.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+")) ",@medium.id).count("id")
     if (dependent_claims>0 or dependent_reviews>0)
         @warning_msg="Deleting this record will also delete "
         if (dependent_claims>0)
@@ -101,12 +108,12 @@ class MediaController < ApplicationController
   end
 
   def destroy
-    dependent_claims = Claim.where("medium_id = ?",@medium.id)
+    dependent_claims = Claim.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+"))",@medium.id)
     dependent_claims.each do |d_claim|
         ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
     end
     dependent_claims.destroy_all
-    MediumReview.where("medium_id = ?",@medium.id).destroy_all
+    MediumReview.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+"))",@medium.id).destroy_all
     @medium.destroy
     redirect_to media_path
   end
@@ -119,11 +126,11 @@ class MediaController < ApplicationController
   end
 
     def medium_params
-      params.require(:medium).permit(:name, :url, :medium_type, :description, :url_preview)
+      params.require(:medium).permit(:name, :url, :medium_type, :description, :sharing_mode, :url_preview)
     end
 
     def find_medium
-      @medium = Medium.find(params[:id])
+        @medium = Medium.where("id=? AND (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+")",params[:id]).first
     end
 
     def define_types

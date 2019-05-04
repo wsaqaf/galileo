@@ -5,5 +5,6 @@ class Medium < ApplicationRecord
   belongs_to :user
 
   validates :name, presence: true
+  validates :sharing_mode, presence: true
 
 end

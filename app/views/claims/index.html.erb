@@ -16,7 +16,7 @@
     <% @claims.each do |claim| %>
       <h4>
         <br><li><%= link_to claim.title, claim_path(claim) %>
-        <small><br>Updated at: <%= claim.created_at %><br>Reviews:
+        <small><br>Updated at: <%= claim.created_at %> - Reviews:
         <%
           @result2="<table><tr>"
           @reviews = ClaimReview.where("claim_id=? AND (review_sharing_mode=1 AND review_verdict!='')",claim.id)
@@ -59,23 +59,25 @@
         <% end %>
         </small>
         <%
-           if claim.url_preview.present? %>
-           <% if @total_reviews>0 %>
+           if !claim.url_preview.present?
+             url_prev='<br><div id="final_url_preview" class="fragment">'
+             url_prev=url_prev+'<div style="text-align: left"><img src="/claim.png" id="cimg" height=75 />'
+             if (!claim.url.nil?) then url=claim.url; else url=""; end
+             if (!claim.description.nil?) then description=claim.description; else description=""; end
+             url_prev=url_prev+"\n<h3><a href=\""+url+"\" target=_blank>"+claim.title+"</a></h3><p class=\"text\">"+description+"</p><br></div></div>"
+          else
+            url_prev=claim.url_preview
+          end
+          if @total_reviews>0 %>
             <small> - Latest review: <%== @last_review_time %></small>
             <%
-              url_prev=claim.url_preview.gsub('\"','"').gsub("\\'", "'")
+              url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
               url_prev=url_prev.sub("</h3>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'></a></td></tr></table></div></h3>")
             else
-              url_prev=claim.url_preview.gsub('\"','"').gsub("\\'", "'")
+              url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
               url_prev=url_prev.sub("</h3>","<div style='float: right'><a rel='nofollow' data-method='create' href='/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='/Add.png' height=50 alt='Add a review' title='Add a review'></a></div></h3>")
            end %>
           <%== url_prev %>
-          <% else
-            output='<br><br><div id="final_url_preview" class="fragment">'
-            output=output+'<div style="text-align: left"><img src="/claim.png" id="cimg" height=75 />'
-            output=output+"\n<h3><a href=\""+claim.url+"\" target=_blank>"+claim.title+"</a></h3><p class=\"text\">"+claim.description+"</p><br></div></div>" %>
-            <%== output %>
-          <% end %>
       </li></h4>
     <% end %>
     </ul>

@@ -1,6 +1,6 @@
 <div class="container">
 <h2>Name: <%= @medium.name %></h2>
-<h4>URL:
+<h5>URL:
   <% if @medium.url.present? %>
     <%= link_to @medium.url,@medium.url %>
     <% if @medium.url_preview.present? %>
@@ -9,15 +9,22 @@
   <% else %>
   Not provided
   <% end %>
-</h4>
-<h4>Description:
+</h5>
+<h5>Privacy:
+  <% if @medium.sharing_mode==1 %>
+    Public
+  <% else %>
+      Private
+  <% end %>
+</h5>
+<h5>Description:
   <% if @medium.description.present? %>
     <%= @medium.description %>
   <% else %>
       Not provided
   <% end %>
-</h4>
-<h4>Type: <%= @medium_type %></h4>
+</h5>
+<h5>Type: <%= @medium_type %></h5>
 <p>Added by: <%= User.find(@medium.user_id).name %>
 <br>Created: <%= @medium.created_at %>
 <br>Updated: <%= @medium.updated_at %></p>

@@ -28,6 +28,10 @@
       <%= f.select :src_type, options_for_select(@src_types, :selected => @src.src_type) %>
       </li>
       <li>
+        Do you want to share this source or keep it private?<span class='required'>*</span>
+          <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with everyone', 1],['No, keep it private', -1]], :selected => @src.sharing_mode) %>
+      </li>
+      <li>
       Provide more details about this source (especially if you mentioned 'Other' as the type)
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
       </li>

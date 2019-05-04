@@ -46,6 +46,10 @@
       <%= f.select :has_text, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_text) %>
   </li>
   <li>
+    Do you want to share this claim or keep it private?<span class='required'>*</span>
+      <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with everyone', 1],['No, keep it private', -1]], :selected => @claim.sharing_mode) %>
+  </li>
+  <li>
   Any more details about the claim you wish to add?
   <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
   </li>

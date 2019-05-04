@@ -5,5 +5,6 @@ class Src < ApplicationRecord
   belongs_to :medium, required: false
 
   validates :name, presence: true
+  validates :sharing_mode, presence: true
   
 end

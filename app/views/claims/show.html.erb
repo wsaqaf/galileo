@@ -1,6 +1,6 @@
 <div class="container">
 <h2>Title: <%= @claim.title %></h2>
-<h4>URL:
+<h5>URL:
 <% if @claim.url.present? %>
   <%= link_to @claim.url,@claim.url %>
   <% if @claim.url_preview.present? %>
@@ -9,8 +9,8 @@
 <% else %>
 Not provided
 <% end %>
-</h4>
-<h4>Medium:
+</h5>
+<h5>Medium:
 <% if @claim.medium_id.present? %>
   <% begin %>
     <% @medium = Medium.find @claim.medium_id %>
@@ -20,8 +20,8 @@ Not provided
 <% else %>
     Not provided
 <% end %>
-</h4>
-<h4>Source:
+</h5>
+<h5>Source:
   <% if @claim.src_id.present? %>
   <% begin %>
     <% @src = Src.find @claim.src_id %>
@@ -31,14 +31,21 @@ Not provided
  <% else %>
      Not provided
  <% end %>
-</h4>
-<h4>Description:
+</h5>
+<h5>Privacy:
+  <% if @claim.sharing_mode==1 %>
+    Public
+  <% else %>
+      Private
+  <% end %>
+</h5>
+<h5>Description:
   <% if @claim.description.present? %>
     <%= @claim.description %>
   <% else %>
       Not provided
   <% end %>
-</h4>
+</h5>
 <hr>
 <p>Added by: <%= User.find(@claim.user_id).name %>
 <br>Created: <%= @claim.created_at %>

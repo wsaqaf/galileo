@@ -10,26 +10,27 @@ class SrcsController < ApplicationController
       @sort_msg=sort_bar("Srcs","td")
     end
     if (params[:term].present?)
-      @srcs = Src.order(:name).where("name like ?", "%#{params[:term]}%")
+      @srcs = Src.order(:name).where("name like ? AND (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") ", "%#{params[:term]}%")
       render json: @srcs.map(&:name).uniq; return
     elsif (params[:filter]=="r")
-      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
+      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
       @filter_msg=filter_bar("Srcs","r")
     elsif (params[:filter]=="u")
-      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE src_reviews.user_id="+current_user.id.to_s+")"
+      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND src_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Srcs","u")
     elsif (params[:filter]=="n")
-      qry="NOT EXISTS (SELECT src_id FROM src_reviews WHERE srcs.id=src_reviews.src_id AND ((src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='') OR src_reviews.user_id="+current_user.id.to_s+"))"
+      qry="(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND NOT EXISTS (SELECT src_id FROM src_reviews WHERE srcs.id=src_reviews.src_id AND ((src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='') OR src_reviews.user_id="+current_user.id.to_s+"))"
       @filter_msg=filter_bar("Srcs","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Srcs","a")
-      qry="lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')"
+      qry="(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND (lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%'))"
     else
       @filter_msg=filter_bar("Srcs","a")
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-        tmp=Src.joins(:src_reviews).where("srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
+        tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
         @total_count=tmp.count.length
       else
+        if qry.nil? then qry="srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s; end
         tmp=Src.where(qry).order("created_at DESC")
         @total_count=tmp.count
       end
@@ -37,9 +38,10 @@ class SrcsController < ApplicationController
        return
      end
    if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-     tmp=Src.joins(:src_reviews).where("srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
+     tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
      @total_count=tmp.count.length
    else
+     if qry.nil? then qry="srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s; end
      tmp=Src.where(qry).order("created_at DESC")
      @total_count=tmp.count
    end
@@ -47,12 +49,17 @@ class SrcsController < ApplicationController
   end
 
   def show
-    @src_type=@all_src_types[@src.src_type.to_s]
+    begin
+      @src_type=@all_src_types[@src.src_type.to_s]
+    rescue
+      redirect_to root_path
+      return
+    end
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""
-    dependent_claims=Claim.where("src_id = ?",@src.id).count("id")
-    dependent_reviews=SrcReview.where("src_id = ?",@src.id).count("id")
+    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND src_id = ?",@src.id).count("id")
+    dependent_reviews=SrcReview.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id).count("id")
     if (dependent_claims>0 or dependent_reviews>0)
         @warning_msg="Deleting this record will also delete "
         if (dependent_claims>0)
@@ -100,12 +107,12 @@ class SrcsController < ApplicationController
   end
 
   def destroy
-    dependent_claims = Claim.where("src_id = ?",@src.id)
+    dependent_claims = Claim.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id)
     dependent_claims.each do |d_claim|
         ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
     end
     dependent_claims.destroy_all
-    SrcReview.where("src_id = ?",@src.id).destroy_all
+    SrcReview.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id).destroy_all
     @src.destroy
     redirect_to srcs_path
   end
@@ -118,11 +125,11 @@ class SrcsController < ApplicationController
     end
 
     def src_params
-      params.require(:src).permit(:name, :url, :src_type, :description, :url_preview)
+      params.require(:src).permit(:name, :url, :src_type, :description, :sharing_mode, :url_preview)
     end
 
     def find_src
-      @src = Src.find(params[:id])
+      @src = Src.where("id=? AND (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")",params[:id]).first
     end
 
     def define_types
