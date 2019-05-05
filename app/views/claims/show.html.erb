@@ -59,13 +59,13 @@ Not provided
  <% if (@total_reviews>0) %>
     <%  @my_review = ClaimReview.where(claim_id: @claim.id, user_id: current_user.id)
       if (@my_review.blank?) %>
-         Check the <%= link_to " reviews of this claim", claim_claim_reviews_path(@claim.id) %><br><br>
+         <hr>Check the <%= link_to " reviews of this claim", claim_claim_reviews_path(@claim.id) %>
          <%= link_to "Review this claim", claim_claim_reviews_path(@claim.id), method: :create %>
      <% else %>
          <%= link_to "Edit review of this claim", claim_claim_reviews_path(@claim.id), method: :create %> |
          <%= link_to "Delete review of this claim", claim_claim_review_path(@claim.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
          <% if @total_reviews>1 %>
-            Check the <%= link_to "other reviews of this claim", claim_claim_reviews_path(@claim.id) %><br>
+            <hr>Check the <%= link_to "other reviews of this claim", claim_claim_reviews_path(@claim.id) %><br>
         <% end %>
     <% end %>
  <% else %>

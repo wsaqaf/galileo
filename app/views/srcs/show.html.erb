@@ -36,13 +36,13 @@
  <% if (@total_reviews>0) %>
     <%  @my_review = SrcReview.where(src_id: @src.id, user_id: current_user.id)
       if (@my_review.blank?) %>
-         Check the <%= link_to " reviews of this source", src_src_reviews_path(@src.id) %><br><br>
+         <hr>Check the <%= link_to " reviews of this source", src_src_reviews_path(@src.id) %><br><br>
          <%= link_to "Review this source", src_src_reviews_path(@src.id), method: :create %>
      <% else %>
          <%= link_to "Edit review of this source", src_src_reviews_path(@src.id), method: :create %> |
          <%= link_to "Delete review of this source", src_src_review_path(@src.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
          <% if @total_reviews>1 %>
-            Check the <%= link_to "other reviews of this source", src_src_reviews_path(@src.id) %><br>
+            <hr>Check the <%= link_to "other reviews of this source", src_src_reviews_path(@src.id) %><br>
         <% end %>
     <% end %>
  <% else %>
