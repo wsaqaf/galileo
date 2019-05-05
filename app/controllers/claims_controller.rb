@@ -111,13 +111,10 @@ class ClaimsController < ApplicationController
   end
 
   def show
-    @claims_msg=""
-    @reviews_msg=""
     @warning_msg=""
-    dependent_reviews=ClaimReview.where("claim_id = ? and claim_id in (select id from claims where (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+")) ",@claim.id).count("id")
+    dependent_reviews=ClaimReview.where("claim_id = ?",@claim.id).count("id")
     if (dependent_reviews>0)
-      @warning_msg="Deleting this record will also delete "
-      @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")+".\n"
+      @warning_msg="Deleting this record will also delete "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")+".\n"
     end
     @warning_msg=@warning_msg+"\nAre you sure you want to go ahead and delete this claim?"
   end

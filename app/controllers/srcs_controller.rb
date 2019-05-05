@@ -58,23 +58,12 @@ class SrcsController < ApplicationController
       redirect_to root_path
       return
     end
-    @claims_msg=""
-    @reviews_msg=""
     @warning_msg=""
-#    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND src_id = ?",@src.id).count("id")
-    dependent_reviews=SrcReview.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id).count("id")
-#    if (dependent_claims>0 or dependent_reviews>0)
-        @warning_msg="Deleting this record will also delete "
-#{}        if (dependent_claims>0)
-  #        @warning_msg=@warning_msg+" "+dependent_claims.to_s+" dependent "+pl(dependent_claims,"claim")
-          if (dependent_reviews>0) then @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review") #end
-#        else
-#          @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent reviews"
-        end
-        @warning_msg=@warning_msg+".\n"
-#    end
+    dependent_reviews=SrcReview.where("src_id = ?",@src.id).count("id")
+    if (dependent_reviews>0)
+       @warning_msg="Deleting this record will also delete "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")+".\n"
+    end
     @warning_msg=@warning_msg+"\nAre you sure you want to go ahead and delete this source?"
-#    @preview = Thumbnail.new(@src.url)
   end
 
   def new

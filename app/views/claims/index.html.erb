@@ -79,6 +79,16 @@
            end %>
           <%== url_prev %>
       </li></h4>
+      <% if claim.user_id == current_user.id || current_user.id==1
+        warning_msg="Are you sure you want to go ahead and delete this claim?"
+        dependent_reviews=ClaimReview.where("claim_id = ?",claim.id).count("id")
+        if (dependent_reviews>0)
+          warning_msg="Are you sure you want to go ahead and delete this claim and all its reviews?"
+        end
+      %>
+        <%= link_to "Edit", edit_claim_path(claim) %> -
+        <%= link_to "Delete", claim_path(claim), method: :delete, data: { confirm: warning_msg } %>
+      <% end %>
     <% end %>
     </ul>
     <% if @total_count>10 then %> <%== pagy_bootstrap_nav(@pagy) %> <% end %>

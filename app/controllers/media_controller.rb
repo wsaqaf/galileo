@@ -59,25 +59,10 @@ class MediaController < ApplicationController
       redirect_to root_path
       return
     end
-#    @preview = Thumbnail.new(@medium.url)
-    @claims_msg=""
-    @reviews_msg=""
     @warning_msg=""
-#    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND medium_id = ?",@medium.id).count("id")
-    dependent_reviews=MediumReview.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+")) ",@medium.id).count("id")
+    dependent_reviews=MediumReview.where("medium_id = ?",@medium.id).count("id")
     if (dependent_reviews>0)
-#    if (dependent_claims>0 or dependent_reviews>0)
-        @warning_msg="Deleting this record will also delete "
-#        if (dependent_claims>0)
-#          @warning_msg=@warning_msg+" "+dependent_claims.to_s+" dependent "+pl(dependent_claims,"claim")
-#          if (dependent_reviews>0) then @warning_msg=@warning_msg+" and "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review") end
-#          if (dependent_reviews>0) then
-            @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")
-            # end
-#        else
-#          @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent reviews"
-#        end
-        @warning_msg=@warning_msg+".\n"
+        @warning_msg="Deleting this record will also delete "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")+".\n"
     end
     @warning_msg=@warning_msg+"\nAre you sure you want to go ahead and delete this medium?"
   end

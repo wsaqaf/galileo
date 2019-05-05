@@ -73,7 +73,16 @@
          end %>
         <%== url_prev %>
     </li></h4>
-  <% end %>
+    <% if src.user_id == current_user.id || current_user.id==1
+      warning_msg="Are you sure you want to go ahead and delete this source?"
+      dependent_reviews=SrcReview.where("src_id = ?",src.id).count("id")
+      if (dependent_reviews>0)
+        warning_msg="Are you sure you want to go ahead and delete this source and all its reviews?"
+      end
+    %>
+      <%= link_to "Edit", edit_src_path(src) %> -
+      <%= link_to "Delete", src_path(src), method: :delete, data: { confirm: warning_msg } %>
+    <% end %>  <% end %>
   </ul>
 <% if @total_count>10 then %> <%== pagy_bootstrap_nav(@pagy) %> <% end %>
 </div>
