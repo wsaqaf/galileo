@@ -28,13 +28,29 @@ module ApplicationHelper
 #Google Reverse Image Search
     if name.include? "google" and name.include? "image"
       if domain_name
-        results="<strong><a href='https://www.google.com/searchbyimage?image_url="+obj.url+"' target=_blank>Reverse image search</a></strong> using "
+        if !obj.url_preview.nil?
+          img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
+          if !img.nil?
+            img=img[0]
+            results="<strong><a href='https://www.google.com/searchbyimage?image_url="+img.to_s+"' target=_blank>Reverse image search</a></strong> using "
+          else
+            results="<strong><a href='https://www.google.com/searchbyimage?image_url="+obj.url+"' target=_blank>Reverse image search</a></strong> using "
+          end
+        end
       end
     end
 
     if name.include? "yandex"
       if domain_name
-        results="<strong><a href='https://yandex.com/images/search?source=collections&url="+obj.url+"&rpt=imageview' target=_blank>Reverse image search</a></strong> using "
+        if !obj.url_preview.nil?
+          img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
+          if !img.nil?
+            img=img[0]
+            results="<strong><a href='https://yandex.com/images/search?source=collections&url="+img.to_s+"&rpt=imageview' target=_blank>Reverse image search</a></strong> using "
+          else
+            results="<strong><a href='https://yandex.com/images/search?source=collections&url="+obj.url+"&rpt=imageview' target=_blank>Reverse image search</a></strong> using "
+          end
+        end
       end
     end
 
@@ -155,7 +171,7 @@ module ApplicationHelper
 ####### Detecting clickbait titles
     if name.include? "clickbait" and name.include? "title"
       results="<strong><a href='"+resource.url+"' target=_blank>Read tips</a></strong> on "
-      
+
     end
 
 #######################################################################
