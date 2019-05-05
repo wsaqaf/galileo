@@ -61,18 +61,18 @@ class SrcsController < ApplicationController
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""
-    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND src_id = ?",@src.id).count("id")
+#    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND src_id = ?",@src.id).count("id")
     dependent_reviews=SrcReview.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id).count("id")
-    if (dependent_claims>0 or dependent_reviews>0)
+#    if (dependent_claims>0 or dependent_reviews>0)
         @warning_msg="Deleting this record will also delete "
-        if (dependent_claims>0)
-          @warning_msg=@warning_msg+" "+dependent_claims.to_s+" dependent "+pl(dependent_claims,"claim")
-          if (dependent_reviews>0) then @warning_msg=@warning_msg+" and "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review") end
-        else
-          @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent reviews"
+#{}        if (dependent_claims>0)
+  #        @warning_msg=@warning_msg+" "+dependent_claims.to_s+" dependent "+pl(dependent_claims,"claim")
+          if (dependent_reviews>0) then @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review") #end
+#        else
+#          @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent reviews"
         end
         @warning_msg=@warning_msg+".\n"
-    end
+#    end
     @warning_msg=@warning_msg+"\nAre you sure you want to go ahead and delete this source?"
 #    @preview = Thumbnail.new(@src.url)
   end
@@ -92,13 +92,13 @@ class SrcsController < ApplicationController
   end
 
   def edit
-    if current_user.id!=@src.user_id
+    if current_user.id!=@src.user_id && current_user.id!=1
       redirect_to src_path(@src)
     end
   end
 
   def update
-    if current_user.id!=@src.user_id
+    if current_user.id!=@src.user_id && current_user.id!=1
       redirect_to src_path(@src)
       return
     end
@@ -110,11 +110,11 @@ class SrcsController < ApplicationController
   end
 
   def destroy
-    dependent_claims = Claim.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id)
-    dependent_claims.each do |d_claim|
-        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
-    end
-    dependent_claims.destroy_all
+#    dependent_claims = Claim.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id)
+#    dependent_claims.each do |d_claim|
+#        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
+#    end
+#    dependent_claims.destroy_all
     SrcReview.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id).destroy_all
     @src.destroy
     redirect_to srcs_path

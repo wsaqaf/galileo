@@ -138,12 +138,16 @@ class ClaimsController < ApplicationController
   end
 
   def edit
-    if current_user.id!=@claim.user_id
+    if current_user.id!=@claim.user_id && current_user.id!=1
       redirect_to claim_path(@claim)
     end
   end
 
   def update
+    if current_user.id!=@claim.user_id && current_user.id!=1
+      redirect_to claim_path(@claim)
+      return
+    end
     if @claim.update(claim_params)
       redirect_to claim_path(@claim)
     else

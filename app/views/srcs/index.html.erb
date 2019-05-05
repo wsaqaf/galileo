@@ -49,7 +49,7 @@
          - <%= link_to "Add Review", src_src_reviews_path(src.id), method: :create %>
       <% else
           revtype ="Edit" %>
-         - <%= link_to "Edit Your Review", src_src_reviews_path(src.id), method: :create %>, - <%= link_to "Delete Your Review", src_src_review_path(src.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+         - <%= link_to "Edit Review", src_src_reviews_path(src.id), method: :create %>, - <%= link_to "Delete Review", src_src_review_path(src.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
       <% end %>
        )</small>
        <%

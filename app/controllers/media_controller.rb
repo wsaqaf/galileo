@@ -63,16 +63,20 @@ class MediaController < ApplicationController
     @claims_msg=""
     @reviews_msg=""
     @warning_msg=""
-    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND medium_id = ?",@medium.id).count("id")
+#    dependent_claims=Claim.where("(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND medium_id = ?",@medium.id).count("id")
     dependent_reviews=MediumReview.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+")) ",@medium.id).count("id")
-    if (dependent_claims>0 or dependent_reviews>0)
+    if (dependent_reviews>0)
+#    if (dependent_claims>0 or dependent_reviews>0)
         @warning_msg="Deleting this record will also delete "
-        if (dependent_claims>0)
-          @warning_msg=@warning_msg+" "+dependent_claims.to_s+" dependent "+pl(dependent_claims,"claim")
-          if (dependent_reviews>0) then @warning_msg=@warning_msg+" and "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review") end
-        else
-          @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent reviews"
-        end
+#        if (dependent_claims>0)
+#          @warning_msg=@warning_msg+" "+dependent_claims.to_s+" dependent "+pl(dependent_claims,"claim")
+#          if (dependent_reviews>0) then @warning_msg=@warning_msg+" and "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review") end
+#          if (dependent_reviews>0) then
+            @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")
+            # end
+#        else
+#          @warning_msg=@warning_msg+" "+dependent_reviews.to_s+" dependent reviews"
+#        end
         @warning_msg=@warning_msg+".\n"
     end
     @warning_msg=@warning_msg+"\nAre you sure you want to go ahead and delete this medium?"
@@ -93,13 +97,13 @@ class MediaController < ApplicationController
   end
 
   def edit
-    if current_user.id!=@medium.user_id
+    if current_user.id!=@medium.user_id && current_user.id!=1
       redirect_to medium_path(@medium)
     end
   end
 
   def update
-    if current_user.id!=@medium.user_id
+    if current_user.id!=@medium.user_id && current_user.id!=1
       redirect_to medium_path(@medium)
       return
     end
@@ -111,11 +115,11 @@ class MediaController < ApplicationController
   end
 
   def destroy
-    dependent_claims = Claim.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+"))",@medium.id)
-    dependent_claims.each do |d_claim|
-        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
-    end
-    dependent_claims.destroy_all
+#    dependent_claims = Claim.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+"))",@medium.id)
+#    dependent_claims.each do |d_claim|
+#        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
+#    end
+#    dependent_claims.destroy_all
     MediumReview.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+"))",@medium.id).destroy_all
     @medium.destroy
     redirect_to media_path

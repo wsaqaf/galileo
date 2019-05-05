@@ -49,7 +49,7 @@
            - <%= link_to "Add Review", medium_medium_reviews_path(medium.id), method: :create %>
         <% else
             revtype ="Edit" %>
-           - <%= link_to "Edit Your Review", medium_medium_reviews_path(medium.id), method: :create %>, - <%= link_to "Delete Your Review", medium_medium_review_path(medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+           - <%= link_to "Edit Review", medium_medium_reviews_path(medium.id), method: :create %>, - <%= link_to "Delete Review", medium_medium_review_path(medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
         <% end %>
          )</small>
          <%

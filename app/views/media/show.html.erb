@@ -41,8 +41,8 @@
          Check the <%= link_to " reviews of this medium", medium_medium_reviews_path(@medium.id) %><br><br>
          <%= link_to "Review this medium", medium_medium_reviews_path(@medium.id), method: :create %>
      <% else %>
-         <%= link_to "Edit your review of this medium", medium_medium_reviews_path(@medium.id), method: :create %> |
-         <%= link_to "Delete your review of this medium", medium_medium_review_path(@medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+         <%= link_to "Edit review of this medium", medium_medium_reviews_path(@medium.id), method: :create %> |
+         <%= link_to "Delete review of this medium", medium_medium_review_path(@medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
          <% if @total_reviews>1 %>
             Check the <%= link_to "other reviews of this medium", medium_medium_reviews_path(@medium.id) %><br>
         <% end %>
@@ -56,7 +56,7 @@
 
 <%= link_to "Back", media_path %>
 
-  <% if @medium.user_id == current_user.id %> -
+  <% if @medium.user_id == current_user.id || current_user.id==1 %> -
     <%= link_to "Edit", edit_medium_path(@medium) %> -
     <%= link_to "Delete", medium_path(@medium), method: :delete, data: { confirm: @warning_msg} %>
   <% end %>
