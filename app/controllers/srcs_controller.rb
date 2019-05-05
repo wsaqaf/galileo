@@ -99,12 +99,8 @@ class SrcsController < ApplicationController
   end
 
   def destroy
-#    dependent_claims = Claim.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id)
-#    dependent_claims.each do |d_claim|
-#        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
-#    end
-#    dependent_claims.destroy_all
-    SrcReview.where("src_id = ? and src_id in (select id from srcs where (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+")) ",@src.id).destroy_all
+    Claim.where("src_id = ?",@src.id).update_all(src_id: nil)
+    SrcReview.where("src_id = ?",@src.id).destroy_all
     @src.destroy
     redirect_to srcs_path
   end

@@ -100,12 +100,8 @@ class MediaController < ApplicationController
   end
 
   def destroy
-#    dependent_claims = Claim.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+"))",@medium.id)
-#    dependent_claims.each do |d_claim|
-#        ClaimReview.where("claim_id = ?",d_claim.id).destroy_all
-#    end
-#    dependent_claims.destroy_all
-    MediumReview.where("medium_id = ? and medium_id in (select id from media where (media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+"))",@medium.id).destroy_all
+    Claim.where("medium_id = ?",@medium.id).update_all(medium_id: nil)
+    MediumReview.where("medium_id = ?",@medium.id).destroy_all
     @medium.destroy
     redirect_to media_path
   end
