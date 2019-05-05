@@ -23,6 +23,7 @@
     What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.
     <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onchange => "NewMedium(1,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
     </li>
+    <%= f.hidden_field :url_preview %>
     <div id="medium_note"></div>
     <li>
     Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure.

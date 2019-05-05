@@ -72,6 +72,11 @@ end
 
 #video-related resources
 
+#### Inteltechniques video reverse search
+if name.include? "inteltechniques reverse"
+  results="<strong><a href='https://inteltechniques.com/menu/pages/reverse.video.tool.html' target=_blank>Reverse search the video</a></strong> using "
+end
+
 #WatchFrameByFrame
     if name.include? "watchframebyframe"
       if domain_name
@@ -95,7 +100,7 @@ end
     if name.include? "google" and name.include? "search"
 
       if (obj.present?)
-        results="<strong><a href='https://www.google.com/search?q=\"fact-check\"+"+name_field+"' target=_blank>Search title</a></strong>"
+        results="<strong><a href='https://www.google.com/search?q=\"fact-check\"+"+name_field+"' target=_blank>Search about it </a></strong>"
         if (!obj.url_preview.blank?)
             if (obj.url_preview.include? "<p")
               description=obj.url_preview.match(/<p[^>]+?>([^<]+)/)[1]
@@ -163,6 +168,11 @@ end
 #### Pipl
     if name.include? "pipl"
       results="<strong><a href='https://pipl.com/search/?q="+name_field+"' target=_blank>Learn more about this "+type+"</a></strong> using "
+    end
+
+#### Inteltechniques person search
+    if name.include? "inteltechniques person"
+      results="<strong><a href='https://inteltechniques.com/menu/pages/person.tool.html' target=_blank>Research the source</a></strong> using "
     end
 
 ##### Twitter search

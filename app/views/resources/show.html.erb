@@ -34,10 +34,10 @@
 <h5>Created: <%= @resource.created_at %></h5>
 <h5>Updated: <%= @resource.updated_at %></h5>
 
-<%= link_to "Back", resources_path %>
+<%= link_to "Back", resources_path %> - 
 
   <% if @resource.user_id == current_user.id or current_user.id==1 %>
-    <%= link_to "Edit", edit_resource_path(@resource) %>
+    <%= link_to "Edit", edit_resource_path(@resource) %> -
     <%= link_to "Delete", resource_path(@resource), method: :delete, data: { confirm: "Are you sure?"} %>
   <% end %>
 </div>

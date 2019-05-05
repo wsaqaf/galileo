@@ -75,6 +75,7 @@ function do_submit(s)
   if ($("#final_url_preview").html().length>10)
   {
     $("#"+s+"_url_preview").val("<br><div id=\"final_url_preview\" class=\"fragment\">"+addslashes($("#final_url_preview").html())+"</div>");
+    $(+s+"_url_preview").val(addslashes($("#final_url_preview").html()));
     return false;
   }
 }
