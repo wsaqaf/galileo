@@ -26,7 +26,7 @@
       </li>
       <li>
         Do you want to share this source with others?<span class='required'>*</span>
-          <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with all', 1],['No, keep it private', -1]], => @src.sharing_mode) %>
+          <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with all', 1],['No, keep it private', -1]], :selected => @src.sharing_mode) %>
       </li>
       <li>
       Provide more details about this source (especially if you mentioned 'Other' as the type)
