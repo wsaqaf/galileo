@@ -42,8 +42,8 @@
         <%= f.select :has_text, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_text) %>
     </li>
     <li>
-      Do you want to share this claim or keep it private?<span class='required'>*</span>
-        <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with everyone', 1],['No, keep it private', -1]], :selected => @claim.sharing_mode) %>
+      Do you want to share this claim with others?<span class='required'>*</span>
+        <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with all', 1],['No, keep it private', -1]], :selected => @claim.sharing_mode) %>
     </li>
     <li>
     Any more details about the claim you wish to add?

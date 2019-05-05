@@ -54,6 +54,20 @@ module ApplicationHelper
       end
     end
 
+#META DATA (EXIF) data extractor
+
+if name.include? "metapicz"
+    if !obj.url_preview.nil?
+      img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
+      if !img.nil?
+        img=img[0]
+        results="<strong><a href='http://metapicz.com/#landing?imgsrc="+img.to_s+"' target=_blank>View metadata </a></strong> using "
+      else
+        results="<strong><a href='http://metapicz.com/#landing?imgsrc="+obj.url+"' target=_blank>View metadata </a></strong> using "
+      end
+    end
+end
+
 ##################################################
 
 #video-related resources

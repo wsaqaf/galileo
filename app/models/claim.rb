@@ -10,9 +10,7 @@ class Claim < ApplicationRecord
   validates :has_text, presence: true
   validates :sharing_mode, presence: true
 
-  attr_accessor :sharing_mode
-
-    def medium_name
+  def medium_name
       medium.try(:name)
     end
 

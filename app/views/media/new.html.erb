@@ -25,8 +25,8 @@
         <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
       </li>
       <li>
-        Do you want to share this medium or keep it private?<span class='required'>*</span>
-          <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with everyone', 1],['No, keep it private', -1]], :selected => @medium.sharing_mode) %>
+        Do you want to share this medium with others?<span class='required'>*</span>
+          <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with all', 1],['No, keep it private', -1]], => @medium.sharing_mode) %>
       </li>
       <li>
       Provide more details about this medium (especially if you mentioned 'Other' as the type)
