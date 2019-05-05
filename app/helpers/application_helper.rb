@@ -105,7 +105,7 @@ end
             if (obj.url_preview.include? "<p")
               description=obj.url_preview.match(/<p[^>]+?>([^<]+)/)[1]
               if (!description.blank?)
-                results=results+" - <strong><a href='https://www.google.com/search?q=\"fact-check\"+"+description+"' target=_blank>Search description</a></strong>"
+                results=results+" - <strong><a href='https://www.google.com/search?q=\"fact-check\"+"+description.gsub('\\"', '"')+"' target=_blank>Search description</a></strong>"
               end
             end
         end
