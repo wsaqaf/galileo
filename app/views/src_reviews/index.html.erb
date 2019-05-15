@@ -14,11 +14,14 @@
           %>
           Src's Name: <%= link_to src.name, src_path(src_review.src_id), target: "_blank" %><br>
           Assessment:
-          <%
-           txt="<a href='"+src_src_review_path(src.id,src_review.id)+"' target=_blank><img src='"+src_review.src_review_verdict.to_s+".png' height=30 alt='"+rating[src_review.src_review_verdict.to_s].to_s+"' title='"+rating[src_review.src_review_verdict.to_s].to_s+"'></a> ["+rating[src_review.src_review_verdict.to_s].to_s+"]"
-          %>
-         <%== txt %><br>
-
+         <% if !src_review.src_review_verdict.blank? %>
+           <%= link_to(image_tag(config.relative_url_root.to_s+'/'+src_review.src_review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'", title:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'"),src_src_review_path(src.id,src_review.id), target: "_blank") %>
+          <% txt="["+rating[src_review.src_review_verdict.to_s].to_s+"]"
+          else
+            txt="Not assessed"
+          end %>
+         <%== txt %>
+         <br>
           Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
           Updated: <%= src_review.updated_at %><br>
           <br><b><%= link_to 'More about this review', src_src_review_path(src.id,src_review.id) %></b>
