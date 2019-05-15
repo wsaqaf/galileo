@@ -72,10 +72,10 @@
             <small> - Latest review: <%== @last_review_time %></small>
             <%
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'></a></td></tr></table></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'></a></td></tr></table></div></h4>")
             else
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='Add.png' height=50 alt='Add a review' title='Add a review'></a></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='Add.png' height=50 alt='Add a review' title='Add a review'></a></div></h4>")
            end %>
           <%== url_prev %>
       </li></h4>
