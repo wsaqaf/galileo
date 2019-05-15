@@ -32,7 +32,7 @@
                   elsif (rev.updated_at>@last_review_time) then @last_review_time=rev.updated_at
                   end
                   assessments2[rev.review_verdict.to_s]=assessments2[rev.review_verdict.to_s]+1
-                  @result2=@result2+"<td><a href='"+claim_claim_review_path(claim.id,rev.id)+"' target=_blank><img src='/"+rev.review_verdict.to_s+".png' height=30 alt='"+assessments[rev.review_verdict.to_s].to_s+"' title='"+assessments[rev.review_verdict.to_s].to_s+"'></a></td>"
+                  @result2=@result2+"<td><a href='"+claim_claim_review_path(claim.id,rev.id)+"' target=_blank><img src='"+rev.review_verdict.to_s+".png' height=30 alt='"+assessments[rev.review_verdict.to_s].to_s+"' title='"+assessments[rev.review_verdict.to_s].to_s+"'></a></td>"
                 end
             end
             result1=""
@@ -61,7 +61,7 @@
         <%
            if !claim.url_preview.present?
              url_prev='<br><div id="final_url_preview" class="fragment">'
-             url_prev=url_prev+'<div style="text-align: left"><img src="/claim.png" id="cimg" height=75 />'
+             url_prev=url_prev+'<div style="text-align: left"><img src="claim.png" id="cimg" height=75 />'
              if (!claim.url.nil?) then url=claim.url; else url=""; end
              if (!claim.description.nil?) then description=claim.description; else description=""; end
              url_prev=url_prev+"\n<h4><a href=\""+url+"\" target=_blank>"+claim.title+"</a></h4><p class=\"text\">"+description+"</p><br></div></div>"
@@ -72,10 +72,10 @@
             <small> - Latest review: <%== @last_review_time %></small>
             <%
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'></a></td></tr></table></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'></a></td></tr></table></div></h4>")
             else
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='/Add.png' height=50 alt='Add a review' title='Add a review'></a></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='/claims/"+claim.id.to_s+"/claim_reviews' target=_blank><img src='Add.png' height=50 alt='Add a review' title='Add a review'></a></div></h4>")
            end %>
           <%== url_prev %>
       </li></h4>

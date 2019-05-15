@@ -11,6 +11,13 @@ module Fa
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+#################################################################
+    # The below configurations depend on the server's domain name!
+#################################################################
+    config.root_directory = "/fca/"
+    config.relative_url_root = "/fca"
+#################################################################
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
