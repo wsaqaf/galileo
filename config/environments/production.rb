@@ -89,7 +89,9 @@ Rails.application.configure do
 #################################################################
 # The below configurations depend on the server's domain name!
 #################################################################
-  config.action_controller.asset_host = "faktaassistenten.sh.se"
+  config.relative_url_root = "/sh"
+
+  config.action_controller.asset_host = "faktaassistenten.sh.se/sh"
   # ActionMailer Config
   config.action_mailer.default_url_options = {
       :host => "faktaassistenten.sh.se",
