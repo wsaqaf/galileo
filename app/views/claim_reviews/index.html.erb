@@ -31,8 +31,10 @@
              rating={"1"=>"False", "2"=>"Mostly false","3"=>"Mixed","4"=>"Mostly true","5"=>"True","0"=>"Not sure"}
              txt="["+rating[claim_review.review_verdict.to_s].to_s+"]"
             %>
-            <%= link_to(image_tag(config.relative_url_root.to_s+'/'+claim_review.review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[claim_review.review_verdict.to_s].to_s+"'", title:"'"+rating[claim_review.review_verdict.to_s].to_s+"'")) %>
-            <%== txt %>
+            <% if !claim_review.review_verdict.blank? %>
+              <%= link_to(image_tag(config.relative_url_root.to_s+'/'+claim_review.review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[claim_review.review_verdict.to_s].to_s+"'", title:"'"+rating[claim_review.review_verdict.to_s].to_s+"'")) %>
+              <%== txt %>
+            <% end %>
           </li>
           <% if md_name!="Not provided" %>
             <li><b>Medium:</b> <%= link_to md_name, medium_path(claim.medium_id) %></li>
