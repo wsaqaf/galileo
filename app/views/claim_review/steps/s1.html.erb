@@ -42,7 +42,7 @@
                 <h5><strong>Reviewing Image in the claim</strong></h5>
                   <ul>
                       
-                  <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li>Since the claim contains an image, do you wish to review it?
+                  <li>Since the claim contains an image, do you wish to review it?
                   <br><%= f.radio_button :img_review_started, '1', :checked => (!@claim_review.img_review_started.blank? && @claim_review.img_review_started==1) %> Yes<br><%= f.radio_button :img_review_started, '-1', :checked => (!@claim_review.img_review_started.blank? && @claim_review.img_review_started==-1) %>  No<br><br><%= f.radio_button :img_review_started, '', :checked => (@claim_review.img_review_started.blank?) %> Skip this question<br>
                   <br>
                   
