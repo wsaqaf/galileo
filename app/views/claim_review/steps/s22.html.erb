@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing claim:
+                   <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
-                   <%= link_to @claim.title, claim_path(@claim.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @claim.title %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Do you wish to share this claim review?<span class='required'>*</span>
-                  <%= f.select :review_sharing_mode, options_for_select([['Select',''],['Yes', 1],[' No', -1]], :selected => @claim_review.review_sharing_mode) %>
+                  <br><%= f.radio_button :review_sharing_mode, '1', :checked => (!@claim_review.review_sharing_mode.blank? && @claim_review.review_sharing_mode==1) %> Yes<br><%= f.radio_button :review_sharing_mode, '-1', :checked => (!@claim_review.review_sharing_mode.blank? && @claim_review.review_sharing_mode==-1) %>  No<br><br><%= f.radio_button :review_sharing_mode, '', :checked => (@claim_review.review_sharing_mode.blank?) %> Skip this question<br>
                   <br>
                   
                   </li>

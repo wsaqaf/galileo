@@ -51,7 +51,11 @@ class MediumReview::StepsController < ApplicationController
   def update
       @medium_review = MediumReview.find(params[:medium_review_id])
 
-      @medium_review.update(medium_review_params(step).merge(user_id: current_user.id))
+      begin
+        @medium_review.update(medium_review_params(step).merge(user_id: current_user.id))
+      rescue
+        return
+      end
 
       if (params['commit']=="Previous Step")
           redirect_to previous_wizard_path+'?s=prev'
@@ -113,7 +117,12 @@ when "s13"
 
 ########StepsToDo#########
       end
-      params.require(:medium_review).permit(permitted_attributes).merge(form_step: step)
+      begin
+        params.require(:medium_review).permit(permitted_attributes).merge(form_step: step)
+      rescue
+        render_wizard
+        return
+      end
     end
 
       def check_if_signed_in

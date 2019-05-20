@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing medium:
+                   <%= link_to @medium.name, medium_path(@medium.id) %></h4>
                 <% if (not @medium.url.blank?) %>
-                   <%= link_to @medium.name, medium_path(@medium.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@medium.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @medium.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Do you wish to share your review of this medium?<span class='required'>*</span>
-                  <%= f.select :medium_review_sharing_mode, options_for_select([['Select',''],['Yes', 1],[' No', -1]], :selected => @medium_review.medium_review_sharing_mode) %>
+                  <br><%= f.radio_button :medium_review_sharing_mode, '1', :checked => (!@medium_review.medium_review_sharing_mode.blank? && @medium_review.medium_review_sharing_mode==1) %> Yes<br><%= f.radio_button :medium_review_sharing_mode, '-1', :checked => (!@medium_review.medium_review_sharing_mode.blank? && @medium_review.medium_review_sharing_mode==-1) %>  No<br><br><%= f.radio_button :medium_review_sharing_mode, '', :checked => (@medium_review.medium_review_sharing_mode.blank?) %> Skip this question<br>
                   <br>
                   
                   </li>

@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing claim:
+                   <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
-                   <%= link_to @claim.title, claim_path(@claim.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @claim.title %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                <br><div style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;'><b><big>NOTE </big></b><b> that you don't need to answer all questions!</b><br>If you are ready to assess the claim, simply click on the <b><big>Reviewer Assessment</big></b> step to the left (one before the last) and mark your verdict.</div><br>
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Since the claim contains an image, do you wish to review it?
-                  <%= f.select :img_review_started, options_for_select([['Select',''],['Yes', 1],[' No', -1]], :selected => @claim_review.img_review_started) %>
+                  <br><%= f.radio_button :img_review_started, '1', :checked => (!@claim_review.img_review_started.blank? && @claim_review.img_review_started==1) %> Yes<br><%= f.radio_button :img_review_started, '-1', :checked => (!@claim_review.img_review_started.blank? && @claim_review.img_review_started==-1) %>  No<br><br><%= f.radio_button :img_review_started, '', :checked => (@claim_review.img_review_started.blank?) %> Skip this question<br>
                   <br>
                   
                   </li>

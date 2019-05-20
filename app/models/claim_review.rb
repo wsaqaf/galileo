@@ -11,8 +11,8 @@ class ClaimReview < ApplicationRecord
     attr_accessor :form_step
 
     ########Step Validation#########
-    validates :review_verdict, presence: true, if: -> { required_for_step?(:s21) }
-    validates :review_sharing_mode, presence: true, if: -> { required_for_step?(:s22) }
+#    validates :review_verdict, presence: true, if: -> { required_for_step?(:s21) }
+#    validates :review_sharing_mode, presence: true, if: -> { required_for_step?(:s22) }
     ########Step Validation#########
 
     def required_for_step?(step)

@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing source:
+                   <%= link_to @src.name, src_path(@src.id) %></h4>
                 <% if (not @src.url.blank?) %>
-                   <%= link_to @src.name, src_path(@src.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@src.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @src.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Are there any other major problems that could make this source untrustworthy? If yes, explain more in the note below.
-                  <%= f.select :src_other_problems, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @src_review.src_other_problems) %>
+                  <br><%= f.radio_button :src_other_problems, '-1', :checked => (!@src_review.src_other_problems.blank? && @src_review.src_other_problems==-1) %> Yes<br><%= f.radio_button :src_other_problems, '1', :checked => (!@src_review.src_other_problems.blank? && @src_review.src_other_problems==1) %>  No<br><%= f.radio_button :src_other_problems, '0', :checked => (!@src_review.src_other_problems.blank? && @src_review.src_other_problems==0) %>  Not sure<br><br><%= f.radio_button :src_other_problems, '', :checked => (@src_review.src_other_problems.blank?) %> Skip this question<br>
                   <br>
                   
                   </li>

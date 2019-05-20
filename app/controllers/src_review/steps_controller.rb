@@ -44,7 +44,12 @@ class SrcReview::StepsController < ApplicationController
 
   def update
       @src_review = SrcReview.find(params[:src_review_id])
-      @src_review.update(src_review_params(step).merge(user_id: current_user.id))
+
+      begin
+        @src_review.update(src_review_params(step).merge(user_id: current_user.id))
+      rescue
+        return
+      end
 
       if (params['commit']=="Previous Step")
           redirect_to previous_wizard_path+'?s=prev'
@@ -95,9 +100,14 @@ when "s8"
 when "s9"
   [:src_review_sharing_mode, :note_src_review_sharing_mode]
 ########StepsToDo#########
-      end
+end
+    begin
       params.require(:src_review).permit(permitted_attributes).merge(form_step: step)
+    rescue
+      render_wizard
+      return
     end
+  end
 
       def check_if_signed_in
         if !user_signed_in?

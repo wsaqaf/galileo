@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing medium:
+                   <%= link_to @medium.name, medium_path(@medium.id) %></h4>
                 <% if (not @medium.url.blank?) %>
-                   <%= link_to @medium.name, medium_path(@medium.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@medium.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @medium.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Does the information in the Whois entry (including company name, physical address, company status, etc.) raise any concerns?
-                  <%= f.select :medium_whois_info_discrepency, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_whois_info_discrepency) %>
+                  <br><%= f.radio_button :medium_whois_info_discrepency, '-1', :checked => (!@medium_review.medium_whois_info_discrepency.blank? && @medium_review.medium_whois_info_discrepency==-1) %> Yes<br><%= f.radio_button :medium_whois_info_discrepency, '1', :checked => (!@medium_review.medium_whois_info_discrepency.blank? && @medium_review.medium_whois_info_discrepency==1) %>  No<br><%= f.radio_button :medium_whois_info_discrepency, '0', :checked => (!@medium_review.medium_whois_info_discrepency.blank? && @medium_review.medium_whois_info_discrepency==0) %>  Not sure<br><br><%= f.radio_button :medium_whois_info_discrepency, '', :checked => (@medium_review.medium_whois_info_discrepency.blank?) %> Skip this question<br>
                   <br>
                   
                   <br>

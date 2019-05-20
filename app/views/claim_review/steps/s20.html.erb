@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing claim:
+                   <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
-                   <%= link_to @claim.title, claim_path(@claim.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @claim.title %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>

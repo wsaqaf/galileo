@@ -72,7 +72,11 @@ class ClaimReview::StepsController < ApplicationController
       @claim_review = ClaimReview.find(params[:claim_review_id])
       if current_user.id!=@claim_review.user_id then redirect_to claim_path(@claim); return end
 
-      @claim_review.update(claim_review_params(step).merge(user_id: current_user.id))
+      begin
+        @claim_review.update(claim_review_params(step).merge(user_id: current_user.id))
+      rescue
+        return
+      end
 
       if (params['commit']=="Previous Step")
           redirect_to previous_wizard_path+'?s=prev'
@@ -84,7 +88,7 @@ class ClaimReview::StepsController < ApplicationController
       end
       if step == "s1" and @claim_review.img_review_started!=1 then jump_to(:s6)
       elsif step == "s6" and @claim_review.vid_review_started!=1 then jump_to(:s12)
-      elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s21) end
+      elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s20) end
 
       if step=="s19" then @content_review_score=get_score("content","credibility","credible") end
       if step=="s22" then redirect_to claims_path
@@ -175,7 +179,12 @@ when "s22"
 
 ########StepsToDo#########
       end
-      params.require(:claim_review).permit(permitted_attributes).merge(form_step: step)
+      begin
+        params.require(:claim_review).permit(permitted_attributes).merge(form_step: step)
+      rescue
+        render_wizard
+        return
+      end
     end
 
       def check_if_signed_in

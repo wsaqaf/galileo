@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing source:
+                   <%= link_to @src.name, src_path(@src.id) %></h4>
                 <% if (not @src.url.blank?) %>
-                   <%= link_to @src.name, src_path(@src.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@src.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @src.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>

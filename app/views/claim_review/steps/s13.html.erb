@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing claim:
+                   <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
-                   <%= link_to @claim.title, claim_path(@claim.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @claim.title %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Can the article be implied or be seen as satire, opinion or other unserious news content?
-                  <%= f.select :txt_unreliable_news_content, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_unreliable_news_content) %>
+                  <br><%= f.radio_button :txt_unreliable_news_content, '-1', :checked => (!@claim_review.txt_unreliable_news_content.blank? && @claim_review.txt_unreliable_news_content==-1) %> Yes<br><%= f.radio_button :txt_unreliable_news_content, '1', :checked => (!@claim_review.txt_unreliable_news_content.blank? && @claim_review.txt_unreliable_news_content==1) %>  No<br><%= f.radio_button :txt_unreliable_news_content, '0', :checked => (!@claim_review.txt_unreliable_news_content.blank? && @claim_review.txt_unreliable_news_content==0) %>  Not sure<br><br><%= f.radio_button :txt_unreliable_news_content, '', :checked => (@claim_review.txt_unreliable_news_content.blank?) %> Skip this question<br>
                   <br>
                   
                   <br>

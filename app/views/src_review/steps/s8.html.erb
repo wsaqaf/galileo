@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing source:
+                   <%= link_to @src.name, src_path(@src.id) %></h4>
                 <% if (not @src.url.blank?) %>
-                   <%= link_to @src.name, src_path(@src.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@src.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @src.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,12 +43,12 @@
                   <ul>
                       
                   <li>Based on the barometer result, how do you assess the trustworthiness of the source?<span class='required'>*</span>
-                  <%= f.select :src_review_verdict, options_for_select([['Select',''],['Not trustworthy', 1],[' Marginally trustworthy', 2],[' Somewhat trustworthy', 3],[' Mostly trustworthy', 4],['  Fully trustworthy', 5],[' No decision', 0]], :selected => @src_review.src_review_verdict) %>
+                  <br><%= f.radio_button :src_review_verdict, '1', :checked => (!@src_review.src_review_verdict.blank? && @src_review.src_review_verdict==1), onClick: "$('#verdict_note').show();" %> Not trustworthy<br><%= f.radio_button :src_review_verdict, '2', :checked => (!@src_review.src_review_verdict.blank? && @src_review.src_review_verdict==2), onClick: "$('#verdict_note').show();" %>  Marginally trustworthy<br><%= f.radio_button :src_review_verdict, '3', :checked => (!@src_review.src_review_verdict.blank? && @src_review.src_review_verdict==3), onClick: "$('#verdict_note').show();" %>  Somewhat trustworthy<br><%= f.radio_button :src_review_verdict, '4', :checked => (!@src_review.src_review_verdict.blank? && @src_review.src_review_verdict==4), onClick: "$('#verdict_note').show();" %>  Mostly trustworthy<br><%= f.radio_button :src_review_verdict, '5', :checked => (!@src_review.src_review_verdict.blank? && @src_review.src_review_verdict==5), onClick: "$('#verdict_note').show();" %>   Fully trustworthy<br><%= f.radio_button :src_review_verdict, '0', :checked => (!@src_review.src_review_verdict.blank? && @src_review.src_review_verdict==0), onClick: "$('#verdict_note').show();" %>  No decision<br><br><%= f.radio_button :src_review_verdict, '', :checked => (@src_review.src_review_verdict.blank?) %> Skip this question<br>
                   <br>
                   
                   </li>
           
-                  <li>Explain your rationale to why you have given this score.
+                  <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li>Explain your rationale to why you have given this score.
                   <%= f.text_area(:src_review_description, size: '50x10', class: 'field-long field-textarea') %>
                   <br>
                   

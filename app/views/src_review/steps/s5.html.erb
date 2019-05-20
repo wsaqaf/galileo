@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing source:
+                   <%= link_to @src.name, src_path(@src.id) %></h4>
                 <% if (not @src.url.blank?) %>
-                   <%= link_to @src.name, src_path(@src.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@src.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @src.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Was it difficult to find information about the source using available local online yellow pages/directories?
-                  <%= f.select :src_difficult_to_locate, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @src_review.src_difficult_to_locate) %>
+                  <br><%= f.radio_button :src_difficult_to_locate, '-1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==-1) %> Yes<br><%= f.radio_button :src_difficult_to_locate, '1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==1) %>  No<br><%= f.radio_button :src_difficult_to_locate, '0', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==0) %>  Not sure<br><br><%= f.radio_button :src_difficult_to_locate, '', :checked => (@src_review.src_difficult_to_locate.blank?) %> Skip this question<br>
                   <br>
                   
                   <br>

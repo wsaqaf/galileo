@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing medium:
+                   <%= link_to @medium.name, medium_path(@medium.id) %></h4>
                 <% if (not @medium.url.blank?) %>
-                   <%= link_to @medium.name, medium_path(@medium.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@medium.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @medium.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Is the medium known to have bias (political, social, religious, etc.)?
-                  <%= f.select :medium_is_biased, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_biased) %>
+                  <br><%= f.radio_button :medium_is_biased, '-1', :checked => (!@medium_review.medium_is_biased.blank? && @medium_review.medium_is_biased==-1) %> Yes<br><%= f.radio_button :medium_is_biased, '1', :checked => (!@medium_review.medium_is_biased.blank? && @medium_review.medium_is_biased==1) %>  No<br><%= f.radio_button :medium_is_biased, '0', :checked => (!@medium_review.medium_is_biased.blank? && @medium_review.medium_is_biased==0) %>  Not sure<br><br><%= f.radio_button :medium_is_biased, '', :checked => (@medium_review.medium_is_biased.blank?) %> Skip this question<br>
                   <br>
                   
                   <br>

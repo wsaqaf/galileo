@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing claim:
+                   <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
-                   <%= link_to @claim.title, claim_path(@claim.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @claim.title %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,7 +43,7 @@
                   <ul>
                       
                   <li>Did you reach out to the source to assess the claim and he/she failed to provide sufficient evidence to prove the claim? Skip if you have not reached out to the source, answer yes if he/she failed to provide sufficient evidence and no otherwise.
-                  <%= f.select :txt_author_offers_little_evidence, options_for_select([['Select',''],['Yes', -1],[' No', 1],[' Not sure', 0]], :selected => @claim_review.txt_author_offers_little_evidence) %>
+                  <br><%= f.radio_button :txt_author_offers_little_evidence, '-1', :checked => (!@claim_review.txt_author_offers_little_evidence.blank? && @claim_review.txt_author_offers_little_evidence==-1) %> Yes<br><%= f.radio_button :txt_author_offers_little_evidence, '1', :checked => (!@claim_review.txt_author_offers_little_evidence.blank? && @claim_review.txt_author_offers_little_evidence==1) %>  No<br><%= f.radio_button :txt_author_offers_little_evidence, '0', :checked => (!@claim_review.txt_author_offers_little_evidence.blank? && @claim_review.txt_author_offers_little_evidence==0) %>  Not sure<br><br><%= f.radio_button :txt_author_offers_little_evidence, '', :checked => (@claim_review.txt_author_offers_little_evidence.blank?) %> Skip this question<br>
                   <br>
                   
                   <br>

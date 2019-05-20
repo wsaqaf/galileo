@@ -23,13 +23,14 @@
       </div>
       <div class="main">
               <h4>Reviewing medium:
+                   <%= link_to @medium.name, medium_path(@medium.id) %></h4>
                 <% if (not @medium.url.blank?) %>
-                   <%= link_to @medium.name, medium_path(@medium.id) %>
+                   <%== "URL: <input type='text' id='url_link' value='"+@medium.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
                 <% else %>
-                  <%= @medium.name %>
+                   URL: Not provided
                 <% end %>
-              </h4> 
-
+              <br> 
+                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -42,12 +43,12 @@
                   <ul>
                       
                   <li>Considering the given score, how do you assess the medium's reliability for accurate information?<span class='required'>*</span>
-                  <%= f.select :medium_review_verdict, options_for_select([['Select',''],['Totally unreliable', 1],[' Mostly unreliable', 2],[' Somewhat reliable', 3],[' Mostly reliable', 4],[' Totally reliable', 5],[' No decision', 0]], :selected => @medium_review.medium_review_verdict) %>
+                  <br><%= f.radio_button :medium_review_verdict, '1', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==1), onClick: "$('#verdict_note').show();" %> Totally unreliable<br><%= f.radio_button :medium_review_verdict, '2', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==2), onClick: "$('#verdict_note').show();" %>  Mostly unreliable<br><%= f.radio_button :medium_review_verdict, '3', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==3), onClick: "$('#verdict_note').show();" %>  Somewhat reliable<br><%= f.radio_button :medium_review_verdict, '4', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==4), onClick: "$('#verdict_note').show();" %>  Mostly reliable<br><%= f.radio_button :medium_review_verdict, '5', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==5), onClick: "$('#verdict_note').show();" %>  Totally reliable<br><%= f.radio_button :medium_review_verdict, '0', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==0), onClick: "$('#verdict_note').show();" %>  No decision/Not applicable<br><br><%= f.radio_button :medium_review_verdict, '', :checked => (@medium_review.medium_review_verdict.blank?) %> Skip this question<br>
                   <br>
                   
                   </li>
           
-                  <li>Explain your rationale to why you have given this assessment.
+                  <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li>Explain your rationale to why you have given this assessment.
                   <%= f.text_area(:medium_review_description, size: '50x10', class: 'field-long field-textarea') %>
                   <br>
                   
