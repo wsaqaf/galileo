@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,18 +43,21 @@
                       
                   <li>Based on this review, what is your final assessment of this claim? If it is not possible to assess it because it is not a news/info genre (e.g., satire, marketing, fiction, etc.), select "No decision/not applicable" and justify that in the fields below.<span class='required'>*</span>
                   <br><%= f.radio_button :review_verdict, '1', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==1), onClick: "$('#verdict_note').show();" %> False<br><%= f.radio_button :review_verdict, '2', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==2), onClick: "$('#verdict_note').show();" %>  Mostly false<br><%= f.radio_button :review_verdict, '3', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==3), onClick: "$('#verdict_note').show();" %>  Mixed<br><%= f.radio_button :review_verdict, '4', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==4), onClick: "$('#verdict_note').show();" %>  Mostly true<br><%= f.radio_button :review_verdict, '5', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==5), onClick: "$('#verdict_note').show();" %>  True<br><%= f.radio_button :review_verdict, '0', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==0), onClick: "$('#verdict_note').show();" %>  No decision<br><br><%= f.radio_button :review_verdict, '', :checked => (@claim_review.review_verdict.blank?) %> Skip this question<br>
+                  
                   <br>
                   
                   </li>
           
                   <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li>Explain your rationale to why you have given this assessment.
                   <%= f.text_area(:review_description, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>
           
                   <li>Optional note
                   <%= f.text_area(:note_review_description, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>

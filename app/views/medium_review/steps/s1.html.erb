@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,6 +43,7 @@
                       
                   <li>Is the medium on any public list of fake news websites?
                   <br><%= f.radio_button :medium_is_blacklisted, '-1', :checked => (!@medium_review.medium_is_blacklisted.blank? && @medium_review.medium_is_blacklisted==-1) %> Yes<br><%= f.radio_button :medium_is_blacklisted, '1', :checked => (!@medium_review.medium_is_blacklisted.blank? && @medium_review.medium_is_blacklisted==1) %>  No<br><%= f.radio_button :medium_is_blacklisted, '0', :checked => (!@medium_review.medium_is_blacklisted.blank? && @medium_review.medium_is_blacklisted==0) %>  Not sure<br><br><%= f.radio_button :medium_is_blacklisted, '', :checked => (@medium_review.medium_is_blacklisted.blank?) %> Skip this question<br>
+                  <br><div style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;'><b><big>NOTE </big></b><b> that you don't need to answer all questions!</b><br>If you are ready to assess the medium, simply jump to the <b><big>Reviewer Assessment</big></b> step to the left (one before the last) and mark your verdict.</div><br>
                   <br>
                   
                   <br>
@@ -82,6 +82,7 @@
           
                   <li>Optional note
                   <%= f.text_area(:note_medium_is_blacklisted, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>

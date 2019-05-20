@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,6 +43,7 @@
                       
                   <li>Does the medium have poor technical security/safety standards  (contains viruses, scams, malware, etc.) and lacks encrypted communication (SSL certificate)? 
                   <br><%= f.radio_button :medium_has_poor_security, '-1', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==-1) %> Yes<br><%= f.radio_button :medium_has_poor_security, '1', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==1) %>  No<br><%= f.radio_button :medium_has_poor_security, '0', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==0) %>  Not sure<br><br><%= f.radio_button :medium_has_poor_security, '', :checked => (@medium_review.medium_has_poor_security.blank?) %> Skip this question<br>
+                  
                   <br>
                   
                   <br>
@@ -82,6 +82,7 @@
           
                   <li>Optional note
                   <%= f.text_area(:note_medium_has_poor_security, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>

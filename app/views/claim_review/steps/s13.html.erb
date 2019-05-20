@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,6 +43,7 @@
                       
                   <li>Can the article be implied or be seen as satire, opinion or other unserious news content?
                   <br><%= f.radio_button :txt_unreliable_news_content, '-1', :checked => (!@claim_review.txt_unreliable_news_content.blank? && @claim_review.txt_unreliable_news_content==-1) %> Yes<br><%= f.radio_button :txt_unreliable_news_content, '1', :checked => (!@claim_review.txt_unreliable_news_content.blank? && @claim_review.txt_unreliable_news_content==1) %>  No<br><%= f.radio_button :txt_unreliable_news_content, '0', :checked => (!@claim_review.txt_unreliable_news_content.blank? && @claim_review.txt_unreliable_news_content==0) %>  Not sure<br><br><%= f.radio_button :txt_unreliable_news_content, '', :checked => (@claim_review.txt_unreliable_news_content.blank?) %> Skip this question<br>
+                  
                   <br>
                   
                   <br>
@@ -82,6 +82,7 @@
           
                   <li>Optional note
                   <%= f.text_area(:note_txt_unreliable_news_content, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>

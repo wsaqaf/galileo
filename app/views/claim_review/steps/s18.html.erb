@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,6 +43,7 @@
                       
                   <li>Did you reach out to the source to assess the claim and he/she failed to provide sufficient evidence to prove the claim? Skip if you have not reached out to the source, answer yes if he/she failed to provide sufficient evidence and no otherwise.
                   <br><%= f.radio_button :txt_author_offers_little_evidence, '-1', :checked => (!@claim_review.txt_author_offers_little_evidence.blank? && @claim_review.txt_author_offers_little_evidence==-1) %> Yes<br><%= f.radio_button :txt_author_offers_little_evidence, '1', :checked => (!@claim_review.txt_author_offers_little_evidence.blank? && @claim_review.txt_author_offers_little_evidence==1) %>  No<br><%= f.radio_button :txt_author_offers_little_evidence, '0', :checked => (!@claim_review.txt_author_offers_little_evidence.blank? && @claim_review.txt_author_offers_little_evidence==0) %>  Not sure<br><br><%= f.radio_button :txt_author_offers_little_evidence, '', :checked => (@claim_review.txt_author_offers_little_evidence.blank?) %> Skip this question<br>
+                  
                   <br>
                   
                   <br>
@@ -82,6 +82,7 @@
           
                   <li>Optional note
                   <%= f.text_area(:note_txt_author_offers_little_evidence, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>

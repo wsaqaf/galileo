@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,6 +43,7 @@
                       
                   <li>Is the medium known to have bias (political, social, religious, etc.)?
                   <br><%= f.radio_button :medium_is_biased, '-1', :checked => (!@medium_review.medium_is_biased.blank? && @medium_review.medium_is_biased==-1) %> Yes<br><%= f.radio_button :medium_is_biased, '1', :checked => (!@medium_review.medium_is_biased.blank? && @medium_review.medium_is_biased==1) %>  No<br><%= f.radio_button :medium_is_biased, '0', :checked => (!@medium_review.medium_is_biased.blank? && @medium_review.medium_is_biased==0) %>  Not sure<br><br><%= f.radio_button :medium_is_biased, '', :checked => (@medium_review.medium_is_biased.blank?) %> Skip this question<br>
+                  
                   <br>
                   
                   <br>
@@ -82,6 +82,7 @@
           
                   <li>Optional note
                   <%= f.text_area(:note_medium_is_biased, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>

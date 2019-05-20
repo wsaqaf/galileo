@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,12 +43,14 @@
                       
                   <li>Do you wish to share your review of this medium?<span class='required'>*</span>
                   <br><%= f.radio_button :medium_review_sharing_mode, '1', :checked => (!@medium_review.medium_review_sharing_mode.blank? && @medium_review.medium_review_sharing_mode==1) %> Yes<br><%= f.radio_button :medium_review_sharing_mode, '-1', :checked => (!@medium_review.medium_review_sharing_mode.blank? && @medium_review.medium_review_sharing_mode==-1) %>  No<br><br><%= f.radio_button :medium_review_sharing_mode, '', :checked => (@medium_review.medium_review_sharing_mode.blank?) %> Skip this question<br>
+                  
                   <br>
                   
                   </li>
           
                   <li>Optional note
                   <%= f.text_area(:note_medium_review_sharing_mode, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>

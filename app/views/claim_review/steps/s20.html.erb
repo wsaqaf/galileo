@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,6 +43,7 @@
                       
                   <li><%= @content_review_score.html_safe %>
                   <%= f.hidden_field :claim_review, :value => @claim_review %>
+                  
                   <br>
                   
                   </li>

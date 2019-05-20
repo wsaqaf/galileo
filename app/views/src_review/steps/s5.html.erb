@@ -30,7 +30,6 @@
                    URL: Not provided
                 <% end %>
               <br> 
-                
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -44,6 +43,7 @@
                       
                   <li>Was it difficult to find information about the source using available local online yellow pages/directories?
                   <br><%= f.radio_button :src_difficult_to_locate, '-1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==-1) %> Yes<br><%= f.radio_button :src_difficult_to_locate, '1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==1) %>  No<br><%= f.radio_button :src_difficult_to_locate, '0', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==0) %>  Not sure<br><br><%= f.radio_button :src_difficult_to_locate, '', :checked => (@src_review.src_difficult_to_locate.blank?) %> Skip this question<br>
+                  
                   <br>
                   
                   <br>
@@ -82,6 +82,7 @@
           
                   <li>Optional note
                   <%= f.text_area(:note_src_difficult_to_locate, size: '50x10', class: 'field-long field-textarea') %>
+                  
                   <br>
                   
                   </li>
