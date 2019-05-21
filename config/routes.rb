@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'tags/:tag', to: 'claims#index', as: :tag
+
   resources :affiliations
   resources :resources
 

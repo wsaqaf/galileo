@@ -1,8 +1,12 @@
 class Claim < ApplicationRecord
+  acts_as_taggable
+  acts_as_taggable_on :tag_list
+
   belongs_to :user
   belongs_to :src, required: false
   belongs_to :medium, required: false
   has_many :claim_reviews
+
 
   validates :title, presence: true
   validates :has_image, presence: true

@@ -1,5 +1,9 @@
 <div class="container">
 <h2>Title: <%= @claim.title %></h2>
+<% if @claim.tag_list.size>0 %>
+  <small>Tags: <%= raw @claim.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></small>
+<% end %>
+
 <h5>URL:
 <% if @claim.url.present? %>
   <%= link_to @claim.url,@claim.url %>

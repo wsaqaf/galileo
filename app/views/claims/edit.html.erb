@@ -13,6 +13,9 @@
   <li>Give a brief title for the claim<span class='required'>*</span>
   <%= f.text_field :title, class: 'field-long', :autocomplete=>"off" %>
   </li>
+  <li>Tags (separated by commas)
+  <%= f.text_field :tag_list, class: 'field-long', :autocomplete=>"on", value: @claim.tag_list.to_s %>
+  </li>
   <li>
     URL of where the claim is found (if available)
     <%= f.text_field :url, :onfocusout => "URLPreview('claim')", class: 'field-long', :autocomplete=>"off" %>

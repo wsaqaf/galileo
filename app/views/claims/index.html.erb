@@ -11,11 +11,24 @@
 
     <% if (@claims.size==0) %>
       No results were returned.
+    <% elsif Claim.tag_counts_on(:tags).size>0 %>
+    <a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
+      Tag Cloud &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+    <div class="panel-collapse collapse" id="Resources">
+           <div id="tag_cloud">
+             <% tag_cloud Claim.tag_counts, %w[s m l] do |tag, css_class| %>
+               <%= link_to tag.name, tag_path(tag.name), class: css_class %>
+             <% end %>
+           </div>
+    </div>
     <% end %>
     <ul>
     <% @claims.each do |claim| %>
       <h4>
         <br><li><%= link_to claim.title, claim_path(claim) %>
+        <% if claim.tag_list.size>0 %>
+          <br><small>Tags: <%= raw claim.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></small>
+        <% end %>
         <small><br>Updated at: <%= claim.created_at %> - Reviews:
         <%
           @result2="<table><tr>"

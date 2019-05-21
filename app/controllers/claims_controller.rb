@@ -4,6 +4,7 @@ class ClaimsController < ApplicationController
 
   def index
     order=""
+
     if (params[:sort].present?)
       @sort_msg=sort_bar("Claims",params[:sort])
     else
@@ -78,7 +79,10 @@ class ClaimsController < ApplicationController
         return
       else
         @filter_msg=filter_bar("Claims","a")
-        if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+        if params[:tag]
+          tmp=Claim.tagged_with(params[:tag])
+          @total_count=tmp.count
+        elsif (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
           tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
           @total_count=tmp.count.length
         elsif  (params[:sort]=="rt")
@@ -94,7 +98,10 @@ class ClaimsController < ApplicationController
         @pagy, @claims = pagy(tmp, items: 10)
         return
       end
-      if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
+      if params[:tag]
+        tmp=Claim.tagged_with(params[:tag])
+        @total_count=tmp.count
+      elsif (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
         tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
         @total_count=tmp.count.length
       elsif  (params[:sort]=="rt")
@@ -175,7 +182,7 @@ class ClaimsController < ApplicationController
     end
 
     def claim_params
-      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video, :has_text, :sharing_mode, :url_preview)
+      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video, :has_text, :sharing_mode, :url_preview, :tag_list)
     end
 
     def find_claim
