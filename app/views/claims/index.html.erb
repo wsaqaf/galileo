@@ -19,6 +19,7 @@
              <% tag_cloud Claim.tag_counts, %w[s m l] do |tag, css_class| %>
                <%= link_to tag.name, tag_path(tag.name), class: css_class %>
              <% end %>
+              - <%= link_to "[ Show all ]", claims_path %>
            </div>
     </div>
     <% end %>
