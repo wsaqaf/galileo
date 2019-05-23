@@ -24,6 +24,7 @@
 
 #Ignore secret files
 /config/secrets.yml
+/config/environments/production.rb
 
 #Routine update commands
 update.sh

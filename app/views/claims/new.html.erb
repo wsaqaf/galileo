@@ -16,6 +16,7 @@
     <li>Tags (separated by commas)
     <%= f.text_field :tag_list, class: 'field-long', :autocomplete=>"on" %>
     </li>
+    
     <li>
     URL of where the claim is found (if available)
     <%= f.text_field :url, :onchange => "URLPreview('claim')", class: 'field-long', :autocomplete=>"off" %>
