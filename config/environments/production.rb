@@ -91,6 +91,23 @@ Rails.application.configure do
 #################################################################
   config.relative_url_root = "/sh"
 
+  config.action_mailer.default_url_options = { :host => "https://faktaassistenten.sh.se"+config.relative_url_root }
+
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.raise_delivery_errors = false
+    config.action_mailer.default :charset => "utf-8"
+
+    config.action_mailer.smtp_settings = {
+      address: "smtp-mail.outlook.com",
+      port: 25,
+      domain: "smtp-mail.outlook.com",
+      authentication: "plain",
+      enable_starttls_auto: true,
+      user_name: "shwdaf17@suni.se",
+      password: "MY_PASS"
+    }
+
 #  config.action_controller.asset_host = "faktaassistenten.sh.se/sh"
   # ActionMailer Config
   config.action_mailer.default_url_options = {
