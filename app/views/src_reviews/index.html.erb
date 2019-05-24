@@ -12,10 +12,10 @@
             usr = User.find(src_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
             if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
           %>
-          Src's Name: <%= link_to src.name, src_path(src_review.src_id), target: "_blank" %><br>
+          Src's Name: <%= link_to src.name, src_path(src_review.src_id) %><br>
           Assessment:
          <% if !src_review.src_review_verdict.blank? %>
-           <%= link_to(image_tag(config.relative_url_root.to_s+'/'+src_review.src_review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'", title:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'"),src_src_review_path(src.id,src_review.id), target: "_blank") %>
+           <%= link_to(image_tag(config.relative_url_root.to_s+'/'+src_review.src_review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'", title:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'"),src_src_review_path(src.id,src_review.id)) %>
           <% txt="["+rating[src_review.src_review_verdict.to_s].to_s+"]"
           else
             txt="Not assessed"

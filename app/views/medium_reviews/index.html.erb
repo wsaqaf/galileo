@@ -9,10 +9,10 @@
             usr = User.find(medium_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
             if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
           %>
-          Medium's Name: <%= link_to medium.name, medium_path(medium_review.medium_id), target: "_blank" %><br>
+          Medium's Name: <%= link_to medium.name, medium_path(medium_review.medium_id) %><br>
           Assessment:
          <% if !medium_review.medium_review_verdict.blank? %>
-           <%= link_to(image_tag(config.relative_url_root.to_s+'/'+medium_review.medium_review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[medium_review.medium_review_verdict.to_s].to_s+"'", title:"'"+rating[medium_review.medium_review_verdict.to_s].to_s+"'"),medium_medium_review_path(medium.id,medium_review.id), target: "_blank") %>
+           <%= link_to(image_tag(config.relative_url_root.to_s+'/'+medium_review.medium_review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[medium_review.medium_review_verdict.to_s].to_s+"'", title:"'"+rating[medium_review.medium_review_verdict.to_s].to_s+"'"),medium_medium_review_path(medium.id,medium_review.id)) %>
           <% txt="["+rating[medium_review.medium_review_verdict.to_s].to_s+"]"
           else
             txt="Not assessed"
