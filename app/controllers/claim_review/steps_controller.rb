@@ -26,14 +26,19 @@ class ClaimReview::StepsController < ApplicationController
       fields.each { |f| if (f.present? and not f.blank? and f!=0) then score=score+f.to_i; total=total+1; end }
     end
     max_total=fields.count
-    confidence=(100*(total.to_f/max_total)).to_i
+    if (score==0 || total==0 || max_total==0)
+        score=0; total=0; max_total=1;
+    end;
+    confidence=(100*(total.to_f/max_total)).to_i;
     relative_score="Score is "+score.to_s+" and max_tot is "+max_total.to_s
     if (score==-1*max_total)
       relative_score="Totally not "+adj
     elsif (score<=-0.5*max_total)
       relative_score="Mostly not "+adj
-    elsif (score<=0)
+    elsif (score<0)
       relative_score="Somewhat not "+adj
+    elsif (score==0)
+      relative_score="Not measurable"
     elsif (score<=0.5*max_total)
       relative_score="Somewhat "+adj
     elsif (score<max_total)
