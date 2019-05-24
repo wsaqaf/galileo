@@ -14,6 +14,7 @@
       <div class="container-fluid">
         <div class="navbar-header">
           <%= link_to image_tag('/logo.png', alt: 'Fact Check Assistant', title: 'Fact Check Assistant'), root_path %>&nbsp;&nbsp;&nbsp;
+          <%== Rails.configuration.institution.to_s %>&nbsp;&nbsp;&nbsp;
         </div>
 
         <ul class="nav navbar-nav">
