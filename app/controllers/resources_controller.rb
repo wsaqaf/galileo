@@ -141,6 +141,7 @@ class ResourcesController < ApplicationController
           "tutorial" => resrc.tutorial,
           "icon" => resrc.icon,
           "url" => resrc.url,
+          "url_preview" => resrc.url_preview,
           "used_for_qs" => resrc.used_for_qs
         }
         @resources_json << res_json
