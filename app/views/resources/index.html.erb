@@ -8,7 +8,14 @@
 <hr>
 <% if (@resources.size==0) %>
     No results were returned.
-  <% end %>
+<% else %>
+  <div style='float:right'>
+    <%= form_tag(resources_path, method: :post) do %>
+        <%= hidden_field_tag :resources_json, params[:resources_json], value: @resources_json %>
+      <%= submit_tag 'Export all', name:nil, :class => 'btn btn btn-primary' %>
+    <% end %>
+  </div>
+<% end %>
   <ul>
   <% @resources.each do |resource| %>
     <h4>
@@ -16,7 +23,7 @@
        <%
           @my_entry = Resource.where("id=? and (user_id=? or ?=1)",resource.id,current_user.id,current_user.id).first
           if (not @my_entry.blank?) %>
-            <small>(<%= link_to "Edit", edit_resource_path(@my_entry) %> | <%= link_to "Delete", resource_path(@my_entry), method: :delete, data: { confirm: "Are you sure?"} %>)</small>
+            <small>(<%= link_to "Edit", edit_resource_path(@my_entry) %> | <%= link_to "Delete", resource_path(@my_entry), method: :delete, data: { confirm: "Are you sure?"} %>) - <%= link_to "Export", export_resource_path(resource), method: :post %></small>
          <% end %>
          <% if resource.url_preview.present? %>
            <br><%== resource.url_preview.gsub('\"','"').gsub("\\'", "'") %>

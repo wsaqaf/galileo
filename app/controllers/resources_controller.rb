@@ -2,20 +2,28 @@ class ResourcesController < ApplicationController
   before_action :find_resource, only: [:show, :edit, :update, :destroy]
   before_action :check_if_signed_in
 
-
     def index
+      if params[:import_note].present?
+        @import_note=params[:import_note]
+      else
+        @import_note=""
+      end
       if (params[:term].present?)
-        @resources = Resource.order(:name).where("name like ?","'%"+params[:term]+"%'")
+        @tmp = Resource.order(:name).where("name like ?","'%"+params[:term]+"%'")
+        @resources=@tmp
+        get_all_json
         render json: @resources.map(&:name)
       elsif (params[:q].present?)
-        tmp=Resource.order(:name).where("lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')")
-        @total_count=tmp.count
-        @pagy, @resources = pagy(tmp, items: 10)
+        @tmp=Resource.order(:name).where("lower(name) like lower('%"+params[:q]+"%') or lower(description) like lower('%"+params[:q]+"%') or lower(url_preview) like lower('%"+params[:q]+"%')")
+        @total_count=@tmp.count
+        @pagy, @resources = pagy(@tmp, items: 10)
+        get_all_json
       else
-        tmp=Resource.all.order("created_at DESC")
-        @total_count=tmp.count
-        @pagy, @resources = pagy(tmp, items: 10)
-      end
+          @tmp=Resource.all.order("created_at DESC")
+          @total_count=@tmp.count
+          @pagy, @resources = pagy(@tmp, items: 10)
+          get_all_json
+        end
     end
 
     def show
@@ -30,12 +38,46 @@ class ResourcesController < ApplicationController
     end
 
     def create
-      @resource = current_user.resources.build(resource_params)
-
-      if @resource.save
-          redirect_to resources_path
+      @import_note=""
+      if (params[:resources_json].present?)
+        massport
+      elsif (!params[:resource].nil?)
+        if (params[:resource][:file].present?)
+          myfile=params[:resource][:file]
+          file_contents=myfile.read
+          if (!file_contents.nil?)
+            resource_list = JSON.parse(file_contents)
+            resource_list.each do |resrc|
+            tmp = Resource.where(name: resrc['name']).first
+            if (!tmp.nil?)
+              if (params[:resource][:overwrite]=="1")
+                  tmp.destroy
+                  @resource = current_user.resources.build(resrc)
+                  if @resource.save
+                    @import_note=@import_note+resrc['name']+" imported and replaced older resource with the same name.<br>"
+                  end
+              else
+                @import_note=@import_note+resrc['name']+" not imported (resource with the same name already exists).<br>"
+              end
+            else
+                @resource = current_user.resources.build(resrc)
+                if @resource.save
+                  @import_note=@import_note+resrc['name']+" imported successfully.<br>"
+                end
+              end
+            end
+            render 'show'
+          end
+        else
+          @resource = current_user.resources.build(resource_params)
+          if @resource.save
+              redirect_to resources_path
+          else
+              render 'new'
+          end
+        end
       else
-          render 'new'
+        return
       end
     end
 
@@ -62,9 +104,55 @@ class ResourcesController < ApplicationController
       redirect_to resources_path
     end
 
+    def export
+        if (!params[:id].blank?)
+          resrc=Resource.find(params[:id])
+        end
+        result_json=[]
+        res_json = {
+          "name" => resrc.name,
+          "description" => resrc.description,
+          "tutorial" => resrc.tutorial,
+          "icon" => resrc.icon,
+          "url" => resrc.url,
+          "used_for_qs" => resrc.used_for_qs
+        }
+        result_json << res_json
+        send_data result_json.to_json,
+          :type => 'text/json; charset=UTF-8;',
+          :disposition => "attachment; filename="+resrc.name+".json"
+    end
+
     private
+
+    def massport
+      resources_json=params[:resources_json]
+      send_data resources_json,
+        :type => 'text/json; charset=UTF-8;',
+        :disposition => "attachment; filename=resources.json"
+    end
+
+    def get_all_json
+      @resources_json = []
+      @tmp.all.each do |resrc|
+        res_json = {
+          "name" => resrc.name,
+          "description" => resrc.description,
+          "tutorial" => resrc.tutorial,
+          "icon" => resrc.icon,
+          "url" => resrc.url,
+          "used_for_qs" => resrc.used_for_qs
+        }
+        @resources_json << res_json
+      end
+      @resources_json = @resources_json.to_json
+      @resources_json=@resources_json.to_s;
+    end
+
       def resource_params
-        params.require(:resource).permit(:name, :url, :description, :tutorial, :icon, :used_for_qs, :ref, :url_preview)
+        if (!params[:resources_json].present?)
+          params.require(:resource).permit(:name, :url, :description, :tutorial, :icon, :used_for_qs, :ref, :url_preview)
+        end
       end
 
       def find_resource
@@ -76,4 +164,5 @@ class ResourcesController < ApplicationController
             redirect_to "/"
           end
         end
+
   end

@@ -10,7 +10,12 @@ Rails.application.routes.draw do
     get '/users/' => 'claims#index'
   end
 
-#  resources :claims, only: [:new, :create, :index, :destroy] do
+  resources :resources do
+      member do
+        post :export
+      end
+  end
+
   resources :claims do
     resources :claim_reviews do
       resources :steps, only: [:show, :update], controller: 'claim_review/steps'

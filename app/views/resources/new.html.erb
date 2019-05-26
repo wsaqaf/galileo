@@ -1,6 +1,20 @@
 <div class="form-claim">
   <fieldset>
     <legend>&nbsp;Add a new resource</legend>
+    <div style='float:right'>
+      Import resource(s)
+      <a href="#Import" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
+        Import resource(s) &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+        <div class="panel-collapse collapse" id="Import">
+             <b>Select a JSON file to import (must use FCA standards):</b>
+             <%= form_for(@resource, html: {multipart: true}) do |f| %>
+                <%= f.file_field :file %>
+                <%= f.check_box :overwrite, :checked => true %> Overwrite any existing resources
+                <%= f.submit 'Import', :class => 'btn btn btn-primary', id: "submit" %><br><br>
+             <% end %>
+           </div>
+        </div>
+
     <%= form_for @resource, :html => { :onsubmit => "do_submit('resource')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
@@ -32,7 +46,13 @@
       Provide more details about this resource and what it is useful for:
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
       </li>
-      <% if @ref.empty? %>
+      <% if !@ref.present? %>
+        <li>
+        Reference code(s) of the step(s) which this resource is associated to:<br>
+        <small><i>(Use commas or spaces to add multiple references)</i></small>
+        <%= f.text_field :used_for_qs, class: 'field-long', :autocomplete=>"off" %>
+        </li>
+      <% elsif @ref.empty? %>
         <li>
         Reference code(s) of the step(s) which this resource is associated to:<br>
         <small><i>(Use commas or spaces to add multiple references)</i></small>
