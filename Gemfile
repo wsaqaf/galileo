@@ -27,7 +27,7 @@ gem 'wicked'
 gem 'pagy'
 gem 'onebox'
 gem 'jquery-turbolinks'
-gem 'acts-as-taggable-on', '~> 6.0'
+#gem 'acts-as-taggable-on', '~> 6.0'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -43,3 +43,11 @@ group :development do
 end
 
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem 'popper_js', '~> 1.11.1'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.3.3'
+  # add the line below
+  gem 'rails-assets-chosen'
+end

@@ -42,29 +42,39 @@ class ResourcesController < ApplicationController
       if (params[:resources_json].present?)
         massport
       elsif (!params[:resource].nil?)
-        if (params[:resource][:file].present?)
-          myfile=params[:resource][:file]
-          file_contents=myfile.read
+        if (params[:resource][:file].present? || params[:resource][:url].present?)
+          if (params[:resource][:file].present?)
+            myfile=params[:resource][:file]
+            file_contents=myfile.read
+          else
+            myfile=params[:resource][:url]
+            require 'open-uri'
+            file_contents= open(myfile) {|f| f.read }
+          end
           if (!file_contents.nil?)
             resource_list = JSON.parse(file_contents)
             resource_list.each do |resrc|
-            tmp = Resource.where(name: resrc['name']).first
-            if (!tmp.nil?)
-              if (params[:resource][:overwrite]=="1")
-                  tmp.destroy
+              tmp = Resource.where(name: resrc['name']).first
+              if (!tmp.nil?)
+                if (params[:resource][:overwrite]=="1")
+                    tmp.destroy
+                    if (params[:resource][:used_for_qs]!="1")
+                      resrc['used_for_qs']=''
+                      @resource = current_user.resources.build(resrc)
+                    end
+                    @resource = current_user.resources.build(resrc)
+                    if @resource.save
+                      @import_note=@import_note+resrc['name']+" imported and replaced older resource with the same name.<br>"
+                    end
+                else
+                  @import_note=@import_note+resrc['name']+" not imported (resource with the same name already exists).<br>"
+                end
+              else
                   @resource = current_user.resources.build(resrc)
                   if @resource.save
-                    @import_note=@import_note+resrc['name']+" imported and replaced older resource with the same name.<br>"
+                    @import_note=@import_note+resrc['name']+" imported successfully.<br>"
                   end
-              else
-                @import_note=@import_note+resrc['name']+" not imported (resource with the same name already exists).<br>"
-              end
-            else
-                @resource = current_user.resources.build(resrc)
-                if @resource.save
-                  @import_note=@import_note+resrc['name']+" imported successfully.<br>"
                 end
-              end
             end
             render 'show'
           end

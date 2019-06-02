@@ -25,11 +25,12 @@
       <%= f.select :src_type, options_for_select(@src_types, :selected => @src.src_type) %>
       </li>
       <li>
-        Do you want to share this source with others?<span class='required'>*</span>
-          <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with all', 1],['No, keep it private', -1]], :selected => @src.sharing_mode) %>
-      </li>
-      <li>
-      Provide more details about this source (especially if you mentioned 'Other' as the type)
+        Do you want to share this source with others?
+        &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @src.sharing_mode==1 || @src.sharing_mode.nil? %> Yes share with everyone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <%= f.radio_button :sharing_mode, '-1', :checked => @src.sharing_mode==-1 %> No keep it private to me only &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+    </li>
+    <li>
+    <br>Provide more details about this source (especially if you mentioned 'Other' as the type)
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
       </li>
       <li>

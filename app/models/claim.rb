@@ -1,6 +1,29 @@
 class Claim < ApplicationRecord
-  acts_as_taggable
-  acts_as_taggable_on :tag_list
+
+####
+  has_many :taggings
+  has_many :tags, through: :taggings
+
+  def self.tagged_with(claim_name)
+    Tag.find_by!(claim_name: claim_name).claims
+  end
+
+  def self.tag_counts
+    Tag.select('tags.*, count(taggings.tag_id) as count').joins(:taggings).group('taggings.tag_id')
+  end
+
+  def tag_list
+    tags.map(&:claim_name).join(', ')
+  end
+
+  def tag_list=(tag_list)
+    self.tags = tag_list.split(',').map do |n|
+      Tag.where(claim_name: n.strip).first_or_create!
+    end
+  end
+####
+#  acts_as_taggable
+#  acts_as_taggable_on :tag_list
 
   belongs_to :user
   belongs_to :src, required: false

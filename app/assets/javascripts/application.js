@@ -1,4 +1,4 @@
-// This is a manifest file that'll be compiled into application.js, which will include all the files
+// XThis is a manifest file that'll be compiled into application.js, which will include all the files
 // listed below.
 //
 // Any JavaScript/Coffee file within this directory, lib/assets/javascripts, or any plugin's
@@ -14,10 +14,13 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery-ui
+//= require popper
+//= require tether
+//= require bootstrap-sprockets
+//= require chosen
 //= require jquery.turbolinks
 //= require turbolinks
 //= require_tree .
-//= require bootstrap-sprockets
 //= require jquery-ui/widgets/autocomplete
 //= require autocomplete-rails
 //= require areyousure/jquery.are-you-sure.js
@@ -79,6 +82,50 @@ function do_submit(s)
     return false;
   }
 }
+
+function submit_tags(s)
+{
+  $("#new_tags_block").html("<br><center><img src='/loading.gif' width=50></center><br>");
+  const element = document.getElementById(s+'_tag_list');
+  var q = element.value;
+  q=$.trim(q);
+  if (q.length==0) { $("#new_tags_block").html(""); return ; }
+  $.ajax({
+    url: '/'+s+'s'+'/',
+    type: 'get',
+    data: { tag_list: q },
+    dataType: "text",
+    success:function(result)
+      {
+        if (result.length>0)
+          {
+            $("#new_tags_block").html(result);
+            var new_list='';
+            $.ajax({
+              url: '/'+s+'s'+'/',
+              type: 'get',
+              data: { refresh_tag_list: '1' },
+              dataType: "text",
+              success:function(result)
+                {
+                  if (result.length>0)
+                    {
+                      $("#"+s+"_tag_ids").html(result);
+                      $("#"+s+"_tag_ids").trigger("chosen:updated");
+                    }
+                }
+              });
+          }
+        else { $("#new_tags_block").html("<center><small>[Could not add tags]</small></center>"); }
+      },
+    error:function()
+      {
+        $("#new_tags_block").html("<center><small>[Could not add tags]</small></center>");
+      }
+    });
+  return false;
+}
+
 function update_display(s)
  {
   if ($('#skip_preview').is(':checked')) { $("#preview_block").hide(); $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(' '); }

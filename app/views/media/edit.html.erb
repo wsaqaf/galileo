@@ -15,22 +15,21 @@
       </li>
       <li>
       URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
-      <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('medium')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :url, :onchange => "URLPreview('medium')", class: 'field-long', :autocomplete=>"off" %>
       </li>
-      <div id="url_preview_block">
-        <% if @medium.url_preview.present? %><%== @medium.url_preview.gsub('\"','"').gsub("\\'", "'") %><% else %>No URL preview available<% end %>
-      </div>
+      <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>
       <li>
       What type is this medium?
-      <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
+        <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
       </li>
       <li>
-        Do you want to share this medium?<span class='required'>*</span>
-          <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with all', 1],['No, keep it private', -1]], :selected  => @medium.sharing_mode) %>
+        Do you want to share this medium with others?
+          &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @medium.sharing_mode==1 || @medium.sharing_mode.nil? %> Yes share with everyone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <%= f.radio_button :sharing_mode, '-1', :checked => @medium.sharing_mode==-1 %> No keep it private to me only &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
       </li>
       <li>
-      Provide more details about this medium (especially if you mentioned 'Other' as the type)
+      <br>Provide more details about this medium (especially if you mentioned 'Other' as the type)
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
       </li>
       <li>

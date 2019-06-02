@@ -31,6 +31,34 @@ class ClaimsController < ApplicationController
     elsif (params[:s].present?)
       @filter_msg=filter_bar("Claims","a")
       qry=" (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and src_id="+params[:s].to_s
+    elsif(params[:tag_list].present?)
+        output=''
+        added=0
+        tag_list=params[:tag_list].split(/\s*,\s*/)
+        for tag_name in tag_list
+            tag=Tag.where("claim_name=?",tag_name).first
+            if (tag.nil?) then
+                result=Tag.create(claim_name: tag_name);
+                if (!result.valid?)
+                   output=output+"- Could not add "+tag_name+"!<br>\n"
+                else
+                   output=output+"- Added "+tag_name+" successfully..<br>\n"
+                   added=1
+                end
+            else
+                output=output+"- "+tag_name+" is not added since it already exists!<br>\n"
+            end
+        end
+        if (added==1)
+          output=output+"<br>You can now proceed to select the newly created tags above."
+        end
+        render json: output;
+    elsif (params[:refresh_tag_list].present?)
+      output=''
+      Tag.order('claim_name COLLATE NOCASE ASC').each do |t|
+          output=output+'<option value="'+t.id.to_s+'">'+t.claim_name+"</option>\n"
+      end
+      render json: output;
     elsif (params[:url].present?)
         @filter_msg=""
         output=""
@@ -161,6 +189,8 @@ class ClaimsController < ApplicationController
 
   def destroy
     ClaimReview.where("claim_id = ?",@claim.id).destroy_all
+    Tagging.where("claim_id = ?",@claim.id).destroy_all
+    Tag.where.not(id: Tagging.pluck(:tag_id).reject {|x| x.nil?}).destroy_all
     @claim.destroy
     redirect_to root_path
   end
@@ -182,7 +212,7 @@ class ClaimsController < ApplicationController
     end
 
     def claim_params
-      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video, :has_text, :sharing_mode, :url_preview, :tag_list)
+      params.require(:claim).permit(:id, :title, :medium_name, :src_name, :url, :description, :has_image, :has_video, :has_text, :sharing_mode, :url_preview, :tag_list, :tag, { tag_ids: [] }, :tag_ids)
     end
 
     def find_claim

@@ -11,24 +11,29 @@
 
     <% if (@claims.size==0) %>
       No results were returned.
-    <% elsif Claim.tag_counts_on(:tags).size>0 %>
-    <a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-      Tag Cloud &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
-    <div class="panel-collapse collapse" id="Resources">
-           <div id="tag_cloud">
-             <% tag_cloud Claim.tag_counts, %w[s m l] do |tag, css_class| %>
-               <%= link_to tag.name, tag_path(tag.name), class: css_class %>
-             <% end %>
-              - <%= link_to "[ Show all ]", claims_path %>
-           </div>
-    </div>
+    <% elsif Tagging.all.size>0 %>
+        <a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
+          Tag Cloud &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+        <div class="panel-collapse collapse" id="Resources">
+               <div id="tag_cloud">
+                 <% Tagging.group(:tag_id).order('count(claim_id) DESC').count.each do |tag|
+                      name=Tag.find(tag[0]).claim_name
+                      sz=tag[1]*2
+                      if (tag[1]>15) then sz=30
+                      elsif (tag[1]<5) then sz=10
+                      end %>
+                      <%= link_to name+" ", tag_path(name), :style=>"font-size:"+sz.to_s+"px;" %>
+                 <% end %>
+                  - <%= link_to "[ Show all ]", claims_path %>
+               </div>
+        </div>
     <% end %>
     <ul>
     <% @claims.each do |claim| %>
       <h4>
         <br><li><%= link_to claim.title, claim_path(claim) %>
         <% if claim.tag_list.size>0 %>
-          <br><small>Tags: <%= raw claim.tag_list.map { |t| link_to t, tag_path(t) }.join(', ') %></small>
+          <br><small>Tags: <%= raw claim.tags.map(&:claim_name).map { |t| link_to t, tag_path(t) }.join(', ') %></small>
         <% end %>
         <small><br>Updated at: <%= claim.created_at %> - Reviews:
         <%

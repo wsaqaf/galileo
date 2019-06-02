@@ -13,8 +13,16 @@
   <li>Give a brief title for the claim<span class='required'>*</span>
   <%= f.text_field :title, class: 'field-long', :autocomplete=>"off" %>
   </li>
-  <li>Tags (separated by commas)
-  <%= f.text_field :tag_list, class: 'field-long', :autocomplete=>"on", value: @claim.tag_list.to_s %>
+  <li>Assign existing tags
+  <%= f.select(:tag_ids, options_for_select(Tag.order('claim_name COLLATE NOCASE ASC').map{ |t| [t.claim_name, t.id] }),{}, { :multiple => true }) %><br>
+  <a href="#new_tags" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
+    <b>Create additional tags</b><span class="glyphicon glyphicon-plus"></span></a>
+    <div class="panel-collapse collapse" id="new_tags">
+          Type in new tags seperated by commas
+          <%= f.text_field :tag_list, class: 'field-long', :autocomplete=>"off" %>
+          <div id="new_tags_block"></div>
+          <%= link_to "Add tags", "#add_tags", :onclick => 'submit_tags("claim")', :class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+    </div>
   </li>
   <li>
     URL of where the claim is found (if available)
@@ -37,24 +45,32 @@
   </li>
   <div id="src_note"></div>
   <li>
-    Does the claim depend on or use an image?<span class='required'>*</span>
-    <%= f.select :has_image, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_image) %>
+    Does the claim depend on or use an image?
+    &nbsp;&nbsp;<b><%= f.radio_button :has_image, '1', :checked => @claim.has_image==1 %> Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_image, '-1', :checked => @claim.has_image==-1 %> No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_image, '0', :checked => (@claim.has_image==0 || @claim.has_image.nil?) %> Not sure/skip question</b>
+
   </li>
   <li>
-    Does the claim depend on or use a video?<span class='required'>*</span>
-      <%= f.select :has_video, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_video) %>
+    Does the claim depend on or use a video?
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_video, '1', :checked => @claim.has_video==1 %> Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_video, '-1', :checked => @claim.has_video==-1 %> No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_video, '0', :checked => (@claim.has_video==0 || @claim.has_video.nil?) %> Not sure/skip question</b>
   </li>
   <li>
-    Does the claim depend on or use text?<span class='required'>*</span>
-      <%= f.select :has_text, options_for_select([['Select',''],['Yes', 1],[' No', -1],[' Not sure', 0]], :selected => @claim.has_text) %>
+    Does the claim depend on or use text?
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_text, '1', :checked => (@claim.has_text==1|| @claim.has_text.nil?) %> Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_text, '-1', :checked => @claim.has_text==-1 %> No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_text, '0', :checked => @claim.has_text==0  %> Not sure/skip question</b>
   </li>
   <li>
-    Do you want to share this claim with others?<span class='required'>*</span>
-      <%= f.select :sharing_mode, options_for_select([['Select',''],['Yes, share with all', 1],[' No, keep it private', -1]], :selected => @claim.sharing_mode) %>
+    Do you want to share this claim with others?
+    &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @claim.sharing_mode==1 || @claim.sharing_mode.nil? %> Yes share with everyone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :sharing_mode, '-1', :checked => @claim.sharing_mode==-1 %> No keep it private to me only &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
   </li>
   <li>
-  Any more details about the claim you wish to add?
-  <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
+  <br>Any more details about the claim you wish to add?
+    <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
   </li>
   <li>
     <%= f.submit 'Submit', :class => 'btn btn btn-primary' %>

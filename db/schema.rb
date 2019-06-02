@@ -9,7 +9,8 @@
 # you'll amass, the slower it'll run and the greater likelihood for issues).
 #
 # It's strongly recommended that you check this file into your version control system.
-ActiveRecord::Schema.define(version: 20190521085720) do
+
+ActiveRecord::Schema.define(version: 20190601124217) do
 
   create_table "claim_reviews", force: :cascade do |t|
     t.string "src_id"
@@ -200,28 +201,31 @@ ActiveRecord::Schema.define(version: 20190521085720) do
   end
 
   create_table "taggings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "claim_id"
+    t.integer "medium_id"
+    t.integer "src_id"
+    t.integer "resource_id"
     t.integer "tag_id"
-    t.string "taggable_type"
-    t.integer "taggable_id"
-    t.string "tagger_type"
-    t.integer "tagger_id"
-    t.string "context", limit: 128
-    t.datetime "created_at"
-    t.index ["context"], name: "index_taggings_on_context"
-    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
-    t.index ["tag_id"], name: "index_taggings_on_tag_id"
-    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
-    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
-    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
-    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
-    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
-    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+    t.index ["claim_id"], name: "index_tags_on_claim_id"
+    t.index ["medium_id"], name: "index_tags_on_medium_id"
+    t.index ["resource_id"], name: "index_tags_on_resource_id"
+    t.index ["src_id"], name: "index_tags_on_src_id"
+    t.index ["tag_id"], name: "index_tags_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string "name"
-    t.integer "taggings_count", default: 0
-    t.index ["name"], name: "index_tags_on_name", unique: true
+    t.string "claim_name"
+    t.string "medium_name"
+    t.string "src_name"
+    t.string "resource_name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["claim_name"], name: "index_tags_on_claim_name", unique: true
+    t.index ["medium_name"], name: "index_tags_on_medium_name", unique: true
+    t.index ["resource_name"], name: "index_tags_on_resource_name", unique: true
+    t.index ["src_name"], name: "index_tags_on_src_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|
