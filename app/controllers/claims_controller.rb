@@ -11,7 +11,7 @@ class ClaimsController < ApplicationController
       @sort_msg=sort_bar("Claims","td")
     end
     if (params[:filter]=="r")
-      qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND claim_reviews.review_sharing_mode=1 AND review_verdict!='')"
+      qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND claim_reviews.review_sharing_mode=1 AND review_verdict IS NOT NULL)"
       @filter_msg=filter_bar("Claims","r")
     elsif (params[:filter]=="m")
       qry="claims.user_id="+current_user.id.to_s
@@ -20,7 +20,7 @@ class ClaimsController < ApplicationController
       qry="claims.id in (SELECT claim_id FROM claim_reviews WHERE (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND claim_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Claims","u")
     elsif (params[:filter]=="n")
-      qry="(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND NOT EXISTS (SELECT claim_id FROM claim_reviews WHERE claims.id=claim_reviews.claim_id AND ((claim_reviews.review_sharing_mode=1 AND claim_reviews.review_verdict!='') OR claim_reviews.user_id="+current_user.id.to_s+"))"
+      qry="(claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") AND NOT EXISTS (SELECT claim_id FROM claim_reviews WHERE claims.id=claim_reviews.claim_id AND ((claim_reviews.review_sharing_mode=1 AND claim_reviews.review_verdict IS NOT NULL) OR claim_reviews.user_id="+current_user.id.to_s+"))"
       @filter_msg=filter_bar("Claims","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Claims","a")
@@ -55,7 +55,7 @@ class ClaimsController < ApplicationController
         render json: output;
     elsif (params[:refresh_tag_list].present?)
       output=''
-      Tag.order('claim_name COLLATE NOCASE ASC').each do |t|
+      Tag.order('lower(claim_name) ASC').each do |t|
           output=output+'<option value="'+t.id.to_s+'">'+t.claim_name+"</option>\n"
       end
       render json: output;
@@ -111,10 +111,10 @@ class ClaimsController < ApplicationController
           tmp=Claim.tagged_with(params[:tag])
           @total_count=tmp.count
         elsif (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-          tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+          tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict IS NOT NULL").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
           @total_count=tmp.count.length
         elsif  (params[:sort]=="rt")
-          tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+          tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict IS NOT NULL").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
           @total_count=tmp.count.length
         elsif !user_signed_in?
             return
@@ -130,10 +130,10 @@ class ClaimsController < ApplicationController
         tmp=Claim.tagged_with(params[:tag])
         @total_count=tmp.count
       elsif (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-        tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+        tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict IS NOT NULL").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
         @total_count=tmp.count.length
       elsif  (params[:sort]=="rt")
-        tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict!=''").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
+        tmp=Claim.joins(:claim_reviews).where("claims.id=claim_reviews.claim_id and (claims.sharing_mode=1 OR claims.user_id="+current_user.id.to_s+") and claim_reviews.review_sharing_mode=1 and claim_reviews.review_verdict IS NOT NULL").group("claim_reviews.claim_id").order(sort_statement("claim",params[:sort]))
         @total_count=tmp.count.length
       elsif !user_signed_in?
           return

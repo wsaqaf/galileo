@@ -4,7 +4,7 @@ class MediumReviewsController < ApplicationController
 
 
   def index
-      @medium_reviews = MediumReview.all.order("created_at DESC").where("medium_id=? AND ((medium_review_sharing_mode=1 AND medium_review_verdict!='') OR  user_id=?)",@medium.id,current_user.id)
+      @medium_reviews = MediumReview.all.order("created_at DESC").where("medium_id=? AND ((medium_review_sharing_mode=1 AND medium_review_verdict IS NOT NULL) OR  user_id=?)",@medium.id,current_user.id)
   end
 
   def show

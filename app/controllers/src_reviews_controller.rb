@@ -7,7 +7,7 @@ class SrcReviewsController < ApplicationController
       @src_reviews = SrcReview.order(:id).where("name like ?", "%#{params[:term]}%")
       render json: @src_reviews.map(&:name).uniq
     else
-      @src_reviews = SrcReview.all.order("created_at DESC").where("src_id=? AND ((src_review_sharing_mode=1 AND src_review_verdict!='') OR user_id=?)",@src.id,current_user.id)
+      @src_reviews = SrcReview.all.order("created_at DESC").where("src_id=? AND ((src_review_sharing_mode=1 AND src_review_verdict IS NOT NULL) OR user_id=?)",@src.id,current_user.id)
     end
   end
 

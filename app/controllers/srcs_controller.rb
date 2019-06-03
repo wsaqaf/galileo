@@ -13,7 +13,7 @@ class SrcsController < ApplicationController
       @srcs = Src.order(:name).where("name like ? AND (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") ", "%#{params[:term]}%")
       render json: @srcs.map(&:name).uniq; return
     elsif (params[:filter]=="r")
-      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='')"
+      qry="srcs.id in (SELECT src_id FROM src_reviews WHERE (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict IS NOT NULL)"
       @filter_msg=filter_bar("Srcs","r")
     elsif (params[:filter]=="m")
       qry="srcs.user_id="+current_user.id.to_s
@@ -22,7 +22,7 @@ class SrcsController < ApplicationController
       qry="srcs.id in (SELECT src_id FROM src_reviews WHERE (srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND src_reviews.user_id="+current_user.id.to_s+")"
       @filter_msg=filter_bar("Srcs","u")
     elsif (params[:filter]=="n")
-      qry="(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND NOT EXISTS (SELECT src_id FROM src_reviews WHERE srcs.id=src_reviews.src_id AND ((src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict!='') OR src_reviews.user_id="+current_user.id.to_s+"))"
+      qry="(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND NOT EXISTS (SELECT src_id FROM src_reviews WHERE srcs.id=src_reviews.src_id AND ((src_reviews.src_review_sharing_mode=1 AND src_reviews.src_review_verdict IS NOT NULL) OR src_reviews.user_id="+current_user.id.to_s+"))"
       @filter_msg=filter_bar("Srcs","n")
     elsif (params[:q].present?)
       @filter_msg=filter_bar("Srcs","a")
@@ -30,7 +30,7 @@ class SrcsController < ApplicationController
     else
       @filter_msg=filter_bar("Srcs","a")
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-        tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
+        tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict IS NOT NULL").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
         @total_count=tmp.count.length
       else
         if qry.nil? then qry="srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s; end
@@ -41,7 +41,7 @@ class SrcsController < ApplicationController
        return
      end
    if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-     tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict!=''").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
+     tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict IS NOT NULL").group("src_reviews.src_id").order(sort_statement("src",params[:sort]))
      @total_count=tmp.count.length
    else
      if qry.nil? then qry="srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s; end

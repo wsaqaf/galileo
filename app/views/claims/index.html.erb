@@ -38,7 +38,7 @@
         <small><br>Updated at: <%= claim.created_at %> - Reviews:
         <%
           @result2="<table><tr>"
-          @reviews = ClaimReview.where("claim_id=? AND (review_sharing_mode=1 AND review_verdict!='')",claim.id)
+          @reviews = ClaimReview.where("claim_id=? AND (review_sharing_mode=1 AND review_verdict IS NOT NULL)",claim.id)
           @last_review_time=''
           if (@reviews.blank?) then @total_reviews=0; @results2=""
           else
