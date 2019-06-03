@@ -89,13 +89,13 @@ Rails.application.configure do
   end
 
 #################################################################
-# The below configurations depend on the server's domain name!
+# The below configurations depend on the server's domain name and email setup!
 #################################################################
   config.relative_url_root = ""
 
-  config.institution = "Faktaassistenten on Heroku"
+  config.institution = "Fact Check Assistant"
 
-  config.action_mailer.default_url_options = { :host => "https://faktaassistenten.herokuapp.com/"+config.relative_url_root }
+  config.action_mailer.default_url_options = { :host => ""+config.relative_url_root }
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.perform_deliveries = true
@@ -103,19 +103,18 @@ Rails.application.configure do
     config.action_mailer.default :charset => "utf-8"
 
     config.action_mailer.smtp_settings = {
-      address: "smtp-mail.outlook.com",
+      address: "",
       port: 25,
-      domain: "smtp-mail.outlook.com",
+      domain: "",
       authentication: "plain",
       enable_starttls_auto: true,
       user_name: "",
       password: ""
     }
 
-#  config.action_controller.asset_host = "faktaassistenten.herokuapp.com"
   # ActionMailer Config
   config.action_mailer.default_url_options = {
-      :host => "faktaassistenten.herokuapp.com",
+      :host => "",
       :only_path => false,
   }
 #################################################################

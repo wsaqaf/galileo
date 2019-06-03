@@ -57,7 +57,7 @@ Rails.application.configure do
   config.action_controller.asset_host = "localhost:3000"
   config.relative_url_root = ""
 
-  config.institution = "Södertörn University"
+  config.institution = "Test Server"
 
   # ActionMailer Config
   config.action_mailer.default_url_options = {
