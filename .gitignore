@@ -17,7 +17,7 @@
 /yarn-error.log
 
 #Ignore secret files
-/config/secrets.yml
+#/config/secrets.yml
 
 #Ignore env production file
 #/config/environments/production.rb
