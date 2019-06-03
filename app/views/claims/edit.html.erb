@@ -82,3 +82,13 @@
 <%= link_to 'Show', @claim %> |
 <%= link_to 'Back', claims_path %>
 </div>
+
+
+<script>
+  jQuery(document).on('ready page:load', function () {
+    jQuery('#claim_tag_ids').chosen({
+      allow_single_deselect: true,
+      width: '100%'
+    })
+  });
+</script>

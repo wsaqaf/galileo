@@ -17,13 +17,13 @@
 //= require popper
 //= require tether
 //= require bootstrap-sprockets
-//= require chosen
 //= require jquery.turbolinks
 //= require turbolinks
 //= require_tree .
 //= require jquery-ui/widgets/autocomplete
 //= require autocomplete-rails
 //= require areyousure/jquery.are-you-sure.js
+//= require chosen
 
 jQuery(function() {
   $('#user_affiliation').autocomplete({source: $('#user_affiliation').data('autocomplete-source')});
