@@ -93,30 +93,15 @@ Rails.application.configure do
 #################################################################
   config.relative_url_root = ""
 
-  config.institution = "Fact Check Assistant"
+  config.institution = ENV["SERVER_NAME"]
 
-  config.action_mailer.default_url_options = { :host => ""+config.relative_url_root }
+  config.action_mailer.default_url_options = { :host => ENV["SERVER_DOMAIN"]+config.relative_url_root }
 
     config.action_mailer.delivery_method = :smtp
     config.action_mailer.perform_deliveries = true
     config.action_mailer.raise_delivery_errors = true
     config.action_mailer.default :charset => "utf-8"
 
-    config.action_mailer.smtp_settings = {
-      address: "",
-      port: 25,
-      domain: "",
-      authentication: "plain",
-      enable_starttls_auto: true,
-      user_name: "",
-      password: ""
-    }
-
-  # ActionMailer Config
-  config.action_mailer.default_url_options = {
-      :host => "",
-      :only_path => false,
-  }
 #################################################################
 
   # Do not dump schema after migrations.
