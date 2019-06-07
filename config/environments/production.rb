@@ -93,14 +93,14 @@ Rails.application.configure do
 #################################################################
   config.relative_url_root = ""
 
-  config.institution = ENV["SERVER_NAME"]
+  config.institution = ENV["WEB_NAME"]
 
-  config.action_mailer.default_url_options = { :host => ENV["SERVER_DOMAIN"]+config.relative_url_root }
+  config.action_mailer.default_url_options = { :host => ENV["WEB_DOMAIN"]+config.relative_url_root }
 
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.perform_deliveries = true
-    config.action_mailer.raise_delivery_errors = true
-    config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
 
 #################################################################
 

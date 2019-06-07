@@ -5,11 +5,11 @@ require_relative 'application'
 Rails.application.initialize!
 
 ActionMailer::Base.smtp_settings = {
-:address => ENV["SMTP_HOST"],
+:address => ENV["SMTP_SERVER"],
 :port => ENV["SMTP_PORT"],
 :user_name => ENV["SMTP_USER"],
-:password => ENV["SMTP_PW"],
-:authentication => :plain,
+:password => ENV["SMTP_PASSWORD"],
+:authentication => :login,
 :enable_starttls_auto => true,
 :openssl_verify_mode => 'none'
 }

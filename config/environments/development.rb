@@ -54,15 +54,26 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
+  config.action_controller.asset_host = "localhost:3000"
   config.relative_url_root = ""
 
-  config.institution = ENV["SERVER_NAME"]
+  config.institution = "Test Server"
 
-  config.action_mailer.default_url_options = { :host => ENV["SERVER_DOMAIN"]+config.relative_url_root }
+  # ActionMailer Config
+  config.action_mailer.default_url_options = {
+      :host => "localhost",
+      :port => 3000,
+      :only_path => false,
+  }
 
-  config.action_mailer.delivery_method = :smtp
-  config.action_mailer.perform_deliveries = true
-  config.action_mailer.raise_delivery_errors = true
-  config.action_mailer.default :charset => "utf-8"
+config.action_mailer.smtp_settings = {
+  :address => ENV["SMTP_SERVER"],
+  :port => ENV["SMTP_PORT"],
+  :user_name => ENV["SMTP_USER"],
+  :password => ENV["SMTP_PASSWORD"],
+  :authentication => :login,
+  :enable_starttls_auto => true,
+  :openssl_verify_mode => 'none'
+  }
 
 end
