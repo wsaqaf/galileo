@@ -65,15 +65,5 @@ Rails.application.configure do
       :port => 3000,
       :only_path => false,
   }
-
-config.action_mailer.smtp_settings = {
-  :address => ENV["SMTP_SERVER"],
-  :port => ENV["SMTP_PORT"],
-  :user_name => ENV["SMTP_USER"],
-  :password => ENV["SMTP_PASSWORD"],
-  :authentication => :login,
-  :enable_starttls_auto => true,
-  :openssl_verify_mode => 'none'
-  }
-
+  
 end
