@@ -91,7 +91,7 @@ Rails.application.configure do
 #################################################################
 # The below configurations depend on the server's domain name and email setup!
 #################################################################
-  config.relative_url_root = ""
+  config.relative_url_root = ENV["RELATIVE_URL"]
 
   config.institution = ENV["SERVER_NAME"]
 
