@@ -51,3 +51,7 @@ source 'https://rails-assets.org' do
   # add the line below
   gem 'rails-assets-chosen'
 end
+
+group :development do
+  gem "capistrano", "~> 3.11", require: false
+end
