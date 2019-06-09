@@ -66,32 +66,11 @@ Rails.application.configure do
       :only_path => false,
   }
 
-
-  ActionMailer::Base.smtp_settings = {
-  :address => ENV["SMTP_HOST"],
-  :port => ENV["SMTP_PORT"],
-  :user_name => ENV["SMTP_USER"],
-  :password => ENV["SMTP_PW"],
-  :authentication => :login,
-  :enable_starttls_auto => true,
-  :openssl_verify_mode => 'none'
-  }
-
   Rails.configuration.action_mailer.smtp_settings = {
-  :address => ENV["SMTP_HOST"],
-  :port => ENV["SMTP_PORT"],
-  :user_name => ENV["SMTP_USER"],
-  :password => ENV["SMTP_PW"],
-  :authentication => :login,
-  :enable_starttls_auto => true,
-  :openssl_verify_mode => 'none'
-  }
-
-  config.action_mailer.smtp_settings = {
-  :address => ENV["SMTP_HOST"],
-  :port => ENV["SMTP_PORT"],
-  :user_name => ENV["SMTP_USER"],
-  :password => ENV["SMTP_PW"],
+  :address => 'box701.bluehost.com',
+  :port => 465,
+  :user_name => 'bot@yodet.org',
+  :password => 'YemenX2016!',
   :authentication => :login,
   :enable_starttls_auto => true,
   :openssl_verify_mode => 'none'

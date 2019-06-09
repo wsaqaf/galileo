@@ -91,17 +91,27 @@ Rails.application.configure do
 #################################################################
 # The below configurations depend on the server's domain name and email setup!
 #################################################################
+
   config.relative_url_root = ENV["RELATIVE_URL"]
 
   config.institution = ENV["SERVER_NAME"]
 
-  config.action_mailer.default_url_options = { :host => ENV["SERVER_DOMAIN"]+config.relative_url_root }
+  config.action_mailer.default_url_options = { :host => ENV["SERVER_DOMAIN"].to_s+config.relative_url_root }
 
-    config.action_mailer.delivery_method = :smtp
-    config.action_mailer.perform_deliveries = true
-    config.action_mailer.raise_delivery_errors = true
-    config.action_mailer.default :charset => "utf-8"
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
 
+  config.action_mailer.smtp_settings = {
+    :address => ENV["SMTP_HOST"],
+    :port => ENV["SMTP_PORT"],
+    :user_name => ENV["SMTP_USER"],
+    :password => ENV["SMTP_PW"],
+    :authentication => :login,
+    :enable_starttls_auto => true,
+    :openssl_verify_mode => 'none'
+  }
 #################################################################
 
   # Do not dump schema after migrations.
