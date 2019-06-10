@@ -96,7 +96,7 @@ Rails.application.configure do
 
   config.institution = ENV["SERVER_NAME"]
 
-  config.action_mailer.default_url_options = { :host => ENV["SERVER_DOMAIN"].to_s+config.relative_url_root }
+  config.action_mailer.default_url_options = { :host => ENV["SERVER_DOMAIN"].to_s }
 
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.perform_deliveries = true
