@@ -3,12 +3,22 @@
 # require 'capistrano/ext/multistage'
 lock "~> 3.11.0"
 
+set :application, "fca"
 set :stages, ["production"]
 set :default_stage, "production"
+set :repo_url, "https://github.com/wsaqaf/fca.git"
+set :user, "wsaqaf"
+set :deploy_to, "/var/www/faktaassistenten/test"
 
-task :update_to_latest_version do
-  execute "cd /var/www/faktaassistenten/"+ENV["DEPLOY_INSTANCE"]
-  execute ". update.sh"
+namespace :deploy do
+    desc 'Updating test'
+    task :updating_test do
+      on roles(:app), in: :groups, limit:1 do
+        execute "cd /var/www/faktaassistenten/test"
+        execute ". update.sh"
+      end
+    end
+
 end
 
-after "deploy:updated", "deploy:print_server_name"
+after "deploy:updated", "deploy:updating_test"
