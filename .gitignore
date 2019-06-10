@@ -31,7 +31,7 @@ Capfile
 #/config/environments/production.rb
 
 #Ignore database file if for heroku (it creates its own)
-#config/database.yml
+config/database.yml
 
 #Routine update commands
 update.sh
