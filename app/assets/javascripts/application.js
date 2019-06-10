@@ -38,7 +38,7 @@ function NewMedium(c,s,p,w) {
   const note = document.getElementById(s+'_note');
   if (q.length==0) { note.innerHTML=''; return ; }
   $.ajax({
-    url: '/'+p+'/?term='+q,
+    url: p+'/?term='+q,
     cache: false
   })
     .done(function( html ) {
@@ -85,13 +85,13 @@ function do_submit(s)
 
 function submit_tags(s)
 {
-  $("#new_tags_block").html("<br><center><img src='/loading.gif' width=50></center><br>");
+  $("#new_tags_block").html("<br><center><img src='loading.gif' width=50></center><br>");
   const element = document.getElementById(s+'_tag_list');
   var q = element.value;
   q=$.trim(q);
   if (q.length==0) { $("#new_tags_block").html(""); return ; }
   $.ajax({
-    url: '/'+s+'s'+'/',
+    url: s+'s'+'/',
     type: 'get',
     data: { tag_list: q },
     dataType: "text",
@@ -102,7 +102,7 @@ function submit_tags(s)
             $("#new_tags_block").html(result);
             var new_list='';
             $.ajax({
-              url: '/'+s+'s'+'/',
+              url: s+'s'+'/',
               type: 'get',
               data: { refresh_tag_list: '1' },
               dataType: "text",
@@ -134,13 +134,13 @@ function update_display(s)
 function addslashes( str ) { return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0'); }
 function URLPreview(s)
  {
-  $("#url_preview_block").html("<br><center><img src='/loading.gif' width=50></center><br>");
+  $("#url_preview_block").html("<br><center><img src='loading.gif' width=50></center><br>");
   const element = document.getElementById(s+'_url');
   var q = element.value;
   q=$.trim(q);
   if (q.length==0) { $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(' '); return ; }
   $.ajax({
-    url: '/claims/',
+    url: 'claims/',
     type: 'get',
     data: { url: q },
     dataType: "text",

@@ -4,7 +4,7 @@
     <title>Fact Check Assistant (FCA)</title>
     <%= csrf_meta_tags %>
 
-    <%= favicon_link_tag asset_path('/favicon.ico'), :rel => 'icon', :type => "image/x-icon" %>
+    <%= favicon_link_tag asset_path('favicon.ico'), :rel => 'icon', :type => "image/x-icon" %>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
@@ -13,7 +13,7 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <%= link_to image_tag('/logo.png', alt: 'Fact Check Assistant', title: 'Fact Check Assistant'), root_path %>&nbsp;&nbsp;&nbsp;
+          <%= link_to image_tag('logo.png', alt: 'Fact Check Assistant', title: 'Fact Check Assistant'), root_path %>&nbsp;&nbsp;&nbsp;
           <b>| <%== Rails.configuration.institution.to_s %></b>&nbsp;&nbsp;&nbsp;
         </div>
 
