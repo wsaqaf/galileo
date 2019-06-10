@@ -15,7 +15,7 @@
       </li>
       <li>
       URL
-      <%= f.text_field :url, :onchange => "URLPreview('src')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','src')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>

@@ -21,25 +21,25 @@
             Type in new tags seperated by commas
             <%= f.text_field :tag_list, class: 'field-long', :autocomplete=>"off" %>
             <div id="new_tags_block"></div>
-            <%= link_to "Add tags", "#add_tags", :onclick => 'submit_tags("claim")', :class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+            <%= link_to "Add tags", "#add_tags", :onclick => 'submit_tags("'+config.relative_url_root.to_s+'","claim")', :class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
       </div>
     </li>
 
     <li>
     URL of where the claim is found (if available)
-    <%= f.text_field :url, :onchange => "URLPreview('claim')", class: 'field-long', :autocomplete=>"off" %>
+    <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','claim')", class: 'field-long', :autocomplete=>"off" %>
     <i><small>* Note: If the claim is an image, use that link as the URL (e.g., http://website.com/image.jpg)</small></i>
     </li>
     <div id="url_preview_block"></div>
     <li>
     What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.
-    <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onchange => "NewMedium(1,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
+    <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',1,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
     </li>
     <%= f.hidden_field :url_preview %>
     <div id="medium_note"></div>
     <li>
     Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure.
-    <%= f.text_field :src_name, data: {autocomplete_source: srcs_path }, :onchange => "NewMedium(1,'src','srcs','sources')", class: 'field-long', :autocomplete=>"off" %>
+    <%= f.text_field :src_name, data: {autocomplete_source: srcs_path }, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',1,'src','srcs','sources')", class: 'field-long', :autocomplete=>"off" %>
     </li>
     <div id="src_note"></div>
     <li>

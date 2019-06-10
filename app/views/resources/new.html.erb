@@ -26,12 +26,12 @@
       <% end %>
     <ul>
       <li>What is the name of the resource<span class='required'>*</span>
-      <%= f.text_field :name, :onchange => "NewMedium(0,'resource','resources','resources')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :name, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',0,'resource','resources','resources')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="resource_note"></div>
       <li>
       URL
-      <%= f.text_field :url, :onchange => "URLPreview('resource')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','resource')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>

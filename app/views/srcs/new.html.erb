@@ -11,12 +11,12 @@
       <% end %>
     <ul>
       <li>What is the name of the source<span class='required'>*</span>
-      <%= f.text_field :name, class: 'field-long', :onchange => "NewMedium(0,'src','srcs','source')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :name, class: 'field-long', :onchange => "NewMedium('"+config.relative_url_root.to_s+"',0,'src','srcs','source')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="src_note"></div>
       <li>
       URL
-      <%= f.text_field :url, :onchange => "URLPreview('src')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','src')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>

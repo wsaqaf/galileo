@@ -29,7 +29,7 @@ jQuery(function() {
   $('#user_affiliation').autocomplete({source: $('#user_affiliation').data('autocomplete-source')});
 });
 
-function NewMedium(c,s,p,w) {
+function NewMedium(relative_url,c,s,p,w) {
   var element;
   if (c==1) { element = document.getElementById('claim_'+s+'_name'); }
   else { element = document.getElementById(s+'_name'); }
@@ -38,7 +38,7 @@ function NewMedium(c,s,p,w) {
   const note = document.getElementById(s+'_note');
   if (q.length==0) { note.innerHTML=''; return ; }
   $.ajax({
-    url: p+'/?term='+q,
+    url: relative_url+'/'+p+'/?term='+q,
     cache: false
   })
     .done(function( html ) {
@@ -83,15 +83,15 @@ function do_submit(s)
   }
 }
 
-function submit_tags(s)
+function submit_tags(relative_url,s)
 {
-  $("#new_tags_block").html("<br><center><img src='loading.gif' width=50></center><br>");
+  $("#new_tags_block").html("<br><center><img src='"+relative_url+"/loading.gif' width=50></center><br>");
   const element = document.getElementById(s+'_tag_list');
   var q = element.value;
   q=$.trim(q);
   if (q.length==0) { $("#new_tags_block").html(""); return ; }
   $.ajax({
-    url: s+'s'+'/',
+    url: relative_url+'/'+s+'s'+'/',
     type: 'get',
     data: { tag_list: q },
     dataType: "text",
@@ -102,7 +102,7 @@ function submit_tags(s)
             $("#new_tags_block").html(result);
             var new_list='';
             $.ajax({
-              url: s+'s'+'/',
+              url: relative_url+'/'+s+'s'+'/',
               type: 'get',
               data: { refresh_tag_list: '1' },
               dataType: "text",
@@ -126,27 +126,27 @@ function submit_tags(s)
   return false;
 }
 
-function update_display(s)
+function update_display(relative_url,s)
  {
   if ($('#skip_preview').is(':checked')) { $("#preview_block").hide(); $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(' '); }
-  else { $("#preview_block").show(); URLPreview(s); }
+  else { $("#preview_block").show(); URLPreview(relative_url,s); }
 }
 function addslashes( str ) { return (str + '').replace(/[\\"']/g, '\\$&').replace(/\u0000/g, '\\0'); }
-function URLPreview(s)
+function URLPreview(relative_url,s)
  {
-  $("#url_preview_block").html("<br><center><img src='loading.gif' width=50></center><br>");
+  $("#url_preview_block").html("<br><center><img src='"+relative_url+"/loading.gif' width=50></center><br>");
   const element = document.getElementById(s+'_url');
   var q = element.value;
   q=$.trim(q);
   if (q.length==0) { $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(' '); return ; }
   $.ajax({
-    url: 'claims/',
+    url: relative_url+'/claims/',
     type: 'get',
     data: { url: q },
     dataType: "text",
     success:function(result)
       {
-        if (result.length>0) { $('#'+s+'_url_preview').val(addslashes(result)); $("#url_preview_block").html("<div id='preview_block'>"+result+"</div><input type='checkbox' id='skip_preview' value=1 onchange='update_display(\""+s+"\")'><small> Skip preview</small><br>"); }
+        if (result.length>0) { $('#'+s+'_url_preview').val(addslashes(result)); $("#url_preview_block").html("<div id='preview_block'>"+result+"</div><input type='checkbox' id='skip_preview' value=1 onchange='update_display(\""+relative_url+"\",\""+s+"\")'><small> Skip preview</small><br>"); }
         else { $('#'+s+'_url_preview').val(' '); $("#url_preview_block").html("<center><small>[URL does not have a preview]</small></center>"); }
       },
     error:function()

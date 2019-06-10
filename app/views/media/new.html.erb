@@ -11,12 +11,12 @@
       <% end %>
     <ul>
       <li>What is the name of the medium<span class='required'>*</span>
-      <%= f.text_field :name, :onchange => "NewMedium(0,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :name, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',0,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="medium_note"></div>
       <li>
       URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
-      <%= f.text_field :url, :onchange => "URLPreview('medium')", class: 'field-long', :autocomplete=>"off" %>
+      <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','medium')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>
