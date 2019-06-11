@@ -17,7 +17,7 @@
 /yarn-error.log
 
 #Ignore secret files
-/config/secrets.yml
+#/config/secrets.yml
 
 #Ignore local environment variables
 /config/local_env.yml
