@@ -41,8 +41,7 @@ class ResourcesController < ApplicationController
       @import_note=""
       if (params[:resources_json].present?)
         massport
-      elsif (!params[:resource].nil?)
-        if (params[:resource][:file].present? || params[:resource][:url].present?)
+      elsif (!params[:resource].nil? && (params[:resource][:url] || params[:resource][:file]))
           if (params[:resource][:file].present?)
             myfile=params[:resource][:file]
             file_contents=myfile.read
@@ -51,7 +50,8 @@ class ResourcesController < ApplicationController
             require 'open-uri'
             file_contents= open(myfile) {|f| f.read }
           end
-          if (!file_contents.nil?)
+          if (params[:resource][:file].present? && !file_contents.nil?)
+            puts ("\n\n\nBUILDING\n\n\n")
             resource_list = JSON.parse(file_contents)
             resource_list.each do |resrc|
               tmp = Resource.where(name: resrc['name']).first
@@ -77,7 +77,6 @@ class ResourcesController < ApplicationController
                 end
             end
             render 'show'
-          end
         else
           @resource = current_user.resources.build(resource_params)
           if @resource.save
