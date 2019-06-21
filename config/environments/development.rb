@@ -47,6 +47,8 @@ Rails.application.configure do
 
   config.assets.compile = true
 
+  config.assets.resolve_with = [:manifest, :environment] 
+
 #  config.serve_static_assets = true
 
   # Raises error for missing translations
