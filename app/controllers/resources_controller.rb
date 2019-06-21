@@ -41,7 +41,7 @@ class ResourcesController < ApplicationController
       @import_note=""
       if (params[:resources_json].present?)
         massport
-      elsif (!params[:resource].nil? && params[:resource][:name].nil && (params[:resource][:url] || params[:resource][:file]))
+      elsif (!params[:resource].nil? && params[:resource][:name] && (params[:resource][:url] || params[:resource][:file]))
           if (params[:resource][:file].present?)
             myfile=params[:resource][:file]
             file_contents=myfile.read

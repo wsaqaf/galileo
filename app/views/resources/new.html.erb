@@ -30,13 +30,14 @@
       </li>
       <div id="resource_note"></div>
       <li>
-        <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('"+config.relative_url_root.to_s+"','resource')", disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
-        </li>
-        <div id="url_preview_block">
-          <% if @resource.url_preview.present? %><%== @resource.url_preview.gsub('\"','"').gsub("\\'", "'") %><% else %>No URL preview available<% end %>
-        </div>
-        <%= f.hidden_field :url_preview %>
-        <li>
+      URL
+      <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('"+config.relative_url_root.to_s+"','resource')", disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
+      </li>
+      <div id="url_preview_block">
+        <% if @resource.url_preview.present? %><%== @resource.url_preview.gsub('\"','"').gsub("\\'", "'") %><% else %>No URL preview available<% end %>
+      </div>
+      <%= f.hidden_field :url_preview %>
+      <li>
       A link to the tutorial on how to use it
       <%= f.text_field :tutorial, class: 'field-long', :autocomplete=>"off" %>
       </li>
