@@ -47,6 +47,8 @@ Rails.application.configure do
 
   config.assets.compile = true
 
+#  config.serve_static_assets = true
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 
@@ -67,13 +69,13 @@ Rails.application.configure do
   }
 
   Rails.configuration.action_mailer.smtp_settings = {
-  :address => 'box701.bluehost.com',
-  :port => 465,
-  :user_name => 'bot@yodet.org',
-  :password => 'YemenX2016!',
-  :authentication => :login,
-  :enable_starttls_auto => true,
-  :openssl_verify_mode => 'none'
+    :address => ENV["SMTP_HOST"],
+    :port => ENV["SMTP_PORT"],
+    :user_name => ENV["SMTP_USER"],
+    :password => ENV["SMTP_PW"],
+    :authentication => :login,
+    :enable_starttls_auto => true,
+    :openssl_verify_mode => 'none'
   }
 
 end
