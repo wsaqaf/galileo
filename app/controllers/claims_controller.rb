@@ -40,17 +40,19 @@ class ClaimsController < ApplicationController
             if (tag.nil?) then
                 result=Tag.create(claim_name: tag_name);
                 if (!result.valid?)
-                   output=output+"- Could not add "+tag_name+"!<br>\n"
+                   output=output+"- Could not add "+tag_name+"!<br>"
                 else
-                   output=output+"- Added "+tag_name+" successfully..<br>\n"
+                   output=output+"- "+tag_name+" added successfully..<br>"
                    added=1
                 end
             else
-                output=output+"- "+tag_name+" is not added since it already exists!<br>\n"
+                output=output+"- "+tag_name+" added already and exists in the DB!<br>"
+                added=1
             end
         end
         if (added==1)
-          output=output+"<br>You can now proceed to select the newly created tags above."
+            lst="var result2 = \""+output+"\";";
+            output=output+"<br>Tags added.\n<script>\n"+lst+"\n</script>"
         end
         render json: output;
     elsif (params[:refresh_tag_list].present?)

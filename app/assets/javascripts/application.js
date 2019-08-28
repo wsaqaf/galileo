@@ -111,6 +111,14 @@ function submit_tags(relative_url,s)
                   if (result.length>0)
                     {
                       $("#"+s+"_tag_ids").html(result);
+                      if (result2.length>0)
+                        {
+                          var regexp = /\- (\w+) added/g;
+                          var array1 = [...result2.matchAll(regexp)];
+                          array1.forEach(function(element) {
+                              $('select[id="'+s+'_tag_ids"]').find('option:contains("'+element[1]+'")').attr("selected",true);
+                            });
+                        }
                       $("#"+s+"_tag_ids").trigger("chosen:updated");
                     }
                 }
