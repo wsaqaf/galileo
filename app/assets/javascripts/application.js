@@ -75,7 +75,7 @@ function NewMedium(relative_url,c,s,p,w) {
 }
 function do_submit(s)
 {
-  if ($("#final_url_preview")!== undefined)
+  if ($("#final_url_preview").html() != undefined)
   {
     if ($("#final_url_preview").html().length>10)
     {
