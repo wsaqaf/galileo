@@ -75,11 +75,14 @@ function NewMedium(relative_url,c,s,p,w) {
 }
 function do_submit(s)
 {
-  if ($("#final_url_preview").html().length>10)
+  if ($("#final_url_preview")!== undefined)
   {
-    $("#"+s+"_url_preview").val("<br><div id=\"final_url_preview\" class=\"fragment\">"+addslashes($("#final_url_preview").html())+"</div>");
-    $(+s+"_url_preview").val($("#final_url_preview").html());
-    return false;
+    if ($("#final_url_preview").html().length>10)
+    {
+      $("#"+s+"_url_preview").val("<br><div id=\"final_url_preview\" class=\"fragment\">"+addslashes($("#final_url_preview").html())+"</div>");
+      $(+s+"_url_preview").val($("#final_url_preview").html());
+      return false;
+    }
   }
 }
 
