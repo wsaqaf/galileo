@@ -55,7 +55,7 @@ class ResourcesController < ApplicationController
               file_contents=""
             end
           end
-          if (params[:resource][:file].present? && !file_contents.nil?)
+          if (!file_contents.nil?)
             resource_list = JSON.parse(file_contents)
             resource_list.each do |resrc|
               tmp = Resource.where(name: resrc['name']).first
