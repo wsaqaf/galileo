@@ -131,7 +131,7 @@ class ClaimReview::StepsController < ApplicationController
   end
 
   def find_claim
-    @all_steps={'s1'=>'Confirm image review','s2'=>'Misleading image context','s3'=>'Image manipulation','s4'=>'Metadata image discrepency','s5'=>'Suspicious attributes','s6'=>'Confirm video review','s7'=>'Misleading context','s8'=>'Video manipulation','s9'=>'Metadata video discrepency','s10'=>'Audio manipulation','s11'=>'Additional clues','s12'=>'Confirm text review','s13'=>'Confirm seriousness','s14'=>'Verifiable sources','s15'=>'Clickbait title','s16'=>'Language quality','s17'=>'Crowd/distance discrepency','s18'=>'Internal source confirmation','s19'=>'External source confirmation','s20'=>'Calculated score','s21'=>'Reviewer Assessment','s22'=>'Sharing setting'}
+    @all_steps={'s1'=>'Confirm image review','s2'=>'Misleading image context','s3'=>'Image manipulation','s4'=>'Metadata image discrepency','s5'=>'Suspicious attributes','s6'=>'Confirm video review','s7'=>'Misleading context','s8'=>'Video manipulation','s9'=>'Metadata video discrepency','s10'=>'Audio manipulation','s11'=>'Additional clues','s12'=>'Confirm text review','s13'=>'Confirm seriousness','s14'=>'Failed fact-check','s15'=>'Clickbait title','s16'=>'Language quality','s17'=>'Number/fact inaccuracies','s18'=>'Internal source confirmation','s19'=>'Other problems','s20'=>'Calculated score','s21'=>'Reviewer Assessment','s22'=>'Sharing setting'}
 
     @claim = Claim.find(params[:claim_id])
   end
