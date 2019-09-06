@@ -41,7 +41,7 @@
                 <h5><strong>Reviewing the text content of the claim</strong></h5>
                   <ul>
                       
-                  <li>Does the text clearly lack sufficient verifiable sources (news agencies, public agencies, official governmental websites, verified social media accounts)?
+                  <li>Did the claim fail fact-checks before since it lacks sufficient verifiable sources or includes dis/misinformation?
                   <br><%= f.radio_button :txt_insufficient_verifiable_srcs, '-1', :checked => (!@claim_review.txt_insufficient_verifiable_srcs.blank? && @claim_review.txt_insufficient_verifiable_srcs==-1) %> Yes<br><%= f.radio_button :txt_insufficient_verifiable_srcs, '1', :checked => (!@claim_review.txt_insufficient_verifiable_srcs.blank? && @claim_review.txt_insufficient_verifiable_srcs==1) %>  No<br><%= f.radio_button :txt_insufficient_verifiable_srcs, '0', :checked => (!@claim_review.txt_insufficient_verifiable_srcs.blank? && @claim_review.txt_insufficient_verifiable_srcs==0) %>  Not sure<br><br><%= f.radio_button :txt_insufficient_verifiable_srcs, '', :checked => (@claim_review.txt_insufficient_verifiable_srcs.blank?) %> Skip this question<br>
                   
                   <br>

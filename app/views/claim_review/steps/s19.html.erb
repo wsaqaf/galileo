@@ -41,7 +41,7 @@
                 <h5><strong>Reviewing the text content of the claim</strong></h5>
                   <ul>
                       
-                  <li>Do reliable sources, particularly from established authorities and well-founded institutions and experts, disapprove the claim?
+                  <li>Does the claim suffer from other problems, such as missing reliable sources, particularly from established authorities and well-founded institutions and experts?
                   <br><%= f.radio_button :txt_reliable_sources_disapprove, '-1', :checked => (!@claim_review.txt_reliable_sources_disapprove.blank? && @claim_review.txt_reliable_sources_disapprove==-1) %> Yes<br><%= f.radio_button :txt_reliable_sources_disapprove, '1', :checked => (!@claim_review.txt_reliable_sources_disapprove.blank? && @claim_review.txt_reliable_sources_disapprove==1) %>  No<br><%= f.radio_button :txt_reliable_sources_disapprove, '0', :checked => (!@claim_review.txt_reliable_sources_disapprove.blank? && @claim_review.txt_reliable_sources_disapprove==0) %>  Not sure<br><br><%= f.radio_button :txt_reliable_sources_disapprove, '', :checked => (@claim_review.txt_reliable_sources_disapprove.blank?) %> Skip this question<br>
                   
                   <br>
