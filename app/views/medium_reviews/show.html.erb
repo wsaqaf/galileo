@@ -111,7 +111,7 @@
               
                   <% if (@medium_review.user_id==current_user.id or @medium_review.medium_review_sharing_mode==1) and !@medium_review.medium_is_poorly_ranked.blank? %>
                       <li>Is the medium ranked poorly by others?
-                      <%= f.select :medium_is_poorly_ranked, options_for_select([['Select',''],['Yes, it is ranked poorly', -1],[' No, its ranked is good', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_poorly_ranked), {}, disabled: @medium_review.user_id!=current_user.id %>
+                      <%= f.select :medium_is_poorly_ranked, options_for_select([['Select',''],['Yes, it is ranked poorly', -1],[' No, it is not poorly ranked', 1],[' Not sure', 0]], :selected => @medium_review.medium_is_poorly_ranked), {}, disabled: @medium_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>

@@ -43,7 +43,7 @@
                   <ul>
                       
                   <li><big><b><font color=blue>Is the medium ranked poorly by others?</font></b></big>
-                  <br><%= f.radio_button :medium_is_poorly_ranked, '-1', :checked => (!@medium_review.medium_is_poorly_ranked.blank? && @medium_review.medium_is_poorly_ranked==-1) %> <b>Yes&#44;</b> it is ranked poorly<br><%= f.radio_button :medium_is_poorly_ranked, '1', :checked => (!@medium_review.medium_is_poorly_ranked.blank? && @medium_review.medium_is_poorly_ranked==1) %>  <b>No&#44;</b> its ranked is good<br><%= f.radio_button :medium_is_poorly_ranked, '0', :checked => (!@medium_review.medium_is_poorly_ranked.blank? && @medium_review.medium_is_poorly_ranked==0) %>  Not sure<br><br><%= f.radio_button :medium_is_poorly_ranked, '', :checked => (@medium_review.medium_is_poorly_ranked.blank?) %> Skip this question<br>
+                  <br><%= f.radio_button :medium_is_poorly_ranked, '-1', :checked => (!@medium_review.medium_is_poorly_ranked.blank? && @medium_review.medium_is_poorly_ranked==-1) %> <b>Yes&#44;</b> it is ranked poorly<br><%= f.radio_button :medium_is_poorly_ranked, '1', :checked => (!@medium_review.medium_is_poorly_ranked.blank? && @medium_review.medium_is_poorly_ranked==1) %>  <b>No&#44;</b> it is not poorly ranked<br><%= f.radio_button :medium_is_poorly_ranked, '0', :checked => (!@medium_review.medium_is_poorly_ranked.blank? && @medium_review.medium_is_poorly_ranked==0) %>  Not sure<br><br><%= f.radio_button :medium_is_poorly_ranked, '', :checked => (@medium_review.medium_is_poorly_ranked.blank?) %> Skip this question<br>
                   
                   <br>
                   
