@@ -39,5 +39,6 @@
     <% end %>
   </fieldset>
   <%= link_to 'Show', @src %> |
+  <%= link_to "Delete", src_path(@src), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this source and all its reviews?"} %> |
   <%= link_to 'Back', srcs_path %>
   </div>

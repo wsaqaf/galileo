@@ -21,6 +21,12 @@
           <br>
           Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
           Updated: <%= medium_review.updated_at %><br>
+
+          <% if medium_review.user_id == current_user.id || current_user.id==1  %>
+            <br><%= link_to "Edit Review", medium_medium_reviews_path(medium.id), method: :create %> -
+            <%= link_to "Delete Review", medium_medium_review_path(medium.id,medium_review), method: :delete, data: { confirm: "Are you sure?" } %><br>
+          <% end %>
+
           <br><b><%= link_to 'More about this review', medium_medium_review_path(medium.id,medium_review.id) %></b>
       </li><hr>
     <% end %>

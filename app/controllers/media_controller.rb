@@ -74,10 +74,14 @@ class MediaController < ApplicationController
   def create
     @medium = current_user.media.build(medium_params)
 
-    if @medium.save
-        redirect_to media_path
-    else
-        render 'new'
+    begin
+      if @medium.save
+          redirect_to media_path
+      else
+          render 'new'
+      end
+    rescue
+      render 'new'
     end
   end
 

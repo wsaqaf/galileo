@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing claim:
+        <%= link_to "Delete Review", claim_claim_review_path(@claim.id,@claim_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing claim:
                    <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -41,21 +42,21 @@
                 <h5><strong>Your assessment of the claim's validity</strong></h5>
                   <ul>
                       
-                  <li>Based on this review, what is your final assessment of this claim? If it is not possible to assess it because it is not a news/info genre (e.g., satire, marketing, fiction, etc.), select "No decision/not applicable" and justify that in the fields below.<span class='required'>*</span>
+                  <li><big><b><font color=blue>Based on this review, what is your final assessment of this claim? If it is not possible to assess it because it is not a news/info genre (e.g., satire, marketing, fiction, etc.), select "No decision/not applicable" and justify that in the fields below.</font></b></big><span class='required'>*</span>
                   <br><%= f.radio_button :review_verdict, '1', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==1), onClick: "$('#verdict_note').show();" %> False<br><%= f.radio_button :review_verdict, '2', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==2), onClick: "$('#verdict_note').show();" %>  Mostly false<br><%= f.radio_button :review_verdict, '3', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==3), onClick: "$('#verdict_note').show();" %>  Mixed<br><%= f.radio_button :review_verdict, '4', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==4), onClick: "$('#verdict_note').show();" %>  Mostly true<br><%= f.radio_button :review_verdict, '5', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==5), onClick: "$('#verdict_note').show();" %>  True<br><%= f.radio_button :review_verdict, '0', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==0), onClick: "$('#verdict_note').show();" %>  No decision<br><br><%= f.radio_button :review_verdict, '', :checked => (@claim_review.review_verdict.blank?) %> Skip this question<br>
                   
                   <br>
                   
                   </li>
           
-                  <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li>Explain your rationale to why you have given this assessment.
+                  <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li><big><b><font color=blue>Explain your rationale to why you have given this assessment.</font></b></big>
                   <%= f.text_area(:review_description, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>
                   
                   </li>
           
-                  <li>Optional note
+                  <li><big><b><font color=blue>Optional note</font></b></big>
                   <%= f.text_area(:note_review_description, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>

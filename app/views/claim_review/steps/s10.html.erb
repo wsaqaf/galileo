@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing claim:
+        <%= link_to "Delete Review", claim_claim_review_path(@claim.id,@claim_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing claim:
                    <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -41,8 +42,8 @@
                 <h5><strong>Reviewing video in the claim</strong></h5>
                   <ul>
                       
-                  <li>Has the video undergone any audio manipulation? Are there discrepancies in the voices/audio in the video  (e.g., mismatch between character and his voice)?
-                  <br><%= f.radio_button :vid_audio_discrepency, '-1', :checked => (!@claim_review.vid_audio_discrepency.blank? && @claim_review.vid_audio_discrepency==-1) %> Yes<br><%= f.radio_button :vid_audio_discrepency, '1', :checked => (!@claim_review.vid_audio_discrepency.blank? && @claim_review.vid_audio_discrepency==1) %>  No<br><%= f.radio_button :vid_audio_discrepency, '0', :checked => (!@claim_review.vid_audio_discrepency.blank? && @claim_review.vid_audio_discrepency==0) %>  Not sure<br><br><%= f.radio_button :vid_audio_discrepency, '', :checked => (@claim_review.vid_audio_discrepency.blank?) %> Skip this question<br>
+                  <li><big><b><font color=blue>Has the video undergone any audio manipulation? Are there discrepancies in the voices/audio in the video  (e.g., mismatch between character and his voice)?</font></b></big>
+                  <br><%= f.radio_button :vid_audio_discrepency, '-1', :checked => (!@claim_review.vid_audio_discrepency.blank? && @claim_review.vid_audio_discrepency==-1) %> <b>Yes&#44;</b> there seems to have been some audio manipulation<br><%= f.radio_button :vid_audio_discrepency, '1', :checked => (!@claim_review.vid_audio_discrepency.blank? && @claim_review.vid_audio_discrepency==1) %>  <b>No&#44;</b> the audio seems fine<br><%= f.radio_button :vid_audio_discrepency, '0', :checked => (!@claim_review.vid_audio_discrepency.blank? && @claim_review.vid_audio_discrepency==0) %>  Not sure<br><br><%= f.radio_button :vid_audio_discrepency, '', :checked => (@claim_review.vid_audio_discrepency.blank?) %> Skip this question<br>
                   
                   <br>
                   
@@ -56,7 +57,7 @@
                   	<div class="panel panel-default">
                       	<div class="panel-heading">
                               	<a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-                                  Resources (<%= has_resources.size.to_s %>) &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+                                  <b>Resources (<%= has_resources.size.to_s %>)</b> &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
                           </div>
                           <div class="panel-collapse collapse" id="Resources">
                           	<div class="panel-body">
@@ -80,7 +81,7 @@
              
                   </li>
           
-                  <li>Optional note
+                  <li><big><b><font color=blue>Optional note</font></b></big>
                   <%= f.text_area(:note_vid_audio_discrepency, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>

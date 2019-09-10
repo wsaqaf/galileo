@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing medium:
+        <%= link_to "Delete Review", medium_medium_review_path(@medium.id,@medium_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing medium:
                    <%= link_to @medium.name, medium_path(@medium.id) %></h4>
                 <% if (not @medium.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@medium.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -41,8 +42,8 @@
                 <h5><strong>Reviewing the medium</strong></h5>
                   <ul>
                       
-                  <li>Does the medium have poor technical security/safety standards  (contains viruses, scams, malware, etc.) and lacks encrypted communication (SSL certificate)? 
-                  <br><%= f.radio_button :medium_has_poor_security, '-1', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==-1) %> Yes<br><%= f.radio_button :medium_has_poor_security, '1', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==1) %>  No<br><%= f.radio_button :medium_has_poor_security, '0', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==0) %>  Not sure<br><br><%= f.radio_button :medium_has_poor_security, '', :checked => (@medium_review.medium_has_poor_security.blank?) %> Skip this question<br>
+                  <li><big><b><font color=blue>Does the medium have poor technical security/safety standards  (contains viruses, scams, malware, etc.) and lacks encrypted communication (SSL certificate)? </font></b></big>
+                  <br><%= f.radio_button :medium_has_poor_security, '-1', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==-1) %> <b>Yes&#44;</b> it has some problems with security<br><%= f.radio_button :medium_has_poor_security, '1', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==1) %>  <b>No&#44;</b> it seems fully secure<br><%= f.radio_button :medium_has_poor_security, '0', :checked => (!@medium_review.medium_has_poor_security.blank? && @medium_review.medium_has_poor_security==0) %>  Not sure<br><br><%= f.radio_button :medium_has_poor_security, '', :checked => (@medium_review.medium_has_poor_security.blank?) %> Skip this question<br>
                   
                   <br>
                   
@@ -56,7 +57,7 @@
                   	<div class="panel panel-default">
                       	<div class="panel-heading">
                               	<a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-                                  Resources (<%= has_resources.size.to_s %>) &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+                                  <b>Resources (<%= has_resources.size.to_s %>)</b> &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
                           </div>
                           <div class="panel-collapse collapse" id="Resources">
                           	<div class="panel-body">
@@ -80,7 +81,7 @@
              
                   </li>
           
-                  <li>Optional note
+                  <li><big><b><font color=blue>Optional note</font></b></big>
                   <%= f.text_area(:note_medium_has_poor_security, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>

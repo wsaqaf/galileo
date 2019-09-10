@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing claim:
+        <%= link_to "Delete Review", claim_claim_review_path(@claim.id,@claim_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing claim:
                    <%= link_to @claim.title, claim_path(@claim.id) %></h4>
                 <% if (not @claim.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@claim.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -41,7 +42,7 @@
                 <h5><strong>Assessment based on your answers</strong></h5>
                   <ul>
                       
-                  <li><%= @content_review_score.html_safe %>
+                  <li><big><b><font color=blue><%= @content_review_score.html_safe %></font></b></big>
                   <%= f.hidden_field :claim_review, :value => @claim_review %>
                   
                   <br>

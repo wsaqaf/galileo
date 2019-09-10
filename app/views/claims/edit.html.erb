@@ -80,6 +80,7 @@
 <% end %>
 
 <%= link_to 'Show', @claim %> |
+<%= link_to "Delete", claim_path(@claim), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this claim and all its reviews?"} %> | 
 <%= link_to 'Back', claims_path %>
 </div>
 

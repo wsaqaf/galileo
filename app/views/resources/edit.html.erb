@@ -45,4 +45,5 @@
     </ul>
     <% end %>
   </fieldset>
+  <%= link_to "Delete", resource_path(@resource), method: :delete, data: { confirm: "Are you sure?"} %>
   </div>

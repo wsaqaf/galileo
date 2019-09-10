@@ -1,7 +1,7 @@
 <div class="form-claim">
   <fieldset>
     <legend>&nbsp;Add a new source</legend>
-    <%= form_for @src, :html => { :onsubmit => "do_submit('src')" } do |f| %>
+    <%= form_for @src, :html => { :onsubmit => "do_submit('source')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
           <% f.object.errors.full_messages.each do |error| %>

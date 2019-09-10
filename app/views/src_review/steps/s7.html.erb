@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing source:
+        <%= link_to "Delete Review", src_src_review_path(@src.id,@src_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing source:
                    <%= link_to @src.name, src_path(@src.id) %></h4>
                 <% if (not @src.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@src.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -41,7 +42,7 @@
                 <h5><strong>Reviewing the source (author)</strong></h5>
                   <ul>
                       
-                  <li><%= @src_review_score.html_safe %>
+                  <li><big><b><font color=blue><%= @src_review_score.html_safe %></font></b></big>
                   <%= f.hidden_field :src_review, :value => @src_review %>
                   
                   <br>

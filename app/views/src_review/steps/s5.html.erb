@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing source:
+        <%= link_to "Delete Review", src_src_review_path(@src.id,@src_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing source:
                    <%= link_to @src.name, src_path(@src.id) %></h4>
                 <% if (not @src.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@src.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -41,8 +42,8 @@
                 <h5><strong>Reviewing the source (author)</strong></h5>
                   <ul>
                       
-                  <li>Was it difficult to find information about the source using available local online yellow pages/directories?
-                  <br><%= f.radio_button :src_difficult_to_locate, '-1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==-1) %> Yes<br><%= f.radio_button :src_difficult_to_locate, '1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==1) %>  No<br><%= f.radio_button :src_difficult_to_locate, '0', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==0) %>  Not sure<br><br><%= f.radio_button :src_difficult_to_locate, '', :checked => (@src_review.src_difficult_to_locate.blank?) %> Skip this question<br>
+                  <li><big><b><font color=blue>Was it difficult to find information about the source using available local online yellow pages/directories?</font></b></big>
+                  <br><%= f.radio_button :src_difficult_to_locate, '-1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==-1) %> <b>Yes&#44;</b> it was difficult to find some information about the source<br><%= f.radio_button :src_difficult_to_locate, '1', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==1) %>  <b>No&#44;</b> information about the source is easily accessible<br><%= f.radio_button :src_difficult_to_locate, '0', :checked => (!@src_review.src_difficult_to_locate.blank? && @src_review.src_difficult_to_locate==0) %>  Not sure<br><br><%= f.radio_button :src_difficult_to_locate, '', :checked => (@src_review.src_difficult_to_locate.blank?) %> Skip this question<br>
                   
                   <br>
                   
@@ -56,7 +57,7 @@
                   	<div class="panel panel-default">
                       	<div class="panel-heading">
                               	<a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-                                  Resources (<%= has_resources.size.to_s %>) &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+                                  <b>Resources (<%= has_resources.size.to_s %>)</b> &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
                           </div>
                           <div class="panel-collapse collapse" id="Resources">
                           	<div class="panel-body">
@@ -80,7 +81,7 @@
              
                   </li>
           
-                  <li>Optional note
+                  <li><big><b><font color=blue>Optional note</font></b></big>
                   <%= f.text_area(:note_src_difficult_to_locate, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>

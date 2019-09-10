@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing medium:
+        <%= link_to "Delete Review", medium_medium_review_path(@medium.id,@medium_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing medium:
                    <%= link_to @medium.name, medium_path(@medium.id) %></h4>
                 <% if (not @medium.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@medium.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -38,24 +39,24 @@
               </div>
               <% end %>
               <fieldset>
-                <h5><strong>Making an assessment of author's trustworthiness</strong></h5>
+                <h5><strong>Making an assessment of medium's reliability</strong></h5>
                   <ul>
                       
-                  <li>Considering the given score, how do you assess the medium's reliability for accurate information?<span class='required'>*</span>
+                  <li><big><b><font color=blue>Considering the given score, how do you assess the medium's reliability for accurate information?</font></b></big><span class='required'>*</span>
                   <br><%= f.radio_button :medium_review_verdict, '1', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==1), onClick: "$('#verdict_note').show();" %> Totally unreliable<br><%= f.radio_button :medium_review_verdict, '2', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==2), onClick: "$('#verdict_note').show();" %>  Mostly unreliable<br><%= f.radio_button :medium_review_verdict, '3', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==3), onClick: "$('#verdict_note').show();" %>  Somewhat reliable<br><%= f.radio_button :medium_review_verdict, '4', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==4), onClick: "$('#verdict_note').show();" %>  Mostly reliable<br><%= f.radio_button :medium_review_verdict, '5', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==5), onClick: "$('#verdict_note').show();" %>  Totally reliable<br><%= f.radio_button :medium_review_verdict, '0', :checked => (!@medium_review.medium_review_verdict.blank? && @medium_review.medium_review_verdict==0), onClick: "$('#verdict_note').show();" %>  No decision/Not applicable<br><br><%= f.radio_button :medium_review_verdict, '', :checked => (@medium_review.medium_review_verdict.blank?) %> Skip this question<br>
                   
                   <br>
                   
                   </li>
           
-                  <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li>Explain your rationale to why you have given this assessment.
+                  <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b>It is highly recommended (but not required) that you provide a rationale for your assessment in the box below.</div><br><li><big><b><font color=blue>Explain your rationale to why you have given this assessment.</font></b></big>
                   <%= f.text_area(:medium_review_description, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>
                   
                   </li>
           
-                  <li>Optional note
+                  <li><big><b><font color=blue>Optional note</font></b></big>
                   <%= f.text_area(:note_medium_review_description, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>

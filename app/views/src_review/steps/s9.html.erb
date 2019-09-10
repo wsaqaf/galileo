@@ -22,7 +22,8 @@
       </div>
       </div>
       <div class="main">
-              <h4>Reviewing source:
+        <%= link_to "Delete Review", src_src_review_path(@src.id,@src_review), style: 'float:right', method: :delete, data: { confirm: "Are you sure?" } %>
+        <h4>Reviewing source:
                    <%= link_to @src.name, src_path(@src.id) %></h4>
                 <% if (not @src.url.blank?) %>
                    <%== "URL: <input type='text' id='url_link' value='"+@src.url.to_s+"' style='background-color:lightgrey;width:75%'> <button onclick=copyToClipboard('#url_link')>Copy</button>" %>
@@ -41,14 +42,14 @@
                 <h5><strong>Sharing your source review</strong></h5>
                   <ul>
                       
-                  <li>Do you wish to share your review of this source?<span class='required'>*</span>
-                  <br><%= f.radio_button :src_review_sharing_mode, '1', :checked => (!@src_review.src_review_sharing_mode.blank? && @src_review.src_review_sharing_mode==1) %> Yes<br><%= f.radio_button :src_review_sharing_mode, '-1', :checked => (!@src_review.src_review_sharing_mode.blank? && @src_review.src_review_sharing_mode==-1) %>  No<br><br><%= f.radio_button :src_review_sharing_mode, '', :checked => (@src_review.src_review_sharing_mode.blank?) %> Skip this question<br>
+                  <li><big><b><font color=blue>Do you wish to share your review of this source?</font></b></big><span class='required'>*</span>
+                  <br><%= f.radio_button :src_review_sharing_mode, '1', :checked => (!@src_review.src_review_sharing_mode.blank? && @src_review.src_review_sharing_mode==1) %> <b>Yes&#44;</b> I want to have this shared<br><%= f.radio_button :src_review_sharing_mode, '-1', :checked => (!@src_review.src_review_sharing_mode.blank? && @src_review.src_review_sharing_mode==-1) %>  <b>No&#44;</b> keep this private<br><br><%= f.radio_button :src_review_sharing_mode, '', :checked => (@src_review.src_review_sharing_mode.blank?) %> Skip this question<br>
                   
                   <br>
                   
                   </li>
           
-                  <li>Optional note
+                  <li><big><b><font color=blue>Optional note</font></b></big>
                   <%= f.text_area(:note_src_review_sharing_mode, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>

@@ -1,19 +1,5 @@
 <div class="form-claim">
 <div style='float:right'>
-  <a href="#Import" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-    <b>Import resource(s)</b><span class="glyphicon glyphicon-plus"></span></a>
-    <div class="panel-collapse collapse" id="Import">
-         <br><b><big>Select json file and then click import:</big></b><br><br>
-         <%= form_for(@resource, url: {action: "create"}, html: {multipart: true}) do |f| %>
-            <%= f.file_field :file %>
-            or import from URL: <br><%= f.text_field :url, :style => "padding: 1px 1px; line-height: 10px; width: 320px" %><br>
-            <%= f.check_box :used_for_qs, :checked => true %> Associated resources to questions automatically<br>
-            <%= f.check_box :overwrite, :checked => true %> Overwrite any existing resources<br>
-            <%= f.submit 'Import', :class => 'btn btn btn-primary', id: "submit", :style => "float: right; padding: 5px 5px 5px 5px; line-height: 15px;" %><br><br>
-            <b>Note:</b> You can find files to import at<br><%= link_to "Faktaasisstenten's fact-checking resources page", "https://faktaassistenten.sh.se/?page_id=145" %><br>
-         <% end %>
-       </div>
-    </div>
   <fieldset>
     <legend>&nbsp;Add a new resource</legend>
     <%= form_for @resource, :html => { :onsubmit => "do_submit('resource')" } do |f| %>
@@ -31,7 +17,7 @@
       <div id="resource_note"></div>
       <li>
       URL
-      <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('"+config.relative_url_root.to_s+"','resource')", disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
+      <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','resource')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block">
         <% if @resource.url_preview.present? %><%== @resource.url_preview.gsub('\"','"').gsub("\\'", "'") %><% else %>No URL preview available<% end %>
@@ -72,4 +58,18 @@
     </ul>
     <% end %>
   </fieldset>
-  </div>
+  <hr><a href="#Import" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
+    <b>Import resource(s)</b><span class="glyphicon glyphicon-plus"></span></a>
+    <div class="panel-collapse collapse" id="Import">
+         <br><b><big>Select json file and then click import:</big></b><br><br>
+         <%= form_for(@resource, url: {action: "create"}, html: {multipart: true}) do |f| %>
+            <%= f.file_field :file %>
+            or import from URL: <br><%= f.text_field :url, :style => "padding: 1px 1px; line-height: 10px; width: 320px" %><br>
+            <%= f.check_box :used_for_qs, :checked => true %> Associated resources to questions automatically<br>
+            <%= f.check_box :overwrite, :checked => true %> Overwrite any existing resources<br>
+            <%= f.submit 'Import', :class => 'btn btn btn-primary', id: "submit", :style => "float: right; padding: 5px 5px 5px 5px; line-height: 15px;" %><br><br>
+            <b>Note:</b> You can find files to import at<br><%= link_to "Faktaasisstenten's fact-checking resources page", "https://faktaassistenten.sh.se/?page_id=145" %><br>
+         <% end %>
+       </div>
+    </div>
+  </div><br><br>

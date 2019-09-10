@@ -29,6 +29,8 @@ jQuery(function() {
   $('#user_affiliation').autocomplete({source: $('#user_affiliation').data('autocomplete-source')});
 });
 
+var started_loading=0;
+
 function NewMedium(relative_url,c,s,p,w) {
   var element;
   if (c==1) { element = document.getElementById('claim_'+s+'_name'); }
@@ -37,6 +39,7 @@ function NewMedium(relative_url,c,s,p,w) {
   q=$.trim(q);
   const note = document.getElementById(s+'_note');
   if (q.length==0) { note.innerHTML=''; return ; }
+  started_loading=1;
   $.ajax({
     url: relative_url+'/'+p+'/?term='+q,
     cache: false
@@ -58,8 +61,11 @@ function NewMedium(relative_url,c,s,p,w) {
           if (c==1) { element.value=entry; note.innerHTML=''; }
           else
           {
+            window.stop();
             note.innerHTML='<b><font color=red>'+q+'</font></b> cannot be added because it is already in the database. You can find it by clicking on the <a href="/'+p+'" target=_blank>'+w+' page</a><br>';
+            alert(q+" cannot be added because it is already in the database, even if not shared.\n\n You can try entering it again under a different name.");
             document.getElementById("submit").disabled = true;
+            started_loading=0;
           }
         }
       else
@@ -69,6 +75,7 @@ function NewMedium(relative_url,c,s,p,w) {
           {
             note.innerHTML='';
             document.getElementById("submit").disabled = false;
+            started_loading=0;
           }
         }
     });
@@ -153,6 +160,7 @@ function URLPreview(relative_url,s)
   var q = element.value;
   q=$.trim(q);
   if (q.length==0) { $("#url_preview_block").html(""); $('#'+s+'_url_preview').val(' '); return ; }
+  if (!q.toLowerCase().startsWith("http")) { q="http://"+q; $('#'+s+'_url').val(q); }
   $.ajax({
     url: relative_url+'/claims/',
     type: 'get',

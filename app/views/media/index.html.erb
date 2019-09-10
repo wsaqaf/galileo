@@ -46,10 +46,10 @@
         @my_review = MediumReview.where("medium_id=? AND user_id=?",medium.id,current_user.id).first
         if (@my_review.blank?)
             revtype ="Add" %>
-           - <%= link_to "Add Review", medium_medium_reviews_path(medium.id), method: :create %>
+           - <b><%= link_to "Add Review", medium_medium_reviews_path(medium.id), method: :create %></b>
         <% else
             revtype ="Edit" %>
-           - <%= link_to "Edit Review", medium_medium_reviews_path(medium.id), method: :create %>, - <%= link_to "Delete Review", medium_medium_review_path(medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+           - <b><%= link_to "Edit Review", medium_medium_reviews_path(medium.id), method: :create %></b>, - <%= link_to "Delete Review", medium_medium_review_path(medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
         <% end %>
          )</small>
          <%
@@ -66,10 +66,10 @@
             <br>
             <%
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'></a></td></tr></table></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'><br><small><b><center>"+revtype+" review</center></b></small></a></td></tr></table></div></h4>")
             else
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='Add a review' title='Add a review'></a></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='Add a review' title='Add a review'><br><small><b><center>Review now</center></b></small></a></div></h4>")
            end %>
           <%== url_prev %>
       </li></h4>

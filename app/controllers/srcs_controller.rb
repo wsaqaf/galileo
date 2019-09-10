@@ -73,10 +73,14 @@ class SrcsController < ApplicationController
   def create
     @src = current_user.srcs.build(src_params)
 
-    if @src.save
-        redirect_to srcs_path
-    else
-        render 'new'
+    begin
+      if @src.save
+          redirect_to srcs_path
+      else
+          render 'new'
+      end
+    rescue
+      render 'new'
     end
   end
 

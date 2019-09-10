@@ -24,6 +24,11 @@
          <br>
           Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
           Updated: <%= src_review.updated_at %><br>
+          <% if src_review.user_id == current_user.id || current_user.id==1  %>
+            <br><%= link_to "Edit Review", src_src_reviews_path(src.id), method: :create %> -
+            <%= link_to "Delete Review", src_src_review_path(src.id,src_review), method: :delete, data: { confirm: "Are you sure?" } %><br>
+          <% end %>
+
           <br><b><%= link_to 'More about this review', src_src_review_path(src.id,src_review.id) %></b>
       </li><hr>
     <% end %>

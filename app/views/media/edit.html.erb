@@ -39,5 +39,6 @@
     <% end %>
   </fieldset>
   <%= link_to 'Show', @medium %> |
+  <%= link_to "Delete", medium_path(@medium), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this medium and all its reviews?" } %> |
   <%= link_to 'Back', media_path %>
   </div>
