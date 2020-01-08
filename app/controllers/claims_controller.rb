@@ -3,6 +3,7 @@ class ClaimsController < ApplicationController
   before_action :find_claim, only: [:show, :edit, :update, :destroy]
 
   def index
+
     order=""
 
     if (params[:sort].present?)

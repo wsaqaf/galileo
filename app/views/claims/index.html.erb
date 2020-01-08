@@ -1,19 +1,19 @@
 <div class="container">
   <% if user_signed_in? %>
-    <div class="row"><div class="columnl"><%= link_to "Add Claim", new_claim_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+    <div class="row"><div class="columnl"><%= link_to t('add_claim'), new_claim_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
       <%= @filter_msg.html_safe %><%= @sort_msg.html_safe %>
     </div><div class="columnr">
       <%= form_tag(claims_path, method: :get) do %>
         Search: <%= text_field_tag :q, params[:q] %>
-        <%= submit_tag 'Search', name: nil, :class => 'btn btn btn-primary' %>
+        <%= submit_tag t('search'), name: nil, :class => 'btn btn btn-primary' %>
       <% end %></div></div>
       <hr>
 
     <% if (@claims.size==0) %>
-      No results were returned.
+      <%= t('no_results') %>
     <% elsif Tagging.all.size>0 %>
         <a href="#Resources" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-          Tag Cloud &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
+          <%= t('tag_cloud') %> &nbsp; <span class="glyphicon glyphicon-plus"></span></a>
         <div class="panel-collapse collapse" id="Resources">
                <div id="tag_cloud">
                  <% Tagging.group(:tag_id).order('count(claim_id) DESC').count.each do |tag|
@@ -24,7 +24,7 @@
                       end %>
                       <%= link_to name+" ", tag_path(name), :style=>"font-size:"+sz.to_s+"px;" %>
                  <% end %>
-                  - <%= link_to "[ Show all ]", claims_path %>
+                  - <%= link_to t('show_all'), claims_path %>
                </div>
         </div>
     <% end %>
@@ -33,9 +33,9 @@
       <h4>
         <br><li><%= link_to claim.title, claim_path(claim) %>
         <% if claim.tag_list.size>0 %>
-          <br><small>Tags: <%= raw claim.tags.map(&:claim_name).map { |t| link_to t, tag_path(t) }.join(', ') %></small>
+          <br><small><%= t('tags') %>: <%= raw claim.tags.map(&:claim_name).map { |t| link_to t, tag_path(t) }.join(', ') %></small>
         <% end %>
-        <small><br>Updated at: <%= claim.created_at %> - Reviews:
+        <small><br><%= t('updated_at') %>: <%= claim.created_at %> - <%= t('reviews') %>:
         <%
           @result2="<table><tr>"
           @reviews = ClaimReview.where("claim_id=? AND (review_sharing_mode=1 AND review_verdict IS NOT NULL)",claim.id)
@@ -43,7 +43,7 @@
           if (@reviews.blank?) then @total_reviews=0; @results2=""
           else
             @total_reviews=@reviews.size
-            assessments={"1"=>"False","2"=>"Mostly false","3"=>"Mixed","4"=>"Mostly true","5"=>"True","0"=>"No decision"}
+            assessments={"1"=>t('rate_false'),"2"=>t('rate_mostly_false'),"3"=>t('rate_mixed'),"4"=>t('rate_mostly_true'),"5"=>t('rate_true'),"0"=>t('rate_no_decision')}
             assessments2={"1"=>0,"2"=>0,"3"=>0,"4"=>0,"5"=>0,"0"=>0}
             @reviews.each do |rev|
               if rev.review_verdict.present? then
@@ -71,10 +71,11 @@
         @my_review = ClaimReview.where("claim_id=? AND user_id=?",claim.id,current_user.id).first
         if (@my_review.blank?)
             revtype ="Add" %>
-           - <b><%= link_to "Add Review", claim_claim_reviews_path(claim.id), method: :create %></b>
+           - <b><%= link_to t('add_review'), claim_claim_reviews_path(claim.id), method: :create %></b>
         <% else
             revtype ="Edit" %>
-           - <b><%= link_to "Edit Review", claim_claim_reviews_path(claim.id), method: :create %></b>, - <%= link_to "Delete Review", claim_claim_review_path(claim.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+           - <b><%= link_to t('edit_review'), claim_claim_reviews_path(claim.id), method: :create %></b>,
+           - <%= link_to t('del_review'), claim_claim_review_path(claim.id,@my_review), method: :delete, data: { confirm: t('confirm_del_q')} %>
         <% end %>
         </small>
         <%
@@ -91,18 +92,18 @@
             <small> - Latest review: <%== @last_review_time %></small>
             <%
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'><br><small><b><center>"+revtype+" review</center></b></small></a></td></tr></table></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'><br><br><small><small><b><center>"+revtype+" review</center></b></small></small></a></td></tr></table></div></h4>")
             else
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='Add a review' title='Add a review'><br><small><b><center>Review now</center></b></small></a></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='" + t('add_review') + "' title='" + t('add_review') + "'><br><br><small><small><b><center>" + t('add_review') + "</center></b></small></small></a></div></h4>")
            end %>
           <%== url_prev %>
       </li></h4>
       <% if claim.user_id == current_user.id || current_user.id==1
-        warning_msg="Are you sure you want to go ahead and delete this claim?"
+        warning_msg=t('warning_msg1')
         dependent_reviews=ClaimReview.where("claim_id = ?",claim.id).count("id")
         if (dependent_reviews>0)
-          warning_msg="Are you sure you want to go ahead and delete this claim and all its reviews?"
+          warning_msg=t('warning_msg2')
         end
       %>
         <%= link_to "Edit", edit_claim_path(claim) %> -
@@ -113,9 +114,9 @@
     <% if @total_count>10 then %> <%== pagy_bootstrap_nav(@pagy) %> <% end %>
 
     <% else %>
-      <h4>Welcome to Fact Check Assistant! </h4> <br><hr><br>
-      You can access the service by <b><%= link_to "signing in", new_user_session_path %></b>.
+      <h4><%= t('welcome_msg') %></h4> <br><hr><br>
+      <%= t('go_sign_in_part1') %> <b><%= link_to t('sign_in'), new_user_session_path %></b>.
       <br><br>
-      If you don't have an account, please <b><%= link_to "sign up", new_user_registration_path %></b>.
+      <%= t('go_sign_up_part1') %> <b><%= link_to t('sign_up'), new_user_registration_path %></b>.
     <% end %>
 </div>

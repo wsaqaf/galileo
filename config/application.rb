@@ -12,6 +12,8 @@ module Fa
     config.load_defaults 5.1
 
     config.encoding = "utf-8"
+
+    config.i18n.available_locales = [:sv, :en]
 #################################################################
     # The below configurations depend on the server's domain name!
 #################################################################

@@ -61,4 +61,8 @@ class Claim < ApplicationRecord
       end
     end
 
+    def self.language_options
+      {"Svenska" => "sv", "English" => "en"}
+    end
+
   end

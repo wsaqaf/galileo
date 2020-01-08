@@ -1,5 +1,5 @@
 <div class="container">
-<h2>Resend confirmation instructions</h2>
+<h2><%= t('devise.account.resend_instr') %></h2>
 
 <%= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
   <%= f.error_notification %>
@@ -7,6 +7,7 @@
 
   <div class="form-claim">
     <%= f.input :email,
+                label: t('devise.account.email'),
                 required: true,
                 autofocus: true,
                 value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
@@ -14,7 +15,7 @@
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Resend confirmation instructions" %>
+    <%= f.button :submit, t('devise.account.resend_instr') %>
   </div>
 <% end %>
 

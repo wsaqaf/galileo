@@ -1,5 +1,12 @@
 class ApplicationController < ActionController::Base
     include Pagy::Backend
+    before_action :set_locale
+
+    private
+
+    def set_locale
+       I18n.default_locale = params[:locale] if params[:locale].present?
+    end
 
     protect_from_forgery with: :exception
 
@@ -28,7 +35,7 @@ class ApplicationController < ActionController::Base
         f.each do |key, value|
             if key==filter_option then f[key]="selected"; end
         end
-        return "<select id='filter'><option value='"+page1+"' "+f['a']+">All "+page2+"</option><option value='?filter=m' "+f['m']+">"+page2+" you created</option><option value='?filter=r' "+f['r']+">"+page2+" that have been reviewed</option><option value='?filter=u' "+f['u']+">"+page2+" you reviewed</option><option value='?filter=n' "+f['n']+">"+page2+" with no reviews yet</option></select>\n<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+        return "<select id='filter'><option value='"+page1+"' "+f['a']+">"+t('all')+" "+t(page2.downcase)+"</option><option value='?filter=m' "+f['m']+">"+t(page2.downcase)+t('you_created')+"</option><option value='?filter=r' "+f['r']+">"+t(page2.downcase)+t('been_reviewed')+"</option><option value='?filter=u' "+f['u']+">"+t(page2.downcase)+t('you_reviewed')+"</option><option value='?filter=n' "+f['n']+">"+t(page2.downcase)+t('with_no_reviews')+"</option></select>\n<script>$(function(){$('#filter').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       end
 
       def sort_statement(page,sorting)
@@ -58,7 +65,8 @@ class ApplicationController < ActionController::Base
         s.each do |key, value|
             if key==sort_option then s[key]="selected"; end
         end
-        return "Sort by: <select id='sort'><option value='?sort=td' "+s['td']+">"+page2+" sorted by time (latest first)</option><option value='?sort=rt' "+s['rt']+">"+page2+" sorted by review time (latest first)</option><option value='?sort=r' "+s['r']+">"+page2+" sorted by reviews (most reviewed first)</option><option value='?sort=rp' "+s['rp']+">"+page2+" sorted by positive reviews</option><option value='?sort=rn' "+s['rn']+">"+page2+" sorted by negative reviews</option><select>\n<script>$(function(){$('#sort').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
+        return t('sort_by')+": <select id='sort'><option value='?sort=td' "+s['td']+">"+t(page2.downcase)+t('sort_by_time')+"</option><option value='?sort=rt' "+s['rt']+">"+t(page2.downcase)+t('sort_by_review_time')+"</option><option value='?sort=r' "+s['r']+">"+t(page2.downcase)+t('sort_by_reviews')+"</option><option value='?sort=rp' "+s['rp']+">"+t(page2.downcase)+t('sort_by_pos_reviews')+"</option><option value='?sort=rn' "+s['rn']+">"+t(page2.downcase)+t('sort_by_neg_reviews')+
+        "</option><select>\n<script>$(function(){$('#sort').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       end
 
     def linkpreview

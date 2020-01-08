@@ -1,36 +1,40 @@
 <div class="container">
-<h3>Sign up</h3>
+<h3><%= t('sign_up').capitalize %></h3>
 <hr>
 <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= f.error_notification %>
 
     <%= f.input :email,
                 required: true,
-                hint: ("You will need this email to log in everytime"),
+                label: t('devise.account.email'),
+                hint: t('devise.account.email_h'),
                 autofocus: true ,
                 input_html: { autocomplete: "email", :style=> 'width: 400px' }%>
     <%= f.input :name,
+                label: t('devise.account.name'),
                 required: true,
-                hint: ("Your name will be included in meta data of your claim reviews"),
+                hint: t('devise.account.name_h'),
                 autofocus: true ,
                 input_html: { autocomplete: "name", :style=> 'width: 400px' }%>
     <%= f.input :affiliation,
+                label: t('devise.account.affiliation'),
                 required: false,
+                hint: t('devise.account.affiliation_h'),
                 input_html: { data: {autocomplete_source: affiliations_path }, :style=> 'width: 400px' },
-                hint: ("This will be useful to identify peers in your organisation and for networking purposes"),
                 autofocus: true %>
     <%= f.input :password,
+                label: t('devise.account.new_pw'),
+                hint: t('devise.account.new_pw_h'),
                 required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
                 input_html: { autocomplete: "new-password", :style=> 'width: 200px' } %>
     <%= f.input :password_confirmation,
+                label: t('devise.account.repeat_pw'),
+                hint: t('devise.account.repeat_pw_h'),
                 required: true,
                 input_html: { autocomplete: "new-password", :style=> 'width: 200px' } %>
 
   <div class="form-claim">
-    <%= f.button :submit, "Sign up" %>
+    <%= f.button :submit, t('sign_up') %>
   </div>
 <% end %>
-<br>
-<%= render "devise/shared/links" %>
 </div>

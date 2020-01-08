@@ -1,5 +1,5 @@
 <div class="container">
-<h2>Resend unlock instructions</h2>
+<h2><%= t('devise.account.resend_unlock_instr') %></h2>
 
 <%= simple_form_for(resource, as: resource_name, url: unlock_path(resource_name), html: { method: :post }) do |f| %>
   <%= f.error_notification %>
@@ -7,13 +7,14 @@
 
   <div class="form-claim">
     <%= f.input :email,
+                label: t('devise.account.email'),
                 required: true,
                 autofocus: true,
                 input_html: { autocomplete: "email" } %>
   </div>
 
   <div class="form-actions">
-    <%= f.button :submit, "Resend unlock instructions" %>
+    <%= f.button :submit, t('devise.account.resend_unlock_instr') %>
   </div>
 <% end %>
 
