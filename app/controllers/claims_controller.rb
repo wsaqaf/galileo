@@ -41,19 +41,19 @@ class ClaimsController < ApplicationController
             if (tag.nil?) then
                 result=Tag.create(claim_name: tag_name);
                 if (!result.valid?)
-                   output=output+"- Could not add "+tag_name+"!<br>"
+                   output=output+"- "+t('tag_could_not_add')+tag_name+"!<br>"
                 else
-                   output=output+"- "+tag_name+" added successfully..<br>"
+                   output=output+"- "+tag_name+t('tag_added')+"<br>"
                    added=1
                 end
             else
-                output=output+"- "+tag_name+" added already and exists in the DB!<br>"
+                output=output+"- "+tag_name+t('tag_exists')+"<br>"
                 added=1
             end
         end
         if (added==1)
             lst="var result2 = \""+output+"\";";
-            output=output+"<br>Tags added.\n<script>\n"+lst+"\n</script>"
+            output=output+"<br>"+t('tags_added')+"\n<script>\n"+lst+"\n</script>"
         end
         render json: output;
     elsif (params[:refresh_tag_list].present?)
@@ -90,7 +90,7 @@ class ClaimsController < ApplicationController
             elsif is_img(params[:url])
               output=output+'<div id="final_url_preview" class="fragment"><div style="text-align: left"><img src="'+params[:url]+'" id="cimg" style="max-width:128px;max-height:75px" /><br>'
               titl=params[:url]
-              desc="Image URL"
+              desc="URL"
             else
               output=output+'<br><div id="final_url_preview" class="fragment"><div style="text-align: left">'
             end
@@ -152,9 +152,9 @@ class ClaimsController < ApplicationController
     @warning_msg=""
     dependent_reviews=ClaimReview.where("claim_id = ?",@claim.id).count("id")
     if (dependent_reviews>0)
-      @warning_msg="Deleting this record will also delete "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")+".\n"
+      @warning_msg= t('warning_del_dependents', count:dependent_reviews.to_s)+".\n"
     end
-    @warning_msg=@warning_msg+"\nAre you sure you want to go ahead and delete this claim?"
+    @warning_msg=@warning_msg+"\n"+t('warning_del')
   end
 
   def new
@@ -207,11 +207,6 @@ class ClaimsController < ApplicationController
         return true
       end
       return false
-    end
-
-    def pl(nmbr,wrd)
-      if nmbr>1 then return wrd+"s" end
-      return wrd
     end
 
     def claim_params

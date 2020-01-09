@@ -69,15 +69,15 @@ class ResourcesController < ApplicationController
                       end
                       @resource = current_user.resources.build(resrc)
                       if @resource.save
-                        @import_note=@import_note+resrc['name']+" imported and replaced older resource with the same name.<br>"
+                        @import_note=@import_note+resrc['name']+t('rsrc_imported')+"<br>"
                       end
                   else
-                    @import_note=@import_note+resrc['name']+" not imported (resource with the same name already exists).<br>"
+                    @import_note=@import_note+resrc['name']+t('rsrc_imported')+"<br>"
                   end
                 else
                     @resource = current_user.resources.build(resrc)
                     if @resource.save
-                      @import_note=@import_note+resrc['name']+" imported successfully.<br>"
+                      @import_note=@import_note+resrc['name']+t('rsrc_imported_successfully')+"<br>"
                     end
                   end
             end

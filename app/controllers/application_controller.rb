@@ -65,7 +65,7 @@ class ApplicationController < ActionController::Base
         s.each do |key, value|
             if key==sort_option then s[key]="selected"; end
         end
-        return t('sort_by')+": <select id='sort'><option value='?sort=td' "+s['td']+">"+t(page2.downcase)+t('sort_by_time')+"</option><option value='?sort=rt' "+s['rt']+">"+t(page2.downcase)+t('sort_by_review_time')+"</option><option value='?sort=r' "+s['r']+">"+t(page2.downcase)+t('sort_by_reviews')+"</option><option value='?sort=rp' "+s['rp']+">"+t(page2.downcase)+t('sort_by_pos_reviews')+"</option><option value='?sort=rn' "+s['rn']+">"+t(page2.downcase)+t('sort_by_neg_reviews')+
+        return t('sort_by')+": <select id='sort'><option value='?sort=td' "+s['td']+">"+t('sort_by_time')+"</option><option value='?sort=rt' "+s['rt']+">"+t('sort_by_review_time')+"</option><option value='?sort=r' "+s['r']+">"+t('sort_by_reviews')+"</option><option value='?sort=rp' "+s['rp']+">"+t('sort_by_pos_reviews')+"</option><option value='?sort=rn' "+s['rn']+">"+t('sort_by_neg_reviews')+
         "</option><select>\n<script>$(function(){$('#sort').on('change',function(){{window.location=$(this).val();}return false;});});</script>"
       end
 

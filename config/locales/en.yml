@@ -1,4 +1,7 @@
 en:
+
+# Views common
+
   website_title: "Fact Check Assistant"
   claims: "Claims"
   media: "Media"
@@ -15,9 +18,9 @@ en:
   go_sign_in_part1: "To use the service, please"
   go_sign_up_part1: "If you don't have an account, you can"
 
-# Views/Claims/index
-
-  add_claim: "Add Claim"
+  or: "or"
+  import: "import"
+  export: "export"
   search: "Search"
   no_results: "No results were returned."
   tag_cloud: "Tag Cloud"
@@ -37,24 +40,63 @@ en:
   add_review: "Add Review"
   edit_review: "Edit Review"
   del_review: "Delete Review"
+  latest: "Latest"
   confirm_del_q: "Are you sure?"
-  warning_msg1: "Are you sure you want to go ahead and delete this claim?"
-  warning_msg2: "Are you sure you want to go ahead and delete this claim and all its reviews?"
+  warning_msg1: "Are you sure you want to go ahead and delete this %{type}?"
+  warning_msg2: "Are you sure you want to go ahead and delete this  %{type} and all its reviews?"
+
+  #claim view:
+
+  rate_false: "False"
+  rate_mostly_false: "Mostly false"
+  rate_mixed: "Mixed"
+  rate_mostly_true: "Mostly true"
+  rate_true: "True"
+
+  #medium view:
+
 
 # Controllers
+
+
+#common for controllers:
+
+  claim: "claim"
+  medium: "medium"
+  source: "source"
+  src: "source"
+  resource: "resource"
+  review: "review"
+
+  warning_del_dependents:
+    one: "Deleting this will also delete one dependent review."
+    other: "Deleting this will also delete %{count} dependent reviews."
+  warning_del: "Are you sure you want to go ahead and delete it?"
 
 #application_controller.rb
 
   all: "All"
-  you_created: " you created"
-
+  you_created: " that you created"
   sort_by: "Sort by"
-  sort_by_time: " sorted by time (latest first)"
-  sort_by_review_time: " sorted by review time (latest first)"
-  sort_by_reviews: " sorted by reviews (most reviewed first)"
-  sort_by_pos_reviews: " sorted by positive reviews"
-  sort_by_neg_reviews: " sorted by negative reviews"
+  sort_by_time: "creation time (latest first)"
+  sort_by_review_time: "review time (latest review first)"
+  sort_by_reviews: "reviews (most reviewed first)"
+  sort_by_pos_reviews: "positive reviews"
+  sort_by_neg_reviews: "negative reviews"
 
   been_reviewed: " that have been reviewed"
   you_reviewed: " that you reviewed"
   with_no_reviews: " with no reviews yet"
+
+#claims_controller.rb
+
+  tags_added: "Tags added."
+  tag_added: " added successfully."
+  tag_exist: " added already and exists in the DB!"
+  tag_could_not_add: "Could not add "
+
+#resources_controller.rb
+
+  rsrc_imported: " imported and replaced older resource with the same name."
+  rsrc_imported_successfully: " imported successfully."
+  rsrc_not_imported: " not imported (resource with the same name already exists)."

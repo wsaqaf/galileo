@@ -17,43 +17,80 @@ sv:
 
 # Claims/index
 
-  add_claim: "Lägg till påstående"
+  or: "eller"
+  import: "importera"
+  export: "exportera"
   search: "Sök"
   no_results: "Inga resultat."
   tag_cloud: "Tag Cloud"
   show_all: "[Visa alla]"
   tags: "Taggar"
   updated_at: "Uppdaterad vid"
-  reviews: "Recensioner"
-  rate_false: "False"
+  reviews: "Faktagranskningar"
+  rate_false: "Falskt"
   rate_mostly_false: "Mest falskt"
-  rate_mixed: "Mixed"
+  rate_mixed: "Delvis falskt"
   rate_mostly_true: "Mest sant"
-  rate_true: "True"
+  rate_true: "Sant"
   rate_no_decision: "Inget beslut"
   add: "Lägg till"
-  edit: "Edit"
+  edit: "Redigera"
   delete: "Radera"
-  add_review: "Lägg till recension"
-  edit_review: "Edit Review"
-  del_review: "Radera recension"
+  add_review: "Lägg till Faktagranskning"
+  edit_review: "Redigera faktagranskning"
+  del_review: "Radera faktagranskning"
+  latest: "Senaste"
   confirm_del_q: "Är du säker?"
-  warning_msg1: "Är du säker på att du vill gå vidare och ta bort detta påstående?"
-  warning_msg2: "Är du säker på att du vill gå vidare och ta bort detta påstående och alla dess recensioner?"
+  warning_msg1:
+    claim: "Är du säker på att du vill gå vidare och ta bort detta påstående?"
+    medium: "Är du säker på att du vill gå vidare och ta bort detta medie?"
+    source: "Är du säker på att du vill gå vidare och ta bort denna källa?"
+  warning_msg2:
+    claim: "Är du säker på att du vill gå vidare och ta bort detta påstående och dess faktagranskningar?"
+    medium: "Är du säker på att du vill gå vidare och ta bort detta medie och dess faktagranskningar?"
+    source: "Är du säker på att du vill gå vidare och ta bort denna källa och dess faktagranskningar?"
 
 # Controllers
+
+
+#common for controllers:
+
+  claim: "påstående"
+  medium: "medie"
+  source: "källa"
+  src: "källa"
+  resource: "resurs"
+  review: "faktagranskning"
+
+  warning_del_dependents:
+    one: "Om du tar bort den här raderas också en beroende faktagranskning."
+    other: "Om du tar bort den här raderas också %{count} beroende faktagranskningar."
+  warning_del: "Är du säker på att du vill gå vidare och radera?"
 
 #application_controller.rb
 
   all: "Alla"
-  you_created: " du skapade"
-
+  you_created: " som du skapade"
   sort_by: "Sortera efter"
-  sort_by_time: " sorterat efter tid (senast först)"
-  sort_by_review_time: " sorterad efter granskningstid (senast först)"
-  sort_by_reviews: " sorterade efter recensioner (mest granskade först)"
-  sort_by_pos_reviews: " sorterade efter positiva recensioner"
-  sort_by_neg_reviews: " sorterade efter negativa recensioner"
-  been_reviewed: " som har granskats"
-  you_reviewed: " att du har granskat"
-  with_no_reviews: " sorterade efter negativa recensioner"
+  sort_by_time: "skapandetid (senast först)"
+  sort_by_review_time: "faktagranskningstid (senast först)"
+  sort_by_reviews: "faktagranskningar (mest faktagranskade först)"
+  sort_by_pos_reviews: "positiva faktagranskningar"
+  sort_by_neg_reviews: "negativa faktagranskningar"
+
+  been_reviewed: " som har faktagranskats"
+  you_reviewed: " att du har faktagranskat"
+  with_no_reviews: " med inga faktagranskningar ännu"
+
+#claims_controller.rb
+
+  tags_added: "Taggar tillagda."
+  tag_added: " tillagd med framgång."
+  tag_exist: " har redan lagts till och finns i DB!"
+  tag_could_not_add: "Kunde inte lägga till "
+
+# resources_controller.rb
+
+  rsrc_imported: "importerad och ersatt äldre resurs med samma namn."
+  rsrc_imported_successfully: " importerat framgångsrikt."
+  rsrc_not_imported: " inte importerad (resurs med samma namn finns redan)."

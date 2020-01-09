@@ -60,11 +60,11 @@ class MediaController < ApplicationController
       return
     end
     @warning_msg=""
-    dependent_reviews=MediumReview.where("medium_id = ?",@medium.id).count("id")
+    dependent_reviews=MediumReview.where("claim_id = ?",@medium.id).count("id")
     if (dependent_reviews>0)
-        @warning_msg="Deleting this record will also delete "+dependent_reviews.to_s+" dependent "+pl(dependent_reviews,"review")+".\n"
+      @warning_msg= t('warning_del_dependents', count:dependent_reviews.to_s)+".\n"
     end
-    @warning_msg=@warning_msg+"\nAre you sure you want to go ahead and delete this medium?"
+    @warning_msg=@warning_msg+"\n"+t('warning_del')
   end
 
   def new
@@ -111,11 +111,6 @@ class MediaController < ApplicationController
   end
 
   private
-
-  def pl(nmbr,wrd)
-    if nmbr>1 then return wrd+"s" end
-    return wrd
-  end
 
     def medium_params
       params.require(:medium).permit(:name, :url, :medium_type, :description, :sharing_mode, :url_preview)

@@ -1,20 +1,20 @@
 <div class="container">
-  <div class="row"><div class="columnl"><%= link_to "Add Medium", new_medium_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+  <div class="row"><div class="columnl"><%= link_to t('add')+" "+t('medium'), new_medium_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
     <%= @filter_msg.html_safe %><%= @sort_msg.html_safe %>
   </div><div class="columnr">
     <%= form_tag(media_path, method: :get) do %>
-      Search: <%= text_field_tag :q, params[:q] %>
-      <%= submit_tag 'Search', name: nil, :class => 'btn btn btn-primary' %>
+      <%= text_field_tag :q, params[:q] %>
+      <%= submit_tag t('search'), name: nil, :class => 'btn btn btn-primary' %>
     <% end %></div></div>
     <hr>
 <% if (@media.size==0) %>
-  No results were returned.
+  <%= t('no_results') %>
 <% end %>
 <ul>
 <% @media.each do |medium| %>
     <h4>
       <br><li><%= link_to medium.name, medium_path(medium) %>
-      <small><br>Updated at: <%= medium.created_at %> - Reviews:
+      <small><br<%= t('updated_at') %>: <%= medium.created_at %> - <%= t('reviews') %>:
       <%
         @result2="<table><tr>"
         @reviews = MediumReview.where("medium_id=? AND (medium_review_sharing_mode=1 AND medium_review_verdict IS NOT NULL)",medium.id)
@@ -46,10 +46,11 @@
         @my_review = MediumReview.where("medium_id=? AND user_id=?",medium.id,current_user.id).first
         if (@my_review.blank?)
             revtype ="Add" %>
-           - <b><%= link_to "Add Review", medium_medium_reviews_path(medium.id), method: :create %></b>
+           - <b><%= link_to t('add_review'), medium_medium_reviews_path(medium.id), method: :create %></b>
         <% else
             revtype ="Edit" %>
-           - <b><%= link_to "Edit Review", medium_medium_reviews_path(medium.id), method: :create %></b>, - <%= link_to "Delete Review", medium_medium_review_path(medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+           - <b><%= link_to t('edit_review'), medium_medium_reviews_path(medium.id), method: :create %></b>,
+           - <%= link_to t('del_review'), medium_medium_review_path(medium.id,@my_review), method: :delete, data: { confirm: t('confirm_del_q')} %>
         <% end %>
          )</small>
          <%
@@ -66,22 +67,24 @@
             <br>
             <%
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'><br><small><b><center>"+revtype+" review</center></b></small></a></td></tr></table></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/mediums/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+t(revtype.downcase)+" "+t('review')+"' title='"+t(revtype.downcase)+" "+t('review')+"'><br><br><br><small><b><center>"+t(revtype.downcase)+" "+t('review')+"</center></b></small></a></td></tr></table></div></h4>")
             else
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='Add a review' title='Add a review'><br><small><b><center>Review now</center></b></small></a></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/mediums/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='" + t('add_review') + "' title='" + t('add_review') + "'><br><br><br><small><small><b><center>" + t('add_review') + "</center></b></small></small></a></div></h4>")
            end %>
           <%== url_prev %>
       </li></h4>
       <% if medium.user_id == current_user.id || current_user.id==1
-        warning_msg="Are you sure you want to go ahead and delete this medium?"
         dependent_reviews=MediumReview.where("medium_id = ?",medium.id).count("id")
         if (dependent_reviews>0)
-          warning_msg="Are you sure you want to go ahead and delete this medium and all its reviews?"
+          warning_msg= t('warning_del_dependents', count:dependent_reviews)+".\n"
+          warning_msg=warning_msg+t('warning_msg2'+'.medium')
+        else
+          warning_msg=t('warning_msg1'+'.medium')
         end
       %>
-        <%= link_to "Edit", edit_medium_path(medium) %> -
-        <%= link_to "Delete", medium_path(medium), method: :delete, data: { confirm: warning_msg } %>
+        <%= link_to t('edit'), edit_medium_path(medium) %> -
+        <%= link_to t('delete'), medium_path(medium), method: :delete, data: { confirm: warning_msg } %>
       <% end %>
     <% end %>
     </ul>

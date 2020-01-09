@@ -1,10 +1,10 @@
 <div class="container">
   <% if user_signed_in? %>
-    <div class="row"><div class="columnl"><%= link_to t('add_claim'), new_claim_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+    <div class="row"><div class="columnl"><%= link_to t('add')+" "+t('claim'), new_claim_path,:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
       <%= @filter_msg.html_safe %><%= @sort_msg.html_safe %>
     </div><div class="columnr">
       <%= form_tag(claims_path, method: :get) do %>
-        Search: <%= text_field_tag :q, params[:q] %>
+        <%= text_field_tag :q, params[:q] %>
         <%= submit_tag t('search'), name: nil, :class => 'btn btn btn-primary' %>
       <% end %></div></div>
       <hr>
@@ -89,25 +89,27 @@
             url_prev=claim.url_preview
           end
           if @total_reviews>0 %>
-            <small> - Latest review: <%== @last_review_time %></small>
+            <small> - <%= t('latest')+" "+t('review')+":" %> <%== @last_review_time %></small>
             <%
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+revtype+" review' title='"+revtype+" review'><br><br><small><small><b><center>"+revtype+" review</center></b></small></small></a></td></tr></table></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+t(revtype.downcase)+" "+t('review')+"' title='"+t(revtype.downcase)+" "+t('review')+"'><br><br><br><small><b><center>"+t(revtype.downcase)+" "+t('review')+"</center></b></small></a></td></tr></table></div></h4>")
             else
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='" + t('add_review') + "' title='" + t('add_review') + "'><br><br><small><small><b><center>" + t('add_review') + "</center></b></small></small></a></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/claims/"+claim.id.to_s+"/claim_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='" + t('add_review') + "' title='" + t('add_review') + "'><br><br><br><small><small><b><center>" + t('add_review') + "</center></b></small></small></a></div></h4>")
            end %>
           <%== url_prev %>
       </li></h4>
       <% if claim.user_id == current_user.id || current_user.id==1
-        warning_msg=t('warning_msg1')
         dependent_reviews=ClaimReview.where("claim_id = ?",claim.id).count("id")
         if (dependent_reviews>0)
-          warning_msg=t('warning_msg2')
+          warning_msg= t('warning_del_dependents', count:dependent_reviews)+".\n"
+          warning_msg=warning_msg+t('warning_msg2'+'.claim')
+        else
+          warning_msg=t('warning_msg1'+'.claim')
         end
       %>
-        <%= link_to "Edit", edit_claim_path(claim) %> -
-        <%= link_to "Delete", claim_path(claim), method: :delete, data: { confirm: warning_msg } %>
+        <%= link_to t('edit'), edit_claim_path(claim) %> -
+        <%= link_to t('delete'), claim_path(claim), method: :delete, data: { confirm: warning_msg } %>
       <% end %>
     <% end %>
     </ul>
