@@ -59,7 +59,7 @@ class SrcsController < ApplicationController
       return
     end
     @warning_msg=""
-    dependent_reviews=SrcReview.where("claim_id = ?",@src.id).count("id")
+    dependent_reviews=SrcReview.where("src_id = ?",@src.id).count("id")
     if (dependent_reviews>0)
       @warning_msg= t('warning_del_dependents', count:dependent_reviews.to_s)+".\n"
     end

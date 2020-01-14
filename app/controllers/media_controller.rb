@@ -60,7 +60,7 @@ class MediaController < ApplicationController
       return
     end
     @warning_msg=""
-    dependent_reviews=MediumReview.where("claim_id = ?",@medium.id).count("id")
+    dependent_reviews=MediumReview.where("medium_id = ?",@medium.id).count("id")
     if (dependent_reviews>0)
       @warning_msg= t('warning_del_dependents', count:dependent_reviews.to_s)+".\n"
     end
