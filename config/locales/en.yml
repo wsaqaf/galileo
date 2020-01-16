@@ -17,6 +17,9 @@ en:
   welcome_msg: "Welcome to Fact Check Assistant!"
   go_sign_in_part1: "To use the service, please"
   go_sign_up_part1: "If you don't have an account, you can"
+  submit: "Submit"
+
+# Claims/index
 
   or: "or"
   import: "import"
@@ -28,6 +31,11 @@ en:
   tags: "Tags"
   updated_at: "Updated at"
   reviews: "Reviews"
+  rate_false: "False"
+  rate_mostly_false: "Mostly false"
+  rate_mixed: "Mixed"
+  rate_mostly_true: "Mostly true"
+  rate_true: "True"
   rate_false: "False"
   rate_mostly_false: "Mostly false"
   rate_mixed: "Mixed"
@@ -45,13 +53,28 @@ en:
   warning_msg1: "Are you sure you want to go ahead and delete this %{type}?"
   warning_msg2: "Are you sure you want to go ahead and delete this  %{type} and all its reviews?"
 
-  #claim view:
+#Claim/new
 
-  rate_false: "False"
-  rate_mostly_false: "Mostly false"
-  rate_mixed: "Mixed"
-  rate_mostly_true: "Mostly true"
-  rate_true: "True"
+  add_new_claim: "Add a new claim"
+  give_claim_title: "Give a brief title for the claim"
+  assign_existing_tags: "Assign existing tags"
+  create_more_tags: "Create more tags"
+  type_new_tags: "Type in new tags seperated by commas"
+  url_claim: "URL of where the claim is found (if available)"
+  url_claim_note: "* Note: If the claim is an image, use that link as the URL (e.g., http://website.com/image.jpg)"
+  medium_claim: "What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure."
+  src_claim: "Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure."
+  image_claim: "Does the claim depend on or use an image?"
+  video_claim: "Does the claim depend on or use a video?"
+  text_claim: "Does the claim depend on or use text?"
+  share_claim: "Do you want to share this claim with others?"
+  more_notes_claim: "Any more details about the claim you wish to add?"
+  yes_answer: "Yes"
+  no_answer: "No"
+  not_sure: "Not sure"
+  skip_question: "Skip question"
+  yes_share: "Yes share with everyone"
+  no_share: "No keep it private to me only"
 
   #medium view:
 

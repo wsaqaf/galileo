@@ -14,6 +14,7 @@ sv:
   welcome_msg: "Välkommen till Fact Check Assistant!"
   go_sign_in_part1: "För att använda tjänsten, du kan"
   go_sign_up_part1: "Om du inte har ett konto kan du"
+  submit: "Skicka in"
 
 # Claims/index
 
@@ -50,8 +51,30 @@ sv:
     medium: "Är du säker på att du vill gå vidare och ta bort detta medie och dess faktagranskningar?"
     source: "Är du säker på att du vill gå vidare och ta bort denna källa och dess faktagranskningar?"
 
-# Controllers
+#Claim/new
 
+  add_new_claim: "Lägg till ett nytt påstående"
+  give_claim_title: "Ge en kort titel på påstående"
+  assign_existing_tags: "Tilldela befintliga taggar"
+  create_more_tags: "Skapa fler taggar"
+  typ_new_tags: "Skriv in nya taggar separerade med komma"
+  url_claim: "URL till var påståendet finns (om tillgängligt)"
+  url_claim_note: "* Obs! Om påståendet är en bild, använd den länken som URL (t.ex. http://website.com/image.jpg)"
+  medium_claim: "Vad var mediet där påstående publicerades (t.ex. Twitter, Facebook, New York Times, etc.)? Lämna tomt om det är okänt eller osäkert."
+  src_claim: "Vem är källan (skapare, författare, författare) som producerade påståendet? Lämna tomt om det är okänt eller osäker."
+  image_claim: "Beror påståendet på eller använder du en bild?"
+  video_claim: "Beror påståendet på eller använder du en video?"
+  text_claim: "Beror påståendet på eller använder du text?"
+  share_claim: "Vill du dela detta påstående med andra?"
+  more_notes_claim: "Mer information om kravet du vill lägga till?"
+  yes_answer: "Ja"
+  no_answer: "Nej"
+  not_sure: "Inte säker"
+  skip_question: "Hoppa över fråga"
+  yes_share: "Ja dela med alla"
+  no_share: "Nej, håll det bara privat för mig"
+
+# Controllers
 
 #common for controllers:
 
