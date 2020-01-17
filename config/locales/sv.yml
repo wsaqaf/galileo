@@ -56,6 +56,7 @@ sv:
   add_new_claim: "Lägg till ett nytt påstående"
   give_claim_title: "Ge en kort titel på påstående"
   assign_existing_tags: "Tilldela befintliga taggar"
+  add_tags: "Lägg till taggar"
   create_more_tags: "Skapa fler taggar"
   typ_new_tags: "Skriv in nya taggar separerade med komma"
   url_claim: "URL till var påståendet finns (om tillgängligt)"
@@ -66,13 +67,36 @@ sv:
   video_claim: "Beror påståendet på eller använder du en video?"
   text_claim: "Beror påståendet på eller använder du text?"
   share_claim: "Vill du dela detta påstående med andra?"
-  more_notes_claim: "Mer information om kravet du vill lägga till?"
+  more_notes_claim: "Mer information om påståendet du vill lägga till?"
   yes_answer: "Ja"
   no_answer: "Nej"
   not_sure: "Inte säker"
   skip_question: "Hoppa över fråga"
   yes_share: "Ja dela med alla"
   no_share: "Nej, håll det bara privat för mig"
+
+#Claim/edit
+  edit_a_claim: "Redigera ett påstående"
+
+
+#Claim/show
+  title_claim: "Titel"
+  tags_claim: "Taggar"
+  url: "URL"
+  not_provided: "N/A"
+  share_setting: "Delas det med andra medlemmar"
+  is_shared: "Ja, det delas"
+  is_private: "Nej, det är privat"
+  description: "Beskrivning"
+  added_by: "Tillagd av"
+  created_at: "Skapad på"
+  updated_at: "Uppdaterad vid"
+  check_reviews_claim: "Kontrollera granskningarna av detta påstående"
+  review_this_claim: "Granska detta påstående"
+  edit_review_claim: "Redigera granskning av detta påstående"
+  del_review_claim: "Radera granskning av detta påstående"
+  check_other_reviews_claim: "Kontrollera andra granskningarna av detta påstående"
+  go_back: "Gå tillbaka"
 
 # Controllers
 

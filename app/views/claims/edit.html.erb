@@ -1,6 +1,6 @@
 <div class="form-claim">
 <fieldset>
-  <legend>&nbsp;Edit a claim</legend>
+  <legend>&nbsp;<%= t('add_new_claim') %></legend>
 <%= form_for @claim, :html => { :onsubmit => "do_submit('claim')" } do |f| %>
   <% if f.object.errors.any? %>
   <div class="error_messages">
@@ -10,23 +10,24 @@
   </div>
   <% end %>
 <ul>
-  <li>Give a brief title for the claim<span class='required'>*</span>
+  <li><%= t('give_claim_title') %><span class='required'>*</span>
   <%= f.text_field :title, class: 'field-long', :autocomplete=>"off" %>
   </li>
-  <li>Assign existing tags
+  <li><%= t('assign_existing_tags') %>
   <%= f.select(:tag_ids, options_for_select(Tag.order('lower(claim_name) ASC').map{ |t| [t.claim_name, t.id] }),{}, { :multiple => true }) %><br>
   <a href="#new_tags" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
-    <b>Create additional tags</b><span class="glyphicon glyphicon-plus"></span></a>
+    <b><%= t('create_more_tags') %></b><span class="glyphicon glyphicon-plus"></span></a>
     <div class="panel-collapse collapse" id="new_tags">
-          Type in new tags seperated by commas
+      <%= t('type_new_tags') %>
           <%= f.text_field :tag_list, class: 'field-long', :autocomplete=>"off" %>
           <div id="new_tags_block"></div>
-          <%= link_to "Add tags", "#add_tags", :onclick => 'submit_tags("'+config.relative_url_root.to_s+'","claim")', :class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+          <%= link_to t('add_tags'), "#add_tags", :onclick => 'submit_tags("'+config.relative_url_root.to_s+'","claim")', :class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
     </div>
   </li>
   <li>
-    URL of where the claim is found (if available)
+    <%= t('url_claim') %>
     <%= f.text_field :url, :onfocusout => "URLPreview('"+config.relative_url_root.to_s+"','claim')", class: 'field-long', :autocomplete=>"off" %>
+    <i><small><%= t('url_claim_note') %></small></i>
     </li>
     <div id="url_preview_block">
       <% if @claim.url_preview.present? %>
@@ -35,8 +36,8 @@
     </div>
     <%= f.hidden_field :url_preview %>
     <li>
-  What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure.<br>
-  <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',1,'medium','media','media')", :autocomplete=>"off" %>
+  <%= t('medium_claim') %>
+  <%= f.text_field :medium_name, data: {autocomplete_source: media_path }, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',1,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
   </li>
   <div id="medium_note"></div>
   <li>
@@ -45,42 +46,41 @@
   </li>
   <div id="src_note"></div>
   <li>
-    Does the claim depend on or use an image?
-    &nbsp;&nbsp;<b><%= f.radio_button :has_image, '1', :checked => @claim.has_image==1 %> Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.radio_button :has_image, '-1', :checked => @claim.has_image==-1 %> No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.radio_button :has_image, '0', :checked => (@claim.has_image==0 || @claim.has_image.nil?) %> Not sure/skip question</b>
-
+    <%= t('src_claim') %>
+    &nbsp;&nbsp;<b><%= f.radio_button :has_image, '1', :checked => @claim.has_image==1 %> <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_image, '-1', :checked => @claim.has_image==-1 %>  <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_image, '0', :checked => (@claim.has_image==0 || @claim.has_image.nil?) %>  <%= t('not_sure') %>/ <%= t('skip_question') %></b>
   </li>
   <li>
-    Does the claim depend on or use a video?
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_video, '1', :checked => @claim.has_video==1 %> Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.radio_button :has_video, '-1', :checked => @claim.has_video==-1 %> No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.radio_button :has_video, '0', :checked => (@claim.has_video==0 || @claim.has_video.nil?) %> Not sure/skip question</b>
+    <%= t('video_claim') %>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_video, '1', :checked => @claim.has_video==1 %>  <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_video, '-1', :checked => @claim.has_video==-1 %> <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_video, '0', :checked => (@claim.has_video==0 || @claim.has_video.nil?) %> <%= t('not_sure') %>/ <%= t('skip_question') %></b>
   </li>
   <li>
-    Does the claim depend on or use text?
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_text, '1', :checked => (@claim.has_text==1|| @claim.has_text.nil?) %> Yes &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.radio_button :has_text, '-1', :checked => @claim.has_text==-1 %> No &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.radio_button :has_text, '0', :checked => @claim.has_text==0  %> Not sure/skip question</b>
+    <%= t('text_claim') %>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_text, '1', :checked => (@claim.has_text==1|| @claim.has_text.nil?) %> <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_text, '-1', :checked => @claim.has_text==-1 %> <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :has_text, '0', :checked => @claim.has_text==0  %> <%= t('not_sure') %>/ <%= t('skip_question') %></b>
   </li>
   <li>
-    Do you want to share this claim with others?
-    &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @claim.sharing_mode==1 || @claim.sharing_mode.nil? %> Yes share with everyone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    <%= f.radio_button :sharing_mode, '-1', :checked => @claim.sharing_mode==-1 %> No keep it private to me only &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+    <%= t('share_claim') %>
+    &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @claim.sharing_mode==1 || @claim.sharing_mode.nil? %> <%= t('yes_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <%= f.radio_button :sharing_mode, '-1', :checked => @claim.sharing_mode==-1 %> <%= t('no_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
   </li>
   <li>
-  <br>Any more details about the claim you wish to add?
+    <br><%= t('more_notes_claim') %>
     <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
   </li>
   <li>
-    <%= f.submit 'Submit', :class => 'btn btn btn-primary' %>
+    <%= f.submit t('submit'), :class => 'btn btn btn-primary' %>
   </li>
 </ul>
 </fieldset>
 <% end %>
 
 <%= link_to 'Show', @claim %> |
-<%= link_to "Delete", claim_path(@claim), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this claim and all its reviews?"} %> | 
+<%= link_to "Delete", claim_path(@claim), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this claim and all its reviews?"} %> |
 <%= link_to 'Back', claims_path %>
 </div>
 

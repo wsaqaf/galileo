@@ -21,7 +21,7 @@
             <%= t('type_new_tags') %>
             <%= f.text_field :tag_list, class: 'field-long', :autocomplete=>"off" %>
             <div id="new_tags_block"></div>
-            <%= link_to "Add tags", "#add_tags", :onclick => 'submit_tags("'+config.relative_url_root.to_s+'","claim")', :class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
+            <%= link_to t('add_tags'), "#add_tags", :onclick => 'submit_tags("'+config.relative_url_root.to_s+'","claim")', :class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
       </div>
     </li>
 

@@ -58,6 +58,7 @@ en:
   add_new_claim: "Add a new claim"
   give_claim_title: "Give a brief title for the claim"
   assign_existing_tags: "Assign existing tags"
+  add_tags: "Add tags"
   create_more_tags: "Create more tags"
   type_new_tags: "Type in new tags seperated by commas"
   url_claim: "URL of where the claim is found (if available)"
@@ -76,7 +77,29 @@ en:
   yes_share: "Yes share with everyone"
   no_share: "No keep it private to me only"
 
-  #medium view:
+#Claim/edit
+  edit_a_claim: "Edit a claim"
+
+#Claim/show
+  title_claim: "Title"
+  tags_claim: "Tags"
+  url: "URL"
+  not_provided: "N/A"
+  share_setting: "Is it shared with other members"
+  is_shared: "Yes, it is shared"
+  is_private: "No, it is private"
+  description: "Description"
+  added_by: "Added by"
+  created_at: "Created at"
+  updated_at: "Updated at"
+  check_reviews_claim: "Check the reviews of this claim"
+  review_this_claim: "Review this claim"
+  edit_review_claim: "Edit review of this claim"
+  del_review_claim: "Delete review of this claim"
+  check_other_reviews_claim: "Check the other reviews of this claim"
+  go_back: "Go back"
+
+#medium view:
 
 
 # Controllers

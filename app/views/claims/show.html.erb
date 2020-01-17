@@ -1,20 +1,20 @@
 <div class="container">
-<h2>Title: <%= @claim.title %></h2>
+<h2><%= t('title_claim') %>: <%= @claim.title %></h2>
 <% if @claim.tag_list.size>0 %>
-    Tags: <%= raw @claim.tags.map(&:claim_name).map { |t| link_to t, tag_path(t) }.join(', ') %>
+    <%= t('tags_claim') %>: <%= raw @claim.tags.map(&:claim_name).map { |t| link_to t, tag_path(t) }.join(', ') %>
 <% end %>
 
-<h5>URL:
+<h5><%= t('url') %>:
 <% if @claim.url.present? %>
   <%= link_to @claim.url,@claim.url %>
-  <% if @claim.url_preview.present? %>
+  <% if @claim.url_ preview.present? %>
     <br><%== @claim.url_preview.gsub('\"','"').gsub("\\'", "'") %>
   <% end %>
 <% else %>
-Not provided
+  <%= t('not_provided') %>
 <% end %>
 </h5>
-<h5>Medium:
+<h5><%= t('medium').capitalize %>:
 <% if @claim.medium_id.present? %>
   <% begin %>
     <% @medium = Medium.find @claim.medium_id %>
@@ -22,10 +22,10 @@ Not provided
   <% rescue %>
     <% end %>
 <% else %>
-    Not provided
+    <%= t('not_provided') %>
 <% end %>
 </h5>
-<h5>Source:
+<h5><%= t('source').capitalize %>:
   <% if @claim.src_id.present? %>
   <% begin %>
     <% @src = Src.find @claim.src_id %>
@@ -33,27 +33,27 @@ Not provided
            <% rescue %>
              <% end %>
  <% else %>
-     Not provided
+     <%= t('not_provided') %>
  <% end %>
 </h5>
-<h5>Privacy:
+<h5><%= t('share_setting') %>?
   <% if @claim.sharing_mode==1 %>
-    Public
+    <%= t('is_shared') %>
   <% else %>
-      Private
+      <%= t('not_private') %>
   <% end %>
 </h5>
-<h5>Description:
+<h5><%= t('description') %>:
   <% if @claim.description.present? %>
     <%= @claim.description %>
   <% else %>
-      Not provided
+      <%= t('not_provided') %>
   <% end %>
 </h5>
 <hr>
-<p>Added by: <%= User.find(@claim.user_id).name %>
-<br>Created: <%= @claim.created_at %>
-<br>Updated: <%= @claim.updated_at %></p>
+<p><%= t('added_by') %>: <%= User.find(@claim.user_id).name %>
+<br><%= t('created_at') %>: <%= @claim.created_at %>
+<br><%= t('updated_at') %>: <%= @claim.updated_at %></p>
 
 <br><br>
 <h5>
@@ -63,25 +63,25 @@ Not provided
  <% if (@total_reviews>0) %>
     <%  @my_review = ClaimReview.where(claim_id: @claim.id, user_id: current_user.id)
       if (@my_review.blank?) %>
-         <hr>Check the <%= link_to " reviews of this claim", claim_claim_reviews_path(@claim.id) %>
-         <%= link_to "Review this claim", claim_claim_reviews_path(@claim.id), method: :create %>
+         <hr><%= link_to t('check_reviews_claim'), claim_claim_reviews_path(@claim.id) %>
+         <%= link_to t('review_this_claim'), claim_claim_reviews_path(@claim.id), method: :create %>
      <% else %>
-         <%= link_to "Edit review of this claim", claim_claim_reviews_path(@claim.id), method: :create %> |
-         <%= link_to "Delete review of this claim", claim_claim_review_path(@claim.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+         <%= link_to t('edit_review_claim'), claim_claim_reviews_path(@claim.id), method: :create %> |
+         <%= link_to t('del_review_claim'), claim_claim_review_path(@claim.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
          <% if @total_reviews>1 %>
-            <hr>Check the <%= link_to "other reviews of this claim", claim_claim_reviews_path(@claim.id) %><br>
+            <hr> <%= link_to t('check_other_reviews_claim'), claim_claim_reviews_path(@claim.id) %><br>
         <% end %>
     <% end %>
  <% else %>
-       <%= link_to "Review this claim", claim_claim_reviews_path(@claim.id), method: :create %>
+       <%= link_to t('review_this_claim'), claim_claim_reviews_path(@claim.id), method: :create %>
  <% end %>
 
 </h5>
 <br><br>
-<%= link_to "Back", claims_path %>
+<%= link_to t('go_back'), claims_path %>
 
   <% if @claim.user_id == current_user.id || current_user.id==1  %> -
-    <%= link_to "Edit", edit_claim_path(@claim) %> -
-    <%= link_to "Delete", claim_path(@claim), method: :delete, data: { confirm: @warning_msg} %>
+    <%= link_to t('edit'), edit_claim_path(@claim) %> -
+    <%= link_to t('delete'), claim_path(@claim), method: :delete, data: { confirm: @warning_msg} %>
   <% end %>
 </div>
