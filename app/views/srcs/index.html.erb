@@ -78,9 +78,9 @@
       dependent_reviews=SrcReview.where("src_id = ?",src.id).count("id")
       if (dependent_reviews>0)
         warning_msg= t('warning_del_dependents', count:dependent_reviews)+".\n"
-        warning_msg=warning_msg+t('warning_msg2'+'.source')
+        warning_msg=warning_msg+t('warning_msg2',type: t('the_source'))
       else
-        warning_msg=t('warning_msg1'+'.source')
+        warning_msg=t('warning_msg1',type: t('the_source'))
       end
     %>
       <%= link_to t('edit'), edit_src_path(src) %> -

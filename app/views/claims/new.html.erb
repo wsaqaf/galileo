@@ -26,9 +26,9 @@
     </li>
 
     <li>
-    <%= t('url_claim') %>
+    <%= t('claim_url') %>
     <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','claim')", class: 'field-long', :autocomplete=>"off" %>
-    <i><small><%= t('url_claim_note') %></small></i>
+    <i><small><%= t('claim_url_note') %></small></i>
     </li>
     <div id="url_preview_block"></div>
     <li>
@@ -62,7 +62,7 @@
       <%= f.radio_button :has_text, '0', :checked => @claim.has_text==0  %> <%= t('not_sure') %>/ <%= t('skip_question') %></b>
     </li>
     <li>
-      <%= t('share_claim') %>
+      <%= t('share_claim') %><br>
       &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @claim.sharing_mode==1 || @claim.sharing_mode.nil? %> <%= t('yes_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       <%= f.radio_button :sharing_mode, '-1', :checked => @claim.sharing_mode==-1 %> <%= t('no_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
     </li>

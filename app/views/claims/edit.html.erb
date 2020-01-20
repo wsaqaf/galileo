@@ -1,6 +1,6 @@
 <div class="form-claim">
 <fieldset>
-  <legend>&nbsp;<%= t('add_new_claim') %></legend>
+  <legend>&nbsp;<%= t('edit') %> <%= t('claim').capitalize %></legend>
 <%= form_for @claim, :html => { :onsubmit => "do_submit('claim')" } do |f| %>
   <% if f.object.errors.any? %>
   <div class="error_messages">
@@ -25,9 +25,9 @@
     </div>
   </li>
   <li>
-    <%= t('url_claim') %>
+    <%= t('claim_url') %>
     <%= f.text_field :url, :onfocusout => "URLPreview('"+config.relative_url_root.to_s+"','claim')", class: 'field-long', :autocomplete=>"off" %>
-    <i><small><%= t('url_claim_note') %></small></i>
+    <i><small><%= t('claim_url_note') %></small></i>
     </li>
     <div id="url_preview_block">
       <% if @claim.url_preview.present? %>
@@ -41,12 +41,12 @@
   </li>
   <div id="medium_note"></div>
   <li>
-  Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure.<br>
+  <%= t('src_claim') %>?<br>
   <%= f.text_field :src_name, data: {autocomplete_source: srcs_path }, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',1,'src','srcs','sources')", :autocomplete=>"off" %>
   </li>
   <div id="src_note"></div>
   <li>
-    <%= t('src_claim') %>
+    <%= t('share_claim') %><br>
     &nbsp;&nbsp;<b><%= f.radio_button :has_image, '1', :checked => @claim.has_image==1 %> <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_image, '-1', :checked => @claim.has_image==-1 %>  <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_image, '0', :checked => (@claim.has_image==0 || @claim.has_image.nil?) %>  <%= t('not_sure') %>/ <%= t('skip_question') %></b>
@@ -79,9 +79,9 @@
 </fieldset>
 <% end %>
 
-<%= link_to 'Show', @claim %> |
-<%= link_to "Delete", claim_path(@claim), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this claim and all its reviews?"} %> |
-<%= link_to 'Back', claims_path %>
+<%= link_to t('show'), @claim %> |
+<%= link_to t('delete'), claim_path(@claim), method: :delete, data: { confirm: t('warning_msg2',type: t('the_medium')) } %> |
+<%= link_to t('go_back'), claims_path %>
 </div>
 
 

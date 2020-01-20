@@ -1,6 +1,6 @@
 <div class="form-claim">
   <fieldset>
-    <legend>&nbsp;Edit Medium</legend>
+    <legend>&nbsp;<%= t('edit') %> <%= t('medium').capitalize %></legend>
     <%= form_for @medium, :html => { :onsubmit => "do_submit('medium')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
@@ -10,35 +10,35 @@
       </div>
       <% end %>
     <ul>
-      <li>What is the name of the medium
+      <li><%= t('give_claim_title') %>
       <%= f.text_field :name, class: 'field-long', :readonly => true %>
       </li>
       <li>
-      URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
+      <%= t('medium_url') %>
       <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','medium')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>
       <li>
-      What type is this medium?
+      <%= t('medium_type') %>
         <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
       </li>
       <li>
-        Do you want to share this medium with others?
+        <%= t('share_medium') %><br>
           &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @medium.sharing_mode==1 || @medium.sharing_mode.nil? %> Yes share with everyone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           <%= f.radio_button :sharing_mode, '-1', :checked => @medium.sharing_mode==-1 %> No keep it private to me only &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
       </li>
       <li>
-      <br>Provide more details about this medium (especially if you mentioned 'Other' as the type)
+      <br><%= t('more_notes_medium') %>
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
       </li>
       <li>
-        <%= f.submit 'Submit', :class => 'btn btn btn-primary' %>
+        <%= f.submit t('submit'), :class => 'btn btn btn-primary' %>
       </li>
     </ul>
     <% end %>
   </fieldset>
-  <%= link_to 'Show', @medium %> |
-  <%= link_to "Delete", medium_path(@medium), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this medium and all its reviews?" } %> |
-  <%= link_to 'Back', media_path %>
+  <%= link_to t('show'), @medium %> |
+  <%= link_to t('delete'), medium_path(@medium), method: :delete, data: { confirm: t('warning_msg2',type: t('the_medium')) } %> |
+  <%= link_to t('go_back'), media_path %>
   </div>

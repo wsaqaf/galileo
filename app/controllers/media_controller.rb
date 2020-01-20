@@ -121,7 +121,7 @@ class MediaController < ApplicationController
     end
 
     def define_types
-      @all_medium_types={"1"=>'Social Media/network',"2"=>'News website',"3"=>'Instant Messaging/Chatting',"4"=>'Video Sharing Website',"5"=>'Blogging platform',"100"=>'Other'}
+      @all_medium_types={"1"=>t('medium_type_social_media'),"2"=>t('medium_type_news'),"3"=>t('medium_type_im'),"4"=>t('medium_type_video'),"5"=>t('medium_type_blog'),"100"=>t('medium_type_other')}
       @medium_types=[]
       @medium_types.push(['Select',''])
       @all_medium_types.each do |key, value|

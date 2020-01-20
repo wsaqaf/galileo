@@ -1,6 +1,6 @@
 <div class="form-claim">
   <fieldset>
-    <legend>&nbsp;Edit source</legend>
+    <legend>&nbsp;<%= t('edit') %> <%= t('src').capitalize %></legend>
     <%= form_for @src, :html => { :onsubmit => "do_submit('src')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
@@ -10,35 +10,35 @@
       </div>
       <% end %>
     <ul>
-      <li>What is the name of the source
+      <li><%= t('give_src_title') %>
       <%= f.text_field :name, class: 'field-long', :readonly => true %>
       </li>
       <li>
-      URL
+      <%= t('src_url') %>
       <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','src')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>
       <li>
-      What type is this source?
+      <%= t('src_type') %>
       <%= f.select :src_type, options_for_select(@src_types, :selected => @src.src_type) %>
       </li>
       <li>
-        Do you want to share this source with others?
-        &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @src.sharing_mode==1 || @src.sharing_mode.nil? %> Yes share with everyone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <%= f.radio_button :sharing_mode, '-1', :checked => @src.sharing_mode==-1 %> No keep it private to me only &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+        <%= t('share_src') %><br>
+        &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @src.sharing_mode==1 || @src.sharing_mode.nil? %> <%= t('yes_share') %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <%= f.radio_button :sharing_mode, '-1', :checked => @src.sharing_mode==-1 %> <%= t('no_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
     </li>
     <li>
-    <br>Provide more details about this source (especially if you mentioned 'Other' as the type)
-      <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
-      </li>
-      <li>
-        <%= f.submit 'Submit', :class => 'btn btn btn-primary', id: 'submit' %>
+      <br><%= t('more_notes_src') %>
+        <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
+        </li>
+        <li>
+          <%= f.submit t('submit'), :class => 'btn btn btn-primary', id: 'submit' %>
       </li>
     </ul>
     <% end %>
   </fieldset>
-  <%= link_to 'Show', @src %> |
-  <%= link_to "Delete", src_path(@src), method: :delete, data: { confirm: "Are you sure you want to go ahead and delete this source and all its reviews?"} %> |
-  <%= link_to 'Back', srcs_path %>
+  <%= link_to t('show'), @src %> |
+  <%= link_to t('delete'), src_path(@src), method: :delete, data: { confirm: t('warning_msg2',type: t('the_source'))} %> |
+  <%= link_to t('go_back'), srcs_path %>
   </div>

@@ -21,7 +21,7 @@
         if (@reviews.blank?) then @total_reviews=0
         else
           @total_reviews=@reviews.size
-          assessments={"1"=>"Totally unreliable","2"=>"Mostly unreliable","3"=>"Somewhat unreliable","4"=>"Mostly reliable","5"=>"Totally reliable","0"=>"No decision"}
+          assessments={"1"=>t('rate_totally_unreliable'),"2"=>t('rate_mostly_unreliable'),"3"=>t('rate_somewhat_unreliable'),"4"=>t('rate_mostly_reliable'),"5"=>t('rate_totally_reliable'),"0"=>t('rate_no_decision')}
           assessments2={"1"=>0,"2"=>0,"3"=>0,"4"=>0,"5"=>0,"0"=>0}
           @reviews.each do |rev|
             if rev.medium_review_verdict.present?
@@ -78,9 +78,9 @@
         dependent_reviews=MediumReview.where("medium_id = ?",medium.id).count("id")
         if (dependent_reviews>0)
           warning_msg= t('warning_del_dependents', count:dependent_reviews)+".\n"
-          warning_msg=warning_msg+t('warning_msg2'+'.medium')
+          warning_msg=warning_msg+t('warning_msg2',type: t('the_medium'))
         else
-          warning_msg=t('warning_msg1'+'.medium')
+          warning_msg=t('warning_msg1',type: t('the_medium'))
         end
       %>
         <%= link_to t('edit'), edit_medium_path(medium) %> -

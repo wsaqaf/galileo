@@ -6,7 +6,8 @@ en:
   claims: "Claims"
   media: "Media"
   sources: "Sources"
-  resources: "Resources for verification"
+  resources_for_verification: "Resources for verification"
+  resources: "Resources"
   sign_out: "Sign out"
   sign_in: "Sign in"
   sign_in_with: "Sign in with"
@@ -36,15 +37,11 @@ en:
   rate_mixed: "Mixed"
   rate_mostly_true: "Mostly true"
   rate_true: "True"
-  rate_false: "False"
-  rate_mostly_false: "Mostly false"
-  rate_mixed: "Mixed"
-  rate_mostly_true: "Mostly true"
-  rate_true: "True"
   rate_no_decision: "No decision"
   add: "Add"
   edit: "Edit"
   delete: "Delete"
+  show: "Show"
   add_review: "Add Review"
   edit_review: "Edit Review"
   del_review: "Delete Review"
@@ -61,24 +58,21 @@ en:
   add_tags: "Add tags"
   create_more_tags: "Create more tags"
   type_new_tags: "Type in new tags seperated by commas"
-  url_claim: "URL of where the claim is found (if available)"
-  url_claim_note: "* Note: If the claim is an image, use that link as the URL (e.g., http://website.com/image.jpg)"
+  claim_url: "URL of where the claim is found (if available)"
+  claim_url_note: "* Note: If the claim is an image, use that link as the URL (e.g., http://website.com/image.jpg)"
   medium_claim: "What was the medium where the claim was published (e.g., Twitter, Facebook, New York Times, etc.)? Leave blank if unknown or unsure."
   src_claim: "Who is the source (creator, author, writer) that produced the claim? Leave blank if unknown or unsure."
   image_claim: "Does the claim depend on or use an image?"
   video_claim: "Does the claim depend on or use a video?"
   text_claim: "Does the claim depend on or use text?"
-  share_claim: "Do you want to share this claim with others?"
   more_notes_claim: "Any more details about the claim you wish to add?"
   yes_answer: "Yes"
   no_answer: "No"
   not_sure: "Not sure"
   skip_question: "Skip question"
+  share_claim: "Do you want to share this claim with other members?"
   yes_share: "Yes share with everyone"
   no_share: "No keep it private to me only"
-
-#Claim/edit
-  edit_a_claim: "Edit a claim"
 
 #Claim/show
   title_claim: "Title"
@@ -92,19 +86,68 @@ en:
   added_by: "Added by"
   created_at: "Created at"
   updated_at: "Updated at"
-  check_reviews_claim: "Check the reviews of this claim"
-  review_this_claim: "Review this claim"
-  edit_review_claim: "Edit review of this claim"
-  del_review_claim: "Delete review of this claim"
-  check_other_reviews_claim: "Check the other reviews of this claim"
+  check_reviews: "Check the reviews of "
+  edit_review: "Edit review of "
+  del_review: "Delete review of "
+  check_other_reviews: "Check the other reviews of "
   go_back: "Go back"
 
 #medium view:
+#Media/index
 
+  rate_totally_unreliable: "Totally unreliable"
+  rate_mostly_unreliable: "Mostly unreliable"
+  rate_somewhat_unreliable: "Somewhat unreliable"
+  rate_mostly_reliable: "Mostly reliable"
+  rate_totally_reliable: "Totally_reliable"
+
+#Medium/new
+
+  add_new_medium: "Add a new medium"
+  give_medium_title: "What is the name of the medium"
+  medium_url: "URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)"
+  medium_type: "What type is this medium?"
+  share_medium: "Do you want to share this medium with others?"
+  more_notes_medium: "Provide more details about this medium (especially if you mentioned 'Other' as the type)"
+
+#Medium/show
+  claims_connected: "Claims connected to "
+
+#Src/new
+
+  add_new_src: "Add a new source"
+  give_src_title: "What is the name of the source"
+  src_url: "URL (e.g., official Website URL, official Facebook profile URL, official Twitter URL profile, etc.)"
+  src_type: "What type is this source?"
+  share_src: "Do you want to share this source with other members?"
+  more_notes_src: "Provide more details about this source (especially if you mentioned 'Other' as the type)"
+
+#Resource/new
+
+  add_new_resource: "Add a new resource"
+  give_resource_title: "What is the name of the resource"
+  resource_url: "Official URL of the resource"
+  resource_tutorial_url: "A link to the tutorial on how to use it (if any)"
+  resource_icon_url: "URL for the icon (logo) representing this resource (if any)"
+  more_notes_resource: "Provide more details about this resource and what it is useful for:"
+  resource_reference1: "Reference code(s) of the step(s) which this resource is associated to:"
+  resource_reference2: "(Use commas or spaces to add multiple references)"
+  resource_import: "Import resource(s)"
+  resource_select_file: "Select json file and then click import:"
+  resource_select_url: "or import from URL:"
+  resource_option_add_qs: "Associated resources to questions automatically"
+  resource_option_overwrite: "Associated resources to questions automatically"
+  resource_note_imports: "Note: You can find files to import at"
+  resource_fca_page: "Faktaasisstenten's fact-checking resources page"
+  resource_fca_page_url: "https://faktaassistenten.sh.se/?page_id=145"
+
+#Resource/show
+
+  go_back_to_resources: "Return to the Resources page"
+  tutorial: "Tutorial"
+  export_this_resource: "Export this resource"
 
 # Controllers
-
-
 #common for controllers:
 
   claim: "claim"
@@ -112,6 +155,16 @@ en:
   source: "source"
   src: "source"
   resource: "resource"
+  the_claim: "the claim"
+  the_medium: "the medium"
+  the_source: "the source"
+  the_src: "the source"
+  the_resource: "the resource"
+  this_claim: "this claim"
+  this_medium: "this medium"
+  this_source: "this source"
+  this_src: "this source"
+  this_resource: "this resource"
   review: "review"
 
   warning_del_dependents:
@@ -140,6 +193,23 @@ en:
   tag_added: " added successfully."
   tag_exist: " added already and exists in the DB!"
   tag_could_not_add: "Could not add "
+
+#medium_controller.rb
+
+  medium_type_social_media: "Social Media/network"
+  medium_type_news: "News website"
+  medium_type_im: "Instant Messaging/Chatting"
+  medium_type_video: "Video Sharing Website"
+  medium_type_blog: "Blogging platform"
+  medium_type_other: "Other"
+
+#src_controller.rb
+
+  src_type_social_person: "Person"
+  src_type_establishment: "Establishment/Entity"
+  src_type_website: "Website"
+  src_type_other: "Other"
+  src_type_not_sure: "Not sure"
 
 #resources_controller.rb
 

@@ -1,6 +1,6 @@
 <div class="form-claim">
   <fieldset>
-    <legend>&nbsp;Add a new medium</legend>
+    <legend>&nbsp;<%= t('add_new_medium') %></legend>
     <%= form_for @medium, :html => { :onsubmit => "do_submit('medium')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
@@ -10,31 +10,31 @@
       </div>
       <% end %>
     <ul>
-      <li>What is the name of the medium<span class='required'>*</span>
+      <li><%= t('give_medium_title') %><span class='required'>*</span>
       <%= f.text_field :name, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',0,'medium','media','media')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="medium_note"></div>
       <li>
-      URL (e.g., https://twitter.com, https://facebook.com, https://telegram.org/, https://whatsapp.com)
+      <%= t('medium_url') %>
       <%= f.text_field :url, :onchange => "URLPreview('"+config.relative_url_root.to_s+"','medium')", class: 'field-long', :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block"></div>
       <%= f.hidden_field :url_preview %>
       <li>
-      What type is this medium?
+      <%= t('medium_type') %>
         <%= f.select :medium_type, options_for_select(@medium_types, :selected => @medium.medium_type) %>
       </li>
       <li>
-        Do you want to share this medium with others?
-          &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @medium.sharing_mode==1 || @medium.sharing_mode.nil? %> Yes share with everyone &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          <%= f.radio_button :sharing_mode, '-1', :checked => @medium.sharing_mode==-1 %> No keep it private to me only &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
+        <%= t('share_medium') %><br>
+          &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @medium.sharing_mode==1 || @medium.sharing_mode.nil? %> <%= t('yes_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <%= f.radio_button :sharing_mode, '-1', :checked => @medium.sharing_mode==-1 %> <%= t('no_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
       </li>
       <li>
-      <br>Provide more details about this medium (especially if you mentioned 'Other' as the type)
+      <br><%= t('more_notes_medium') %>
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea') %>
       </li>
       <li>
-        <%= f.submit 'Submit', :class => 'btn btn btn-primary', id: "submit" %>
+        <%= f.submit t('submit'), :class => 'btn btn btn-primary', id: "submit" %>
       </li>
     </ul>
     <% end %>

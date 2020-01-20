@@ -1,35 +1,42 @@
 <div class="container">
-<h2>Name: <%= @medium.name %></h2>
-<h5>URL:
+<h2><%= t('title_claim') %>: <%= @medium.name %></h2>
+<h5><%= t('url') %>:
   <% if @medium.url.present? %>
     <%= link_to @medium.url,@medium.url %>
     <% if @medium.url_preview.present? %>
       <br><%== @medium.url_preview.gsub('\"','"').gsub("\\'", "'") %>
     <% end %>
   <% else %>
-  Not provided
+  <%= t('not_provided') %>
   <% end %>
 </h5>
-<h5>Privacy:
+<h5><%= t('share_setting') %>?
   <% if @medium.sharing_mode==1 %>
-    Public
+    <%= t('is_shared') %>
   <% else %>
-      Private
+      <%= t('is_private') %>
   <% end %>
 </h5>
-<h5>Description:
+<h5><%= t('description') %>:
   <% if @medium.description.present? %>
     <%= @medium.description %>
   <% else %>
-      Not provided
+      <%= t('not_provided') %>
   <% end %>
 </h5>
-<h5>Type: <%= @medium_type %></h5>
-<p>Added by: <%= User.find(@medium.user_id).name %>
-<br>Created: <%= @medium.created_at %>
-<br>Updated: <%= @medium.updated_at %></p>
+<h5>
+  <%= t('medium_type') %>
+  <% if @medium_type.present? %>
+     <%= @medium_type %>
+  <% else %>
+     <%= t('not_provided') %>
+  <% end %>
+</h5>
+<p><%= t('added_by') %>: <%= User.find(@medium.user_id).name %>
+<br><%= t('created_at') %>: <%= @medium.created_at %>
+<br><%= t('updated_at') %>: <%= @medium.updated_at %></p>
 
-<hr><%= link_to "Claims connected to this medium", claims_path(:m => @medium.id) %>
+<hr><%= link_to t('claims_connected')+" "+t('this_medium'), claims_path(:m => @medium.id) %>
 <br><br>
 <h5>
   <%
@@ -38,26 +45,26 @@
  <% if (@total_reviews>0) %>
     <%  @my_review = MediumReview.where(medium_id: @medium.id, user_id: current_user.id)
       if (@my_review.blank?) %>
-         <hr>Check the <%= link_to " reviews of this medium", medium_medium_reviews_path(@medium.id) %><br><br>
-         <%= link_to "Review this medium", medium_medium_reviews_path(@medium.id), method: :create %>
+         <hr> <%= link_to t('check_reviews')+" "+t('this_medium'), medium_medium_reviews_path(@medium.id) %><br><br>
+         <%= link_to t('review').capitalize+" "+t('this_medium'), medium_medium_reviews_path(@medium.id), method: :create %>
      <% else %>
-         <%= link_to "Edit review of this medium", medium_medium_reviews_path(@medium.id), method: :create %> |
-         <%= link_to "Delete review of this medium", medium_medium_review_path(@medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
+         <%= link_to t('edit_review')+" "+t('this_medium'), medium_medium_reviews_path(@medium.id), method: :create %> |
+         <%= link_to t('del_review')+" "+t('this_medium'), medium_medium_review_path(@medium.id,@my_review), method: :delete, data: { confirm: "Are you sure?"} %>
          <% if @total_reviews>1 %>
-            <hr>Check the <%= link_to "other reviews of this medium", medium_medium_reviews_path(@medium.id) %><br>
+            <hr> <%= link_to t('check_other_reviews')+" "+t('this_medium'), medium_medium_reviews_path(@medium.id) %><br>
         <% end %>
     <% end %>
  <% else %>
-       <%= link_to "Review this medium", medium_medium_reviews_path(@medium.id), method: :create %>
+       <%= link_to t('review').capitalize+" "+t('this_medium'), medium_medium_reviews_path(@medium.id), method: :create %>
  <% end %>
 
 </h5>
 <br><br>
 
-<%= link_to "Back", media_path %>
+<%= link_to t('go_back'), media_path %>
 
   <% if @medium.user_id == current_user.id || current_user.id==1 %> -
-    <%= link_to "Edit", edit_medium_path(@medium) %> -
-    <%= link_to "Delete", medium_path(@medium), method: :delete, data: { confirm: @warning_msg} %>
+    <%= link_to t('edit'), edit_medium_path(@medium) %> -
+    <%= link_to t('delete'), medium_path(@medium), method: :delete, data: { confirm: @warning_msg} %>
   <% end %>
 </div>

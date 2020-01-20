@@ -120,7 +120,7 @@ class SrcsController < ApplicationController
     end
 
     def define_types
-      @all_src_types={"1"=>'Person',"2"=>'Establishment/Entity',"3"=>'Website',"100"=>'Other',"0"=>"Not sure"}
+      @all_src_types={"1"=>t('src_type_social_person'),"2"=>t('src_type_establishment'),"3"=>t('src_type_website'),"100"=>t('src_type_other'),"0"=>t('src_type_not_sure')}
       @src_types=[]
       @src_types.push(['Select',''])
       @all_src_types.each do |key, value|

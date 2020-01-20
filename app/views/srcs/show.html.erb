@@ -1,31 +1,32 @@
 <div class="container">
-<h2>Name: <%= @src.name %></h2>
-<h5>URL:
+<h2><%= t('title_claim') %>: <%= @src.name %></h2>
+<h5><%= t('url') %>:
   <% if @src.url.present? %>
     <%= link_to @src.url,@src.url %>
     <% if @src.url_preview.present? %>
       <br><%== @src.url_preview.gsub('\"','"').gsub("\\'", "'") %>
     <% end %>
   <% else %>
-  Not provided
+  <%= t('not_provided') %>
   <% end %>
 </h5>
-<h5>Privacy:
+<h5><%= t('share_setting') %>?
   <% if @src.sharing_mode==1 %>
-    Public
+    <%= t('is_shared') %>
   <% else %>
-      Private
+      <%= t('not_private') %>
   <% end %>
 </h5>
-<h5>Description:
+<h5><%= t('description') %>:
   <% if @src.description.present? %>
   <% else %>
-  Not provided
+    <%= t('not_private') %>
   <% end %>
 </h5>
-<p>Added by: <%= User.find(@src.user_id).name %>
-<br>Created: <%= @src.created_at %>
-<br>Updated: <%= @src.updated_at %></p>
+<h5><%= t('src_type') %> <%= @src_type %></h5>
+<p><%= t('added_by') %>: <%= User.find(@src.user_id).name %>
+<br><%= t('created_at') %>: <%= @src.created_at %>
+<br><%= t('updated_at') %>: <%= @src.updated_at %></p>
 
 <hr><%= link_to "Claims connected to this source", claims_path(:s => @src.id) %>
 <br><br>
@@ -52,10 +53,10 @@
  </h5>
  <br><br>
 
-<%= link_to "Back", srcs_path %>
+<%= link_to t('go_back'), srcs_path %>
 
   <% if @src.user_id == current_user.id || current_user.id==1 %> -
-    <%= link_to "Edit", edit_src_path(@src) %> -
-    <%= link_to "Delete", src_path(@src), method: :delete, data: { confirm: @warning_msg} %>
+    <%= link_to t('edit'), edit_src_path(@src) %> -
+    <%= link_to t('delete'), src_path(@src), method: :delete, data: { confirm: @warning_msg} %>
   <% end %>
 </div>
