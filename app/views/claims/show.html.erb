@@ -7,7 +7,7 @@
 <h5><%= t('url') %>:
 <% if @claim.url.present? %>
   <%= link_to @claim.url,@claim.url %>
-  <% if @claim.url_ preview.present? %>
+  <% if @claim.url_preview.present? %>
     <br><%== @claim.url_preview.gsub('\"','"').gsub("\\'", "'") %>
   <% end %>
 <% else %>
