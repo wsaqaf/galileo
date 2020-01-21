@@ -1,35 +1,35 @@
 <div class="container">
 <% if user_signed_in? %>
-<h3>Src Reviews</h3>
+  <h3><%= t('src').capitalize+' '+t('reviews') %></h3>
 <% if (@src_reviews.size==0) %>
-  No results were returned.
+  <%= t('no_results') %>
 <% end %>
     <ul>
     <% @src_reviews.each do |src_review| %>
       <li>
           <%
-            src = Src.find(src_review.src_id); rating={"1"=>"Totally untrustworthy", "2"=>"Mostly untrustworthy","3"=>"Somewhat trustworthy","4"=>"Mostly trustworthy","5"=>"Totally trustworthy","0"=>"Not sure"}
+            src = Src.find(src_review.src_id); rating={"1"=>t('rate_totally_untrustworthy'),"2"=>t('rate_mostly_untrustworthy'),"3"=>t('rate_somewhat_untrustworthy'),"4"=>t('rate_mostly_trustworthy'),"5"=>t('rate_totally_trustworthy'),"0"=>t('rate_no_decision')}
             usr = User.find(src_review.user_id); reviewer_name=usr.name; reviewer_aff=usr.affiliation;
             if not reviewer_aff.blank? then reviewer_aff=" ["+reviewer_aff+"]"; end
           %>
-          Src's Name: <%= link_to src.name, src_path(src_review.src_id) %><br>
-          Assessment:
+          <%= t('src').capitalize %>: <%= link_to src.name, src_path(src_review.src_id) %><br>
+          <%= t('assessment') %>:
          <% if !src_review.src_review_verdict.blank? %>
            <%= link_to(image_tag(config.relative_url_root.to_s+'/'+src_review.src_review_verdict.to_s+'.png', style:"height:30px", alt:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'", title:"'"+rating[src_review.src_review_verdict.to_s].to_s+"'"),src_src_review_path(src.id,src_review.id)) %>
           <% txt="["+rating[src_review.src_review_verdict.to_s].to_s+"]"
           else
-            txt="Not assessed"
+            txt=t('not_assessed')
           end %>
          <%== txt %>
          <br>
-          Reviewer: <%= reviewer_name %><%= reviewer_aff %><br>
-          Updated: <%= src_review.updated_at %><br>
+          <%= t('reviewer') %>: <%= reviewer_name %><%= reviewer_aff %><br>
+          <%= t('updated_at') %>: <%= src_review.updated_at %><br>
           <% if src_review.user_id == current_user.id || current_user.id==1  %>
-            <br><%= link_to "Edit Review", src_src_reviews_path(src.id), method: :create %> -
-            <%= link_to "Delete Review", src_src_review_path(src.id,src_review), method: :delete, data: { confirm: "Are you sure?" } %><br>
+            <br><%= link_to  t('edit')+' '+t('review'), src_src_reviews_path(src.id), method: :create %> -
+            <%= link_to  t('delete')+' '+t('review'), src_src_review_path(src.id,src_review), method: :delete, data: { confirm: "Are you sure?" } %><br>
           <% end %>
 
-          <br><b><%= link_to 'More about this review', src_src_review_path(src.id,src_review.id) %></b>
+          <br><b><%= link_to t('more_about')+' '+t('this_review'), src_src_review_path(src.id,src_review.id) %></b>
       </li><hr>
     <% end %>
 <% else %>

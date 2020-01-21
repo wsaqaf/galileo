@@ -26,7 +26,7 @@
             <% else %><li><%= link_to t('media'), media_path, style: 'color:#0A076D;font-weight:bold;' %></li><% end %>
             <% if !request.fullpath.include? "src" then %><li><%= link_to t('sources'), srcs_path %></li>
             <% else %><li><%= link_to t('sources'), srcs_path, style: 'color:#0A076D;font-weight:bold;' %></li><% end %>
-            <% if !request.fullpath.include? "resource" then %><li><%= link_to " | "+ t('resources')+" | ", resources_path %></li>
+            <% if !request.fullpath.include? "resource" then %><li><%= link_to " | "+ t('resources_for_verification')+" | ", resources_path %></li>
             <% else %><li><%= link_to " | "+ t('resources_for_verification')+" | ", resources_path, style: 'color:#0A076D;font-weight:bold;' %></li><% end %>
           <% end %>
         </ul>

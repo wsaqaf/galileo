@@ -1,7 +1,5 @@
 en:
-
 # Views common
-
   website_title: "Fact Check Assistant"
   claims: "Claims"
   media: "Media"
@@ -122,6 +120,13 @@ en:
   share_src: "Do you want to share this source with other members?"
   more_notes_src: "Provide more details about this source (especially if you mentioned 'Other' as the type)"
 
+#Src/index
+  rate_totally_untrustworthy: "Totally untrustworthy"
+  rate_mostly_untrustworthy: "Mostly untrustworthy"
+  rate_somewhat_untrustworthy: "Somewhat untrustworthy"
+  rate_mostly_trustworthy: "Mostly trustworthy"
+  rate_totally_trustworthy: "Totally trustworthy"
+
 #Resource/new
 
   add_new_resource: "Add a new resource"
@@ -147,6 +152,16 @@ en:
   tutorial: "Tutorial"
   export_this_resource: "Export this resource"
 
+#Claim_reviews
+  assessment: "Assessment"
+  not_assessed: "Not not_assessed"
+  reviewer: "Reviewer"
+  more_about: "More about"
+  showing: "Showing"
+  for: "for"
+  new: "New"
+  update: "Update"
+
 # Controllers
 #common for controllers:
 
@@ -155,17 +170,19 @@ en:
   source: "source"
   src: "source"
   resource: "resource"
+  review: "review"
   the_claim: "the claim"
   the_medium: "the medium"
   the_source: "the source"
   the_src: "the source"
   the_resource: "the resource"
+  the_review: "the review"
   this_claim: "this claim"
   this_medium: "this medium"
   this_source: "this source"
   this_src: "this source"
   this_resource: "this resource"
-  review: "review"
+  this_review: "this_review"
 
   warning_del_dependents:
     one: "Deleting this will also delete one dependent review."

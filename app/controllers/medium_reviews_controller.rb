@@ -12,7 +12,7 @@ class MediumReviewsController < ApplicationController
     if (not @tmp.blank?)
       @medium_review=MediumReview.find(@tmp.id)
     else
-      redirect_to mediums_path
+      redirect_to media_path
     end
   end
 

@@ -67,10 +67,10 @@
             <br>
             <%
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/mediums/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+t(revtype.downcase)+" "+t('review')+"' title='"+t(revtype.downcase)+" "+t('review')+"'><br><br><br><small><b><center>"+t(revtype.downcase)+" "+t('review')+"</center></b></small></a></td></tr></table></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'>"+@result2+"</td><td><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/"+revtype+".png' height=50 alt='"+t(revtype.downcase)+" "+t('review')+"' title='"+t(revtype.downcase)+" "+t('review')+"'><br><br><br><small><b><center>"+t(revtype.downcase)+" "+t('review')+"</center></b></small></a></td></tr></table></div></h4>")
             else
               url_prev=url_prev.gsub('\"','"').gsub("\\'", "'")
-              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/mediums/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='" + t('add_review') + "' title='" + t('add_review') + "'><br><br><br><small><small><b><center>" + t('add_review') + "</center></b></small></small></a></div></h4>")
+              url_prev=url_prev.sub("</h4>","<div style='float: right'><a rel='nofollow' data-method='create' href='"+config.relative_url_root.to_s+"/media/"+medium.id.to_s+"/medium_reviews'><img src='"+config.relative_url_root.to_s+"/Add.png' height=50 alt='" + t('add_review') + "' title='" + t('add_review') + "'><br><br><br><small><small><b><center>" + t('add_review') + "</center></b></small></small></a></div></h4>")
            end %>
           <%== url_prev %>
       </li></h4>

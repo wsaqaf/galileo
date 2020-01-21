@@ -1,18 +1,17 @@
-
               <div class="form-claim">
-              <h3>Showing review for src:
+                <h3><%= t('showing')+' '+t('the_review')+' '+t('for')+' '+t('this_source') %>:
                    <%= link_to @src.name, src_path(@src.id) %>
-                   <hr><p>Review by: <%= User.find(@src_review.user_id).name %>
-<br>Created at: <%= @src_review.created_at %>
-                   <br>Updated at: <%= @src_review.updated_at %>
+                   <hr><p><%= t('reviewer') %>: <%= User.find(@src_review.user_id).name %>
+<br><%= t('created_at') %>: <%= @src_review.created_at %>
+                   <br><%= t('updated_at') %>: <%= @src_review.updated_at %>
 
                     <% if @src_review.user_id == current_user.id || current_user.id==1  %>
-                      <br><br><%= link_to "Edit Review", src_src_reviews_path(@src.id), method: :create %> -
-                      <%= link_to "Delete Review", src_src_review_path(@src.id,@src_review), method: :delete, data: { confirm: "Are you sure?" } %>
+                      <br><br><%= link_to t('edit')+' '+t('this_review'), src_src_reviews_path(@src.id), method: :create %> -
+                      <%= link_to t('delete')+' '+t('this_review'), src_src_review_path(@src.id,@src_review), method: :delete, data: { confirm: "Are you sure?" } %>
                     <% end %>
 
                    </p>
-              </h3> 
+              </h3>
 
               <%= form_for @src_review, method: :put, url: src_src_review_path(@src,@src_review) do |f| %>
               <% if f.object.errors.any? %>
@@ -31,112 +30,112 @@
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_lacks_proper_credentials.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_lacks_proper_credentials, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_lacks_proper_credentials, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_failed_factcheck_before.blank? %>
                       <li>Has the source failed a fact check in the past?
                       <%= f.select :src_failed_factcheck_before, options_for_select([['Select',''],['Yes, it has failed fact-checks before', -1],[' No, it seems to have not failed a fact-check before', 1],[' Not sure', 0]], :selected => @src_review.src_failed_factcheck_before), {}, disabled: @src_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_failed_factcheck_before.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_failed_factcheck_before, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_failed_factcheck_before, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_has_poor_writing_history.blank? %>
                       <li>Does the source have a history of poor statements, writings, posts and tweets, etc.?
                       <%= f.select :src_has_poor_writing_history, options_for_select([['Select',''],['Yes, its writings are rather poor', -1],[' No, the source seems to produce quality writings', 1],[' Not sure', 0]], :selected => @src_review.src_has_poor_writing_history), {}, disabled: @src_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_has_poor_writing_history.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_has_poor_writing_history, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_has_poor_writing_history, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_supported_by_trolls.blank? %>
                       <li>Is the source's social media presence possibly a bot or supported by a network of bots?
                       <%= f.select :src_supported_by_trolls, options_for_select([['Select',''],['Yes, it seems to be a bot or benefits from bots in social media', -1],[' No, it appears to be a real person\'s account with organic support', 1],[' Not sure', 0]], :selected => @src_review.src_supported_by_trolls), {}, disabled: @src_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_supported_by_trolls.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_supported_by_trolls, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_supported_by_trolls, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_difficult_to_locate.blank? %>
                       <li>Was it difficult to find information about the source using available local online yellow pages/directories?
                       <%= f.select :src_difficult_to_locate, options_for_select([['Select',''],['Yes, it was difficult to find some information about the source', -1],[' No, information about the source is easily accessible', 1],[' Not sure', 0]], :selected => @src_review.src_difficult_to_locate), {}, disabled: @src_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_difficult_to_locate.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_difficult_to_locate, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_difficult_to_locate, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_other_problems.blank? %>
                       <li>Are there any other major problems that could make this source untrustworthy? If Yes, explain more in the note below.
                       <%= f.select :src_other_problems, options_for_select([['Select',''],['Yes, there seems to be other problems', -1],[' No, there are no other problems', 1],[' Not sure', 0]], :selected => @src_review.src_other_problems), {}, disabled: @src_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_other_problems.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_other_problems, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_other_problems, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_review_verdict.blank? %>
                       <li>Based on the barometer result, how do you assess the trustworthiness of the source?
                       <%= f.select :src_review_verdict, options_for_select([['Select',''],['Totally untrustworthy', 1],[' Mostly untrustworthy', 2],[' Somewhat trustworthy', 3],[' Mostly trustworthy', 4],[' Fully trustworthy', 5],[' No decision', 0]], :selected => @src_review.src_review_verdict), {}, disabled: @src_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_review_description.blank? %>
                       <li>Explain your rationale to why you have given this score.
                       <%= f.text_area(:src_review_description, size: '50x10', class: 'field-long field-textarea', value:@src_review.src_review_description, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_review_description.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_review_description, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_review_description, disabled: @src_review.user_id!=current_user.id) %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.src_review_sharing_mode.blank? %>
                       <li>Do you wish to share your review of this source?
                       <%= f.select :src_review_sharing_mode, options_for_select([['Select',''],['Yes, I want to have this shared', 1],[' No, keep this private', -1]], :selected => @src_review.src_review_sharing_mode), {}, disabled: @src_review.user_id!=current_user.id %>
                       <br>
                       </li>
                   <% end %>
-              
+
                   <% if (@src_review.user_id==current_user.id or @src_review.src_review_sharing_mode==1) and !@src_review.note_src_review_sharing_mode.blank? %>
                       <li>Optional note
                       <%= f.text_area(:note_src_review_sharing_mode, size: '50x10', class: 'field-long field-textarea', value:@src_review.note_src_review_sharing_mode, disabled: @src_review.user_id!=current_user.id) %>
@@ -146,7 +145,7 @@
               </b>
                     <li>
                       <% if @src_review.user_id == current_user.id or current_user.id==1 %>
-    <%= f.submit 'Update', :class=>'btn btn btn-primary' %>
+    <%= f.submit t('update'), :class=>'btn btn btn-primary' %>
 <% end %>
 
                     </li>

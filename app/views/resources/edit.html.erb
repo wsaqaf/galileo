@@ -1,6 +1,6 @@
 <div class="form-claim">
   <fieldset>
-    <legend>&nbsp;Edit resource</legend>
+    <legend>&nbsp;<%= t('edit') %> <%= t('resource').capitalize %></legend>
     <%= form_for @resource, :html => { :onsubmit => "do_submit('resource')" } do |f| %>
       <% if f.object.errors.any? %>
       <div class="error_messages">
@@ -10,12 +10,12 @@
       </div>
       <% end %>
     <ul>
-      <li>What is the name of the resource<span class='required'>*</span>
+      <li><%= t('give_resource_title') %><span class='required'>*</span>
       <%= f.text_field :name, :onchange => "NewMedium('"+config.relative_url_root.to_s+"',0,'resource','resources','resources')", class: 'field-long', disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <div id="resource_note"></div>
       <li>
-      URL
+      <%= t('resource_url') %>
       <%= f.text_field :url, class: 'field-long', :onfocusout => "URLPreview('"+config.relative_url_root.to_s+"','resource')", disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <div id="url_preview_block">
@@ -23,20 +23,19 @@
       </div>
       <%= f.hidden_field :url_preview %>
       <li>
-      A link to the tutorial on how to use it
+      <%= t('resource_tutorial_url') %>
       <%= f.text_field :tutorial, class: 'field-long', disabled: (@resource.user_id!=current_user.id && current_user.id!=1), readonly: (@resource.user_id!=current_user.id && current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <li>
-      URL for the icon (logo) representing this resource
+        <%= t('resource_icon_url') %>
       <%= f.text_field :icon, class: 'field-long', disabled: (@resource.user_id!=current_user.id and current_user.id!=1), readonly: (@resource.user_id!=current_user.id and current_user.id!=1), :autocomplete=>"off" %>
       </li>
       <li>
-      Provide more details about this resource and what it is useful for:
+        <%= t('more_notes_resource') %>
       <%= f.text_area(:description, size: '50x10', class: 'field-long field-textarea', disabled: (@resource.user_id!=current_user.id and current_user.id!=1), readonly: (@resource.user_id!=current_user.id and current_user.id!=1)) %>
       </li>
       <li>
-      Reference code(s) of the step(s) which this resource is associated to<br>
-      <small><i>(Use commas or spaces to add multiple references)</i></small>
+        <%= t('resource_reference1') %><br><small><i><%= t('resource_reference2') %></i></small>
       <%= f.text_field :used_for_qs, class: 'field-long', :autocomplete=>"off" %>
       </li>
       <li>
@@ -45,5 +44,5 @@
     </ul>
     <% end %>
   </fieldset>
-  <%= link_to "Delete", resource_path(@resource), method: :delete, data: { confirm: "Are you sure?"} %>
+  <%= link_to "Delete", resource_path(@resource), method: :delete, data: { confirm: t('warning_msg2',type: t('the_resource')) } %>
   </div>

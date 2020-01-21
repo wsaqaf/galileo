@@ -1,4 +1,5 @@
 sv:
+# Views common
   website_title: "Faktaassistenten"
   claims: "Påståenden"
   media: "Medier"
@@ -122,6 +123,13 @@ sv:
   share_src: "Vill du dela den här källan med andra medlemmar?"
   more_notes_src: "Ge mer information om den här källan (särskilt om du nämnde 'Annat' som typen)"
 
+#Src/index
+  rate_totally_untrustworthy: "Totally otrovärdig"
+  rate_mostly_untrustworthy: "Mostly otrovärdig"
+  rate_somewhat_untrustworthy: "Somewhat otrovärdig"
+  rate_mostly_trustworthy: "Mostly trovärdig"
+  rate_totally_trustworthy: "Totally trovärdig"
+
 # Resource/new
 
   add_new_resource: "Lägg till en ny resurs"
@@ -147,6 +155,16 @@ sv:
   tutorial: "Tutorial"
   export_this_resource: "Exportera den här resursen"
 
+#Claim_reviews
+  assessment: "Bedömning"
+  not_assessed: "Inte bedömts"
+  reviewer: "Faktagranskare"
+  more_about: "Mer om"
+  showing: "Visar"
+  for: "för"
+  new: "Ny"
+  update: "Uppdatera"
+
 # Controllers
 #common for controllers:
 
@@ -155,18 +173,19 @@ sv:
   source: "källa"
   src: "källa"
   resource: "resurs"
+  review: "faktagranskning"
   the_claim: "påståendet"
   the_medium: "mediet"
   the_source: "källan"
   the_src: "källan"
   the_resource: "resursen"
-  this_claim: "den här påstående"
-  this_medium: "det här medie"
+  the_review: "Faktagranskningen"
+  this_claim: "det här påståendet"
+  this_medium: "det här mediet"
   this_source: "den här källan"
   this_src: "den här källan"
   this_resource: "den här resursen"
-  resource: "resurs"
-  review: "faktagranskning"
+  this_review: "den här faktagranskningen"
 
   warning_del_dependents:
     one: "Om du tar bort den här raderas också en beroende faktagranskning."
