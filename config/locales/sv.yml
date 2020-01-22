@@ -10,6 +10,7 @@ sv:
   sign_in: "Logga in"
   sign_in_with: "Logga in med"
   sign_up: "Registrera dig"
+  forgot_pw: "Glömt lösenord"
   edit_profile: "Redigera profil"
   welcome: "Välkommen"
   hello: "Hej"
@@ -17,6 +18,7 @@ sv:
   go_sign_in_part1: "För att använda tjänsten, du kan"
   go_sign_up_part1: "Om du inte har ett konto kan du"
   submit: "Skicka in"
+  video_tutorial: "Videohandledning"
 
 # Claims/index
 

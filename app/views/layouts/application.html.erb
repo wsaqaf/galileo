@@ -31,6 +31,10 @@
           <% end %>
         </ul>
 
+        <ul class="nav navbar-nav navbar-left">
+            <li><%= link_to t('video_tutorial'), "https://www.youtube.com/playlist?list=PLlUC5-5Z5z2uGN-yqC9w9IvslWwhlb_zX" %></li>
+        </ul>
+
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
             <li><%= link_to t('sign_out'), destroy_user_session_path, method: :delete %></li>

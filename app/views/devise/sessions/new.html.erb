@@ -13,6 +13,8 @@
                 input_html: { autocomplete: "current-password", :style=> 'width: 200px' } %>
     <%= f.input :remember_me, label: t('devise.account.remember_me'), as: :boolean if devise_mapping.rememberable? %>
 
+    <%= link_to(t('forgot_pw'), new_user_password_path, id:"forget-password", class:"forget-password") %>
+
   <div class="form-claim">
     <%= f.button :submit, t('sign_in') %>
   </div>
