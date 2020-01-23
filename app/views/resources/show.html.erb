@@ -28,9 +28,16 @@
     </h5>
     <h5><%= t('tutorial') %>:
     <% if (!@resource.tutorial.blank?) %>
-        <% if ((@resource.tutorial.include? "youtube" or @resource.tutorial.include? "youtu.be")) %>
-             <%= link_to @resource.tutorial,@resource.tutorial %>
-            <%== '<iframe width="560" height="315" src="https://www.youtube.com/embed/'+@resource.tutorial.match(/\?v\=(.+)\&?/)[1]+'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>' %>
+        <% if ((@resource.tutorial.include? "youtube.com" or @resource.tutorial.include? "youtu.be")) %>
+            <%= link_to @resource.tutorial,@resource.tutorial %>
+            <%
+              embedded_frame=''
+              begin
+                embedded_frame='<br><br><iframe width="560" height="315" src="https://www.youtube.com/embed/'+@resource.tutorial.match(/\?v\=(.+)\&?/)[1]+'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>'
+              rescue
+              end
+            %>
+            <%== embedded_frame %>
         <% else %>
           <%= link_to @resource.tutorial,@resource.tutorial %>
         <% end %>

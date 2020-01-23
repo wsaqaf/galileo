@@ -54,6 +54,20 @@ module ApplicationHelper
       end
     end
 
+    if name.include? "tineye"
+      if domain_name
+        if !obj.url_preview.nil?
+          img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
+          if !img.nil?
+            img=img[0]
+            results="<strong><a href='https://tineye.com/search?url="+img.to_s+"' target=_blank>Reverse image search</a></strong> using "
+          else
+            results="<strong><a href='https://tineye.com/search?url="+obj.url+"&rpt=imageview' target=_blank>Reverse image search</a></strong> using "
+          end
+        end
+      end
+    end
+
 #META DATA (EXIF) data extractor
 
 if name.include? "metapicz"
@@ -100,12 +114,12 @@ end
     if name.include? "google" and name.include? "search"
 
       if (obj.present?)
-        results="<strong><a href='https://www.google.com/search?q=\"fact-check\"+"+name_field+"' target=_blank>Search about it </a></strong>"
+        results="<strong><a href='https://www.google.com/search?q="+name_field+"' target=_blank>Search about it </a></strong>"
         if (!obj.url_preview.blank?)
             if (obj.url_preview.include? "<p")
               description=obj.url_preview.match(/<p[^>]+?>([^<]+)/)[1]
               if (!description.blank?)
-                results=results+" - <strong><a href='https://www.google.com/search?q=\"fact-check\"+"+description.gsub('\\"', '"')+"' target=_blank>Search description</a></strong>"
+                results=results+" - <strong><a href='https://www.google.com/search?q="+description.gsub('\\"', '"')+"' target=_blank>Search description</a></strong>"
               end
             end
         end
@@ -114,7 +128,7 @@ end
     end
 
 #### List of fake websites on wikipedia and factcheck.org (using Google search)
-    if name.include? "wikipedia" or name.include? "factcheck.org"
+    if (name.include? "wikipedia" or name.include? "factcheck.org") and name.include? "list"
       if (!domain_name.blank?)
         results="<strong><a href='https://www.google.com/search?q="+domain_name+"+site%3A"+resource.url+"' target=_blank>Check if "+type+" is blacklisted</a></strong> on "
       else
@@ -123,15 +137,16 @@ end
     end
 
 ###### Media Bias Fact Check
-    if name.include? "media" and name.include? "bias"
-      results="<strong><a href='https://mediabiasfactcheck.com/?s="+name_field+"' target=_blank>Check ratings of the "+type+" </a>"
+    if resource.url.include? "mediabiasfactcheck.com"
+      results="<strong><a href='https://mediabiasfactcheck.com/?s="+name_field+"' target=_blank>Check ratings of the "+type+" </a></strong>"
       if (!domain_name.blank?)
-        results=results+" or its <a href='https://mediabiasfactcheck.com/?s="+domain_name+"' target=_blank>URL</a></strong> using "
+        results=results+" or its <strong><a href='https://mediabiasfactcheck.com/?s="+domain_name+"' target=_blank>URL</a></strong>"
       end
+      results=results+" using "
     end
 
 #####Related Fact Checks
-    if name.include? "related" and name.include? "factchecks"
+    if resource.url.include? "relatedfactchecks.org"
       if (!domain_name.blank?)
           results="<strong><a href='https://relatedfactchecks.org/search?url="+obj.url+"' target=_blank>Check if claim was fact-checked</a></strong> using "
       end
