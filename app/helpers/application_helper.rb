@@ -20,13 +20,17 @@ module ApplicationHelper
     end
     name=resource_name.downcase
     resource = Resource.where("name=?",resource_name).first
+    if (!resource.url.present?)
+        begin
+          resource.url=''
+        end
 
 ##################################################
 
 #Image-related resources
 
 #Google Reverse Image Search
-    if obj.url.include? "google.com" and name.include? "image"
+    if resource.url.include? "google.com" and name.include? "image"
       if domain_name
         if !obj.url_preview.nil?
           img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
@@ -40,7 +44,7 @@ module ApplicationHelper
       end
     end
 
-    if obj.url.include? "yandex.com"
+    if resource.url.include? "yandex.com"
       if domain_name
         if !obj.url_preview.nil?
           img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
@@ -54,7 +58,7 @@ module ApplicationHelper
       end
     end
 
-    if obj.url.include? "tineye.com"
+    if resource.url.include? "tineye.com"
       if domain_name
         if !obj.url_preview.nil?
           img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
@@ -70,7 +74,7 @@ module ApplicationHelper
 
 #META DATA (EXIF) data extractor
 
-if obj.url.include? "metapicz.com"
+if resource.url.include? "metapicz.com"
     if !obj.url_preview.nil?
       img=obj.url_preview.scan(/img src=\\"([^<>]*?)\\"/).first
       if !img.nil?
@@ -87,12 +91,12 @@ end
 #video-related resources
 
 #### Inteltechniques video reverse search
-if obj.url.include? "inteltechniques.com"
+if resource.url.include? "inteltechniques.com"
   results="<strong><a href='https://inteltechniques.com/menu/pages/reverse.video.tool.html' target=_blank>Reverse search the video</a></strong> using "
 end
 
 #WatchFrameByFrame
-    if obj.url.include? "watchframebyframe.com"
+    if resource.url.include? "watchframebyframe.com"
       if domain_name
         if (obj.url.include? "youtube.com" or obj.url.include? "youtu.be" or obj.url.include? "vimeo.com")
           results="<strong><a href='http://www.watchframebyframe.com/search?search="+obj.url+"' target=_blank>Open video</a></strong> using "
@@ -111,7 +115,7 @@ end
 ##################################################
 
 ###### Google search for fact-checked stories
-    if obj.url.include? "google.com" and name.include? "search" and not name.include? "image"
+    if resource.url.include? "google.com" and name.include? "search" and not name.include? "image"
 
       if (obj.present?)
         results="<strong><a href='https://www.google.com/search?q="+name_field+"' target=_blank>Search about it </a></strong>"
@@ -128,7 +132,7 @@ end
     end
 
 #### List of fake websites on wikipedia and factcheck.org (using Google search)
-    if (obj.url.include? "wikipedia.org" or name.include? "factcheck.org") and name.include? "list"
+    if (resource.url.include? "wikipedia.org" or name.include? "factcheck.org") and name.include? "list"
       if (!domain_name.blank?)
         results="<strong><a href='https://www.google.com/search?q="+domain_name+"+site%3A"+resource.url+"' target=_blank>Check if "+type+" is blacklisted</a></strong> on "
       else
@@ -153,50 +157,50 @@ end
     end
 
 #####Web of Trust
-    if obj.url.include? "mywot.com"
+    if resource.url.include? "mywot.com"
       if (!domain_name.blank?)
           results="<strong><a href='https://www.mywot.com/en/scorecard/"+domain_name+"' target=_blank>Check the website's reputation</a></strong> by "
       end
     end
 
 #### ViewDNS
-    if obj.url.include? "viewdns.info"
+    if resource.url.include? "viewdns.info"
       if (!domain_name.blank?)
           results="<strong><a href='https://viewdns.info/whois/?domain="+domain_name+"' target=_blank>Get domain's WHOIS details</a></strong> using "
       end
     end
 
 ##### Alexa website ranking
-    if obj.url.include? "alexa.com"
+    if resource.url.include? "alexa.com"
       if (!domain_name.blank?)
           results="<strong><a href='https://www.alexa.com/siteinfo/"+domain_name+"' target=_blank>Get domain's ranking</a></strong> using "
       end
     end
 
 #### SimilarWeb
-    if obj.url.include? "similarweb.com" or name.include? "similar web"
+    if resource.url.include? "similarweb.com" or name.include? "similar web"
       if (!domain_name.blank?)
           results="<strong><a href='https://www.similarweb.com/website/"+domain_name+"' target=_blank>Get information about the domain</a></strong> using "
       end
     end
 
 #### Pipl
-    if obj.url.include? "pipl.com"
+    if resource.url.include? "pipl.com"
       results="<strong><a href='https://pipl.com/search/?q="+name_field+"' target=_blank>Learn more about this "+type+"</a></strong> using "
     end
 
 #### Inteltechniques person search
-    if obj.url.include? "inteltechniques.com"
+    if resource.url.include? "inteltechniques.com"
       results="<strong><a href='https://inteltechniques.com/menu/pages/person.tool.html' target=_blank>Research the source</a></strong> using "
     end
 
 ##### Twitter search
-    if obj.url.include? "twitter.com"
+    if resource.url.include? "twitter.com"
       results="<strong><a href='https://twitter.com/search?l=&q=%22"+name_field+"%22&src=typd&lang=en' target=_blank>Search this "+type+"</a></strong> on "
     end
 
 ####### Real or Satire
-    if obj.url.include? "realorsatire.com"
+    if resource.url.include? "realorsatire.com"
       if (!domain_name.blank?)
           results="<strong><a href='https://realorsatire.com/?s="+domain_name+"' target=_blank>See if the "+type+" is satire or real</a></strong> using "
       end
