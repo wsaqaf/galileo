@@ -21,9 +21,8 @@ module ApplicationHelper
     name=resource_name.downcase
     resource = Resource.where("name=?",resource_name).first
     if (!resource.url.present?)
-        begin
-          resource.url=''
-        end
+        resource.url=''
+    end
 
 ##################################################
 
