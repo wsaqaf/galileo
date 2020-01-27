@@ -50,9 +50,9 @@ class ApplicationController < ActionController::Base
         when "r"
           return "count("+page+"_reviews."+page2+"review_verdict) DESC"
         when "rp"
-          return "sum("+page+"_reviews."+page2+"review_verdict*"+page+"_reviews."+page2+"review_verdict) DESC"
+          return "sum("+page+"_reviews."+page2+"review_verdict-2) DESC"
         when "rn"
-          return "sum("+page+"_reviews."+page2+"review_verdict*"+page+"_reviews."+page2+"review_verdict) ASC"
+          return "sum("+page+"_reviews."+page2+"review_verdict-2) ASC"
         when "rt"
           return page+"_reviews.updated_at DESC,"+page+"_reviews.created_at DESC"
         end
