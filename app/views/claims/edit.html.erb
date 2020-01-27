@@ -46,20 +46,20 @@
   </li>
   <div id="src_note"></div>
   <li>
-    <%= t('image_claim') %><br>
+    <%= t('image_claim') %>
     &nbsp;&nbsp;<b><%= f.radio_button :has_image, '1', :checked => @claim.has_image==1 %> <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_image, '-1', :checked => @claim.has_image==-1 %>  <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_image, '0', :checked => (@claim.has_image==0 || @claim.has_image.nil?) %>  <%= t('not_sure') %>/ <%= t('skip_question') %></b>
   </li>
   <li>
     <%= t('video_claim') %>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_video, '1', :checked => @claim.has_video==1 %>  <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;<b><%= f.radio_button :has_video, '1', :checked => @claim.has_video==1 %>  <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_video, '-1', :checked => @claim.has_video==-1 %> <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_video, '0', :checked => (@claim.has_video==0 || @claim.has_video.nil?) %> <%= t('not_sure') %>/ <%= t('skip_question') %></b>
   </li>
   <li>
     <%= t('text_claim') %>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b><%= f.radio_button :has_text, '1', :checked => (@claim.has_text==1|| @claim.has_text.nil?) %> <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    &nbsp;&nbsp;<b><%= f.radio_button :has_text, '1', :checked => (@claim.has_text==1|| @claim.has_text.nil?) %> <%= t('yes_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_text, '-1', :checked => @claim.has_text==-1 %> <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_text, '0', :checked => @claim.has_text==0  %> <%= t('not_sure') %>/ <%= t('skip_question') %></b>
   </li>
