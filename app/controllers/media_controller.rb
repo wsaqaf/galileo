@@ -31,7 +31,7 @@ class MediaController < ApplicationController
     else
       @filter_msg=filter_bar("Media","a")
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-        tmp=Medium.joins(:medium_reviews).where("(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict IS NOT NULL").group("medium_reviews.medium_id,media.id,medium_reviews.updated_at,medium_reviews.created_at").order(sort_statement("medium",params[:sort]))
+        tmp=Medium.joins(:medium_reviews).where("(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict IS NOT NULL").group("media.id").order(sort_statement("medium",params[:sort]))
         @total_count=tmp.count.length
       else
         if qry.nil? then qry="media.sharing_mode=1 OR media.user_id="+current_user.id.to_s; end
@@ -42,7 +42,7 @@ class MediaController < ApplicationController
        return
      end
    if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-     tmp=Medium.joins(:medium_reviews).where("(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict IS NOT NULL").group("medium_reviews.medium_id,media.id,medium_reviews.updated_at,medium_reviews.created_at").order(sort_statement("medium",params[:sort]))
+     tmp=Medium.joins(:medium_reviews).where("(media.sharing_mode=1 OR media.user_id="+current_user.id.to_s+") AND media.id=medium_reviews.medium_id and medium_reviews.medium_review_sharing_mode=1 and medium_reviews.medium_review_verdict IS NOT NULL").group("media.id").order(sort_statement("medium",params[:sort]))
      @total_count=tmp.count.length
    else
      if qry.nil? then qry="media.sharing_mode=1 OR media.user_id="+current_user.id.to_s; end
