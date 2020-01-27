@@ -63,7 +63,7 @@
     <%= f.radio_button :has_text, '-1', :checked => @claim.has_text==-1 %> <%= t('no_answer') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :has_text, '0', :checked => @claim.has_text==0  %> <%= t('not_sure') %>/ <%= t('skip_question') %></b>
   </li>
-  <li>
+  <li><br><br>
     <%= t('share_claim') %>
     &nbsp;&nbsp;<b><%= f.radio_button :sharing_mode, '1', :checked => @claim.sharing_mode==1 || @claim.sharing_mode.nil? %> <%= t('yes_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     <%= f.radio_button :sharing_mode, '-1', :checked => @claim.sharing_mode==-1 %> <%= t('no_share') %> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>
