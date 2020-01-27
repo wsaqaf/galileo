@@ -30,7 +30,11 @@ class SrcsController < ApplicationController
     else
       @filter_msg=filter_bar("Srcs","a")
       if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-        tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict IS NOT NULL").group("srcs.id").order(sort_statement("src",params[:sort]))
+        remove_unsure="";
+        if (params[:sort]!="r")
+          remove_unsure=" AND src_reviews.src_review_verdict!=0 "
+        end
+        tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict IS NOT NULL"+remove_unsure).group("srcs.id").order(sort_statement("src",params[:sort]))
         @total_count=tmp.count.length
       else
         if qry.nil? then qry="srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s; end
@@ -41,7 +45,11 @@ class SrcsController < ApplicationController
        return
      end
    if (params[:sort]=="r" or params[:sort]=="rp" or params[:sort]=="rn")
-     tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict IS NOT NULL").group("srcs.id").order(sort_statement("src",params[:sort]))
+     remove_unsure="";
+     if (params[:sort]!="r")
+       remove_unsure=" AND src_reviews.src_review_verdict!=0 "
+     end
+     tmp=Src.joins(:src_reviews).where("(srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s+") AND srcs.id=src_reviews.src_id and src_reviews.src_review_sharing_mode=1 and src_reviews.src_review_verdict IS NOT NULL"+remove_unsure).group("srcs.id").order(sort_statement("src",params[:sort]))
      @total_count=tmp.count.length
    else
      if qry.nil? then qry="srcs.sharing_mode=1 OR srcs.user_id="+current_user.id.to_s; end
