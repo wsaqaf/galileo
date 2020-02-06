@@ -1,7 +1,7 @@
 module ApplicationHelper
   include Pagy::Frontend
 
-  def try_resource(resource_name,type)
+  def try_resource(resource_name, type)
     results=""
     name_field=""
     domain_name=""
@@ -133,15 +133,15 @@ end
 #### List of fake websites on wikipedia and factcheck.org (<%== t('using') %> Google search)
     if (resource.url.include? "wikipedia.org" or name.include? "factcheck.org") and name.include? "list"
       if (!domain_name.blank?)
-        results="<strong><a href='https://www.google.com/search?q="+domain_name+"+site%3A"+resource.url+"' target=_blank>"+t('check_blacklisted',type: type)+"</a></strong>"+t('using')
+        results="<strong><a href='https://www.google.com/search?q="+domain_name+"+site%3A"+resource.url+"' target=_blank>"+t('check_blacklisted',type: t('the_'+type))+"</a></strong>"+t('using')
       else
-        results="<strong><a href='https://www.google.com/search?q="+name_field+"+site%3A"+resource.url+"' target=_blank>"+t('check_blacklisted',type: type)+"</a></strong>"+t('using')
+        results="<strong><a href='https://www.google.com/search?q="+name_field+"+site%3A"+resource.url+"' target=_blank>"+t('check_blacklisted',type: t('the_'+type))+"</a></strong>"+t('using')
       end
     end
 
 ###### Media Bias Fact Check
     if resource.url.include? "mediabiasfactcheck.com"
-      results="<strong><a href='https://mediabiasfactcheck.com/?s="+name_field+"' target=_blank>"+t('check_rating', type: type)+"</a></strong>"
+      results="<strong><a href='https://mediabiasfactcheck.com/?s="+name_field+"' target=_blank>"+t('check_rating', type: t('the_'+type))+"</a></strong>"
       if (!domain_name.blank?)
         results=results+" or its <strong><a href='https://mediabiasfactcheck.com/?s="+domain_name+"' target=_blank>URL</a></strong>"
       end
@@ -185,7 +185,7 @@ end
 
 #### Pipl
     if resource.url.include? "pipl.com"
-      results="<strong><a href='https://pipl.com/search/?q="+name_field+"' target=_blank>"+t('learn_more',type)+"</a></strong>"+t('using')
+      results="<strong><a href='https://pipl.com/search/?q="+name_field+"' target=_blank>"+t('learn_more',type: t('the_'+type))+"</a></strong>"+t('using')
     end
 
 #### Inteltechniques person search
@@ -201,7 +201,7 @@ end
 ####### Real or Satire
     if resource.url.include? "realorsatire.com"
       if (!domain_name.blank?)
-          results="<strong><a href='https://realorsatire.com/?s="+domain_name+"' target=_blank>"+t('check_if_satire')+"</a></strong>"+t('using')
+          results="<strong><a href='https://realorsatire.com/?s="+domain_name+"' target=_blank>"+t('check_if_satire',type: t('the_'+type))+"</a></strong>"+t('using')
       end
     end
 
