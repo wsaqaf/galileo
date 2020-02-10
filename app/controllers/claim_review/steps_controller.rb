@@ -88,7 +88,7 @@ class ClaimReview::StepsController < ApplicationController
                       "url": @claim.url,
                       "datePublished": @claim.created_at.to_date.to_s,
                       "description": @claim.description,
-                      "identifier": request.base_url+"/claims/"+@claim.id.to_s,
+                      "identifier": request.base_url+config.relative_url_root+"/claims/"+@claim.id.to_s,
                       "accessMode": tmp_arr,
                       "author": {
                           "@type": "Organization",
@@ -118,8 +118,8 @@ class ClaimReview::StepsController < ApplicationController
                   "claimReviewed": @claim.title,
                   "@type": "ClaimReview",
                   "name": @claim_review.note_review_verdict,
-                  "datePublished": Time.now.strftime("%Y-%m-%d"),
-                  "url": "[ARTICLE_URL]"
+                  "url": request.base_url+config.relative_url_root+"/claims/"+@claim.id.to_s,
+                  "datePublished": Time.now.strftime("%Y-%m-%d")
               }
           ],
       "@type": "FCAClaimRecord",
