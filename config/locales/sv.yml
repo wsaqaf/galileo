@@ -341,7 +341,7 @@ sv:
   review_description_q_long: "Förklara din skäl till varför du har gett den här bedömningen."
   review_sharing_mode_q_long: "Vill du dela din granskning?"
   claim_review_field: "ClaimReview-schema (inbäddat i offentlig artikel)"
-  published_article_url: "Byt ut [ARTICLE_URL] nedan med rätt URL till den offentliga artikeln!<br>Om koden är trasig kan du alltid uppdatera den genom att ta bort hela innehållet nedan och skicka igen."
+  published_article_url: "Byt ut \"url \" -värdet under claimReviewed: raden nedan (om ännu inte angiven) med rätt URL till den offentliga artikeln!<br>Om koden är trasig kan du alltid uppdatera den genom att ta bort hela innehållet nedan och skicka igen."
 
 #medium_review/steps
   reviewing_the_medium_title: "Faktagranska mediet"

@@ -315,7 +315,7 @@ en:
   review_description_q_long:	"Explain your rationale to why you have given this assessment."
   review_sharing_mode_q_long:	"Do you wish to share this review?"
   claim_review_field: "ClaimReview schema (embeddable to public article)"
-  published_article_url: "Replace \"url\": [ARTICLE_URL] below (if not yet set) with the correct URL to the public article!<br>If the code is broken, you can always refresh it by deleting the full content below and resubmit."
+  published_article_url: "Replace the \"url\" value under the claimReviewed: row below (if not yet set) with the correct URL to the public article!<br>If the code is broken, you can always refresh it by deleting the full content below and resubmit."
 
 #medium_review/steps
   reviewing_the_medium_title: "Reviewing the medium"
