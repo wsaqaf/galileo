@@ -10,10 +10,123 @@ class ClaimReviewsController < ApplicationController
     @tmp = ClaimReview.where("id=? AND (review_sharing_mode=1 OR user_id=?)",params[:id],current_user.id).first
     if (not @tmp.blank?)
       @claim_review=ClaimReview.find(@tmp.id)
+      @json_claim_review= {
+          "@context": "http://schema.org",
+          "@graph": [
+              {
+                  "itemReviewed": {
+                      "@type": "CreativeWork",
+                      "url": "<URL of claim>",
+                      "datePublished": "2020-02-10",
+                      "description": "<includes the medium,source and FCA type of org (social media, etc.) and additional information about the claim>",
+                      "identifier": "http://0.0.0.0:3000/claims/9",
+                      "accessMode": ["visual","audical","textual"],
+                      "author": {
+                          "@type": "Organization",
+                          "name": "Södertörn University"
+                      }
+                  },
+                  "author": {
+                      "@type": "Organization",
+                      "@id": "https://sh.se",
+                      "name": "Walid Al-Saqaf",
+                      "url": "https://sh.se/kontakt/forskare/walid-al-saqaf",
+                      "sameAs": "https://www.linkedin.com/in/wsaqaf/",
+                      "logo": {
+                          "@type": "ImageObject",
+                          "url": "https://res-2.cloudinary.com/crunchbase-production/image/upload/c_thumb,h_120,w_120,f_auto,g_faces,z_0.7,b_white,q_auto:eco/j1ahpibhygitpg5ksnqm",
+                          "width": "120",
+                          "height": "120"
+                      }
+                  },
+                  "reviewRating": {
+                      "@type": "Rating",
+                      "ratingValue": "1",
+                      "bestRating": "5",
+                      "worstRating": "1",
+                      "alternateName": "<label of the rating above e.g., False>"
+                  },
+                  "claimReviewed": "<title of the claim>",
+                  "@type": "ClaimReview",
+                  "name": "<rationale for assessment as per FCA>",
+                  "datePublished": "2020-02-10",
+                  "url": "https://faktaassistenten.sh.se"
+              }
+          ],
+      "@type": "FCAClaimRecord",
+      "fcaClaim":
+        {
+          "@type": "FCAClaim",
+          "fcaClaimMedium": "some medium",
+          "fcaClaimSource": "some source",
+          "fcaTags": ["tag1","tag2","tag3"],
+          "fcaClaimHasImage": "<1 or 0, or blank>",
+          "fcaClaimHasVideo": "<1 or 0, or blank>",
+          "fcaClaimHasText": "<1 or 0, or blank>",
+          "fcaClaimCreatedBy": "<name of FCA member adding the claim>",
+          "fcaClaimCreatedAt": "2020-02-10 10:00:00",
+          "fcaClaimUpdatedAt": "2020-02-10 10:00:00",
+          "fcaClaimReviews": [
+              {
+                "@type": "FCAClaimReview",
+                "fcaClaimReviewCreatedBy": "<name of FCA member adding the claim review>",
+                "fcaClaimReviewCreatedAt": "2020-02-10 10:00:00",
+                "fcaClaimReviewUpdatedAt": "2020-02-10 10:00:00",
+                "imageReview":
+                {
+                  "@type": "FCAImageReview",
+                  "reviewed": "<1,0,blank>",
+                  "misleadingImg": "<1,0,blank>",
+                  "doctoredImg": "<1,0,blank>",
+                  "metadataImg": "<1,0,blank>",
+                  "otherProblemsImg": "<1,0,blank>",
+                  "reviewedDetails": "Details explaining how this result for reviewedDetails was reached",
+                  "misleadingImgDetails": "Details explaining how this result for misleadingImgDetails was reached",
+                  "doctoredImgDetails": "Details explaining how this result for doctoredImgDetails was reached",
+                  "metadataImgDetails": "Details explaining how this result for metadataImgDetails was reached",
+                  "otherProblemsImgDetails": "Details explaining how this result for otherProblemsImgDetails was reached"
+                },
+              "videoReview":
+                {
+                  "@type": "FCAVideoReview",
+                  "reviewed": "<1,0,blank>",
+                  "misleadingVid": "<1,0,blank>",
+                  "doctoredVid": "<1,0,blank>",
+                  "metadataVid": "<1,0,blank>",
+                  "audioIssuesVid": "<1,0,blank>",
+                  "otherProblemsVid": "<1,0,blank>",
+                  "misleadingVidDetails": "Details explaining how this result for misleadingVidDetails was reached",
+                  "doctoredVidDetails": "Details explaining how this result for doctoredVidDetails was reached",
+                  "metadataVidDetails": "Details explaining how this result for metadataVidDetails was reached",
+                  "audioIssuesVidDetails": "Details explaining how this result for audioIssuesVidDetails was reached",
+                  "otherProblemsVidDetails": "Details explaining how this result for otherProblemsVidDetails was reached"
+                },
+              "textReview":
+                {
+                  "@type": "FCATextReview",
+                  "reviewed": "<1,0,blank>",
+                  "notSeriousTxt": "<1,0,blank>",
+                  "failedBeforeTxt": "<1,0,blank>",
+                  "clickBaitTxt": "<1,0,blank>",
+                  "languageIssuesTxt": "<1,0,blank>",
+                  "inaccuraciesInTxt": "<1,0,blank>",
+                  "insufficientEvidenceTxt": "<1,0,blank>",
+                  "otherProblemsTxt": "<1,0,blank>",
+                  "notSeriousTxtDetails": "Details explaining how this result for notSeriousTxtDetails was reached",
+                  "failedBeforeTxtDetails": "Details explaining how this result for failedBeforeTxtDetails was reached",
+                  "clickBaitTxtDetails": "Details explaining how this result for clickBaitTxtDetails was reached",
+                  "languageIssuesTxtDetails": "Details explaining how this result for languageIssuesTxtDetails was reached",
+                  "inaccuraciesInTxtDetails": "Details explaining how this result for inaccuraciesInTxtDetails was reached",
+                  "insufficientEvidenceTxtDetails": "Details explaining how this result for insufficientEvidenceTxtDetails was reached",
+                  "otherProblemsTxtDetails": "Details explaining how this result for otherProblemsTxtDetails was reached"
+                }
+              }]
+          }
+        }      
     else
       redirect_to claims_path
     end
-  end
+   end
 
   def new
   end

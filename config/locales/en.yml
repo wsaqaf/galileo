@@ -198,9 +198,9 @@ en:
   check_whois: "Get domain's WHOIS details"
   check_domain_ranking: "Get domain's ranking"
   info_on_domain: "Get information about the domain"
-  learn_more: "Learn more about this %{type}"
+  learn_more: "Learn more about %{type}"
   research_source: "Research the source"
-  check_if_satire: "See if the %{type} is satire or real"
+  check_if_satire: "See if %{type} is satire or real"
   read_tips: "Read tips"
 
 #Claim_reviews
@@ -314,6 +314,8 @@ en:
   review_verdict_q_long:	"Considering the given score, what is your final assessment?"
   review_description_q_long:	"Explain your rationale to why you have given this assessment."
   review_sharing_mode_q_long:	"Do you wish to share this review?"
+  claim_review_field: "ClaimReview schema (embeddable to public article)"
+  published_article_url: "Replace \"url\": [ARTICLE_URL] below (if not yet set) with the correct URL to the public article!<br>If the code is broken, you can always refresh it by deleting the full content below and resubmit."
 
 #medium_review/steps
   reviewing_the_medium_title: "Reviewing the medium"

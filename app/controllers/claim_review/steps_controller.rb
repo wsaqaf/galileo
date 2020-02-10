@@ -65,6 +65,140 @@ class ClaimReview::StepsController < ApplicationController
     return result
   end
 
+  def build_claim_review_schema()
+    if (@claim_review.note_review_sharing_mode.blank?)
+      tmp_arr=[]
+      if (@claim.has_image || @claim.has_video)
+        tmp_arr=tmp_arr+['visual']
+        if (@claim.has_video)
+          tmp_arr=tmp_arr+['audical']
+        end
+      end
+      if (@claim.has_text)
+          tmp_arr=tmp_arr+['textual']
+      end
+      assessments={1=>"False",2=>"Mostly False",3=>"Mixed",4=>"Mostly True",5=>"True"}
+
+      claim_review_schema= {
+          "@context": "http://schema.org",
+          "@graph": [
+              {
+                  "itemReviewed": {
+                      "@type": "CreativeWork",
+                      "url": @claim.url,
+                      "datePublished": @claim.created_at.to_date.to_s,
+                      "description": @claim.description,
+                      "identifier": request.base_url+"/claims/"+@claim.id.to_s,
+                      "accessMode": tmp_arr,
+                      "author": {
+                          "@type": "Organization",
+                          "name": Rails.configuration.institution.to_s
+                      }
+                  },
+                  "author": {
+                      "@type": "Organization",
+                      "@id": request.base_url,
+                      "name": Rails.configuration.institution.to_s,
+                      "url": request.base_url,
+                      "sameAs": request.base_url,
+                      "logo": {
+                          "@type": "ImageObject",
+                          "url": request.base_url+"/logo.png",
+                          "width": "120",
+                          "height": "120"
+                      }
+                  },
+                  "reviewRating": {
+                      "@type": "Rating",
+                      "ratingValue": @claim_review.review_verdict,
+                      "bestRating": "5",
+                      "worstRating": "1",
+                      "alternateName": assessments[@claim_review.review_verdict]
+                  },
+                  "claimReviewed": @claim.title,
+                  "@type": "ClaimReview",
+                  "name": @claim_review.note_review_verdict,
+                  "datePublished": Time.now.strftime("%Y-%m-%d"),
+                  "url": "[ARTICLE_URL]"
+              }
+          ],
+      "@type": "FCAClaimRecord",
+      "fcaClaim":
+        {
+          "@type": "FCAClaim",
+          "fcaClaimMedium": @claim.medium_id,
+          "fcaClaimSource": @claim.src_id,
+          "fcaTags": @claim.tags.map(&:claim_name),
+          "fcaClaimHasImage": @claim.has_image,
+          "fcaClaimHasVideo": @claim.has_video,
+          "fcaClaimHasText": @claim.has_text,
+          "fcaClaimCreatedBy": @claim.user_id,
+          "fcaClaimCreatedAt": @claim.created_at,
+          "fcaClaimUpdatedAt": @claim.updated_at,
+          "fcaClaimReviews": [
+              {
+                "@type": "FCAClaimReview",
+                "fcaClaimReviewCreatedBy": @claim_review.user_id,
+                "fcaClaimReviewCreatedAt": @claim_review.created_at,
+                "fcaClaimReviewUpdatedAt": @claim_review.updated_at,
+                "imageReview":
+                {
+                  "@type": "FCAImageReview",
+                  "reviewed": @claim_review.img_review_started,
+                  "misleadingImg": @claim_review.img_old,
+                  "doctoredImg": @claim_review.img_forensic_discrepency,
+                  "metadataImg": @claim_review.img_metadata_discrepency,
+                  "otherProblemsImg": @claim_review.img_logical_discrepency,
+                  "misleadingImgDetails": @claim_review.note_img_old,
+                  "doctoredImgDetails": @claim_review.note_img_forensic_discrepency,
+                  "metadataImgDetails": @claim_review.note_img_metadata_discrepency,
+                  "otherProblemsImgDetails": @claim_review.note_img_logical_discrepency
+                },
+              "videoReview":
+                {
+                  "@type": "FCAVideoReview",
+                  "reviewed": @claim_review.vid_review_started,
+                  "misleadingVid": @claim_review.vid_old,
+                  "doctoredVid": @claim_review.vid_forensic_discrepency,
+                  "metadataVid": @claim_review.vid_metadata_discrepency,
+                  "audioIssuesVid": @claim_review.vid_audio_discrepency,
+                  "otherProblemsVid": @claim_review.vid_logical_discrepency,
+                  "misleadingVidDetails": @claim_review.note_vid_old,
+                  "doctoredVidDetails": @claim_review.note_vid_forensic_discrepency,
+                  "metadataVidDetails": @claim_review.note_vid_metadata_discrepency,
+                  "audioIssuesVidDetails": @claim_review.note_vid_audio_discrepency,
+                  "otherProblemsVidDetails": @claim_review.note_vid_logical_discrepency
+                },
+              "textReview":
+                {
+                  "@type": "FCATextReview",
+                  "reviewed": @claim_review.txt_review_started,
+                  "unreliableTxt": @claim_review.txt_unreliable_news_content,
+                  "failedBeforeTxt": @claim_review.txt_insufficient_verifiable_srcs,
+                  "clickBaitTxt": @claim_review.txt_has_clickbait,
+                  "languageIssuesTxt": @claim_review.txt_poor_language,
+                  "inaccuraciesInTxt": @claim_review.txt_crowds_distance_discrepency,
+                  "insufficientEvidenceTxt": @claim_review.txt_author_offers_little_evidence,
+                  "otherProblemsTxt": @claim_review.txt_reliable_sources_disapprove,
+                  "unreliableTxtDetails": @claim_review.note_txt_unreliable_news_content,
+                  "failedBeforeTxtDetails": @claim_review.note_txt_insufficient_verifiable_srcs,
+                  "clickBaitTxtDetails": @claim_review.note_txt_has_clickbait,
+                  "languageIssuesTxtDetails": @claim_review.note_txt_poor_language,
+                  "inaccuraciesInTxtDetails": @claim_review.note_txt_crowds_distance_discrepency,
+                  "insufficientEvidenceTxtDetails": @claim_review.note_txt_author_offers_little_evidence,
+                  "otherProblemsTxtDetails": @claim_review.note_txt_reliable_sources_disapprove
+                }
+              }]
+          }
+        }
+      claim_review_schema=JSON.pretty_generate(claim_review_schema)
+      @claim_review.note_review_sharing_mode=claim_review_schema
+      return claim_review_schema
+    else
+      return @claim_review.note_review_sharing_mode
+    end
+  end
+
   def show
     @claim_review = ClaimReview.find(params[:claim_review_id])
 
@@ -82,6 +216,7 @@ class ClaimReview::StepsController < ApplicationController
     elsif step.tr('s', '').to_i.between?(12,19) and @claim.has_text!=1 then jump_to2(:s11,:s20); return
     elsif step.tr('s', '').to_i.between?(13,19) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to2(:s12,:s20); return
     elsif step=="s20" then @claim_review_score=get_score("claim");
+    elsif step=="s22" then @claim_review_schema=build_claim_review_schema();
     end
     render_wizard
   end
@@ -109,7 +244,9 @@ class ClaimReview::StepsController < ApplicationController
       elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s20) end
 
       if step=="s19" then @claim_review_score=get_score("claim") end
-      if step=="s22" then redirect_to claims_path
+      if step=="s22" then
+        @claim_review_schema=build_claim_review_schema();
+        redirect_to claims_path
       else render_wizard @claim_review end
 ###Step conditions###
   end
