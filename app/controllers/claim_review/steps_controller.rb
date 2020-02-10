@@ -99,11 +99,11 @@ class ClaimReview::StepsController < ApplicationController
                       "@type": "Organization",
                       "@id": request.base_url,
                       "name": Rails.configuration.institution.to_s,
-                      "url": request.base_url,
-                      "sameAs": request.base_url,
+                      "url": request.base_url+config.relative_url_root,
+                      "sameAs": request.base_url+config.relative_url_root,
                       "logo": {
                           "@type": "ImageObject",
-                          "url": request.base_url+"/logo.png",
+                          "url": request.base_url+config.relative_url_root+"/logo.png",
                           "width": "120",
                           "height": "120"
                       }
