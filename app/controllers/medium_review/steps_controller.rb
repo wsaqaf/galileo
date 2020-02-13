@@ -56,9 +56,9 @@ class MediumReview::StepsController < ApplicationController
 
   def show
     @medium_review = MediumReview.find(params[:medium_review_id])
-
-    if step=="s11" then @medium_review_score=get_score("medium") end
-
+    @no_turbolinks= "false";
+    if step=="s11" then @medium_review_score=get_score("medium")
+    elsif step=="s12" then @no_turbolinks= "true"; end
     render_wizard
 
   end

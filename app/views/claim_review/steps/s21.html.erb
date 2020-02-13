@@ -4,7 +4,7 @@
       <%= form_for @claim_review, method: :put, url: wizard_path do |f| %>
         <big><%= t('claim') %> <%= t('review_steps') %>: </big><br>
         <div class="divTable blueTable"><div class="divTableBody">
-         <% 
+         <%
           passed_step=false
           @all_steps.each do |key,value| %>
               <%= is_visible(key).html_safe %><div class="divTableCell">
@@ -30,7 +30,7 @@
                 <% else %>
                    URL: <%= t('not_provided') %>
                 <% end %>
-              <br> 
+              <br>
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -41,38 +41,37 @@
               <fieldset>
                 <h5><strong><%== t('assessing_claim_rel_title') %></strong></h5>
                   <ul>
-                      
+
                   <li><big><b><font color=blue><%== t('review_verdict_q_long') %></font></b></big><span class='required'>*</span><br>
                   <br><%= f.radio_button :review_verdict, '1', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==1), onClick: "$('#verdict_note').show();" %> <%== t('rate_false') %><br><%= f.radio_button :review_verdict, '2', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==2), onClick: "$('#verdict_note').show();" %> <%== t('rate_mostly_false') %><br><%= f.radio_button :review_verdict, '3', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==3), onClick: "$('#verdict_note').show();" %> <%== t('rate_mixed') %><br><%= f.radio_button :review_verdict, '4', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==4), onClick: "$('#verdict_note').show();" %> <%== t('rate_mostly_true') %><br><%= f.radio_button :review_verdict, '5', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==5), onClick: "$('#verdict_note').show();" %> <%== t('rate_true') %><br><%= f.radio_button :review_verdict, '0', :checked => (!@claim_review.review_verdict.blank? && @claim_review.review_verdict==0), onClick: "$('#verdict_note').show();" %> <%== t('rate_no_decision') %><br><br>
-                  
+
                   <br>
-                  
+
                   </li>
-          
+
                   <br><div id='verdict_note' style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;display:none;'><b><%= t('note_provide_rationale') %></div><br><li><big><b><font color=blue><%== t('review_description_q_long') %></font></b></big><br>
                   <%= f.text_area(:review_description, size: '50x10', class: 'field-long field-textarea') %>
-                  
+
                   <br>
-                  
+
                   </li>
-          
+
                   <li><big><b><font color=blue><%== t('optional_note') %></font></b></big><br>
                   <%= f.text_area(:note_review_description, size: '50x10', class: 'field-long field-textarea') %>
-                  
+
                   <br>
-                  
+
                   </li>
-          
+
                     <li>
-                      
+
                         <% if !@first_step.present? or @first_step!=step %>
                             <%= f.submit t('previous_step'), :class => 'btn btn btn-primary' %>
                         <% end %>
                             <%= f.submit t('next_step'), :class => 'btn btn btn-primary' %>
-                  
+
                     </li>
                   </ul>
               </fieldset>
               <% end %>
               </div>
-              

@@ -4,7 +4,7 @@
       <%= form_for @claim_review, method: :put, url: wizard_path do |f| %>
         <big><%= t('claim') %> <%= t('review_steps') %>: </big><br>
         <div class="divTable blueTable"><div class="divTableBody">
-         <% 
+         <%
           passed_step=false
           @all_steps.each do |key,value| %>
               <%= is_visible(key).html_safe %><div class="divTableCell">
@@ -30,7 +30,7 @@
                 <% else %>
                    URL: <%= t('not_provided') %>
                 <% end %>
-              <br> 
+              <br>
               <% if f.object.errors.any? %>
               <div class="error_messages">
                   <% f.object.errors.full_messages.each do |error| %>
@@ -41,24 +41,23 @@
               <fieldset>
                 <h5><strong><%== t('calculating_score_claim_title') %></strong></h5>
                   <ul>
-                      
+
                   <li><big><b><font color=blue><%== t('calculated_score_q_long', review_score: @claim_review_score) %></font></b></big><br>
                   <%= f.hidden_field :claim_review, :value => @claim_review %>
-                  
+
                   <br>
-                  
+
                   </li>
-          
+
                     <li>
-                      
+
                         <% if !@first_step.present? or @first_step!=step %>
                             <%= f.submit t('previous_step'), :class => 'btn btn btn-primary' %>
                         <% end %>
                             <%= f.submit t('next_step'), :class => 'btn btn btn-primary' %>
-                  
+
                     </li>
                   </ul>
               </fieldset>
               <% end %>
               </div>
-              

@@ -55,7 +55,10 @@ class SrcReview::StepsController < ApplicationController
 
   def show
     @src_review = SrcReview.find(params[:src_review_id])
-    if step=="s7" then @src_review_score=get_score("src") end
+    @no_turbolinks= "false";
+
+    if step=="s7" then @src_review_score=get_score("src")
+    elsif step=="s8" then @no_turbolinks= "true"; end
     render_wizard
   end
 

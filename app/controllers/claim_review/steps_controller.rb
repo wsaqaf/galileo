@@ -43,7 +43,6 @@ class ClaimReview::StepsController < ApplicationController
     end;
     confidence=(100*(total.to_f/max_total)).to_i
     relative_score=t('score_is1')+score.to_s+t('score_is2')+max_total.to_s
-#    puts("\n\nResult:"+relative_score+"\n\n")
     if (score==-1*max_total)
       relative_score=t('rate_totally_'+adj2)
     elsif (score<=-0.5*max_total)
@@ -68,13 +67,13 @@ class ClaimReview::StepsController < ApplicationController
   def build_claim_review_schema()
     if (@claim_review.note_review_sharing_mode.blank?)
       tmp_arr=[]
-      if (@claim.has_image || @claim.has_video)
+      if (@claim.has_image==1 || @claim.has_video==1)
         tmp_arr=tmp_arr+['visual']
-        if (@claim.has_video)
+        if (@claim.has_video==1)
           tmp_arr=tmp_arr+['audical']
         end
       end
-      if (@claim.has_text)
+      if (@claim.has_text==1)
           tmp_arr=tmp_arr+['textual']
       end
       assessments={1=>"False",2=>"Mostly False",3=>"Mixed",4=>"Mostly True",5=>"True"}
@@ -201,6 +200,7 @@ class ClaimReview::StepsController < ApplicationController
 
   def show
     @claim_review = ClaimReview.find(params[:claim_review_id])
+    @no_turbolinks= "false";
 
     if current_user.id!=@claim_review.user_id then redirect_to claim_path(@claim); return end
 
@@ -216,6 +216,7 @@ class ClaimReview::StepsController < ApplicationController
     elsif step.tr('s', '').to_i.between?(12,19) and @claim.has_text!=1 then jump_to2(:s11,:s20); return
     elsif step.tr('s', '').to_i.between?(13,19) and @claim.has_text==1 and @claim_review.txt_review_started!=1 then jump_to2(:s12,:s20); return
     elsif step=="s20" then @claim_review_score=get_score("claim");
+    elsif step=="s21" then @no_turbolinks= "true";
     elsif step=="s22" then @claim_review_schema=build_claim_review_schema();
     end
     render_wizard
@@ -244,8 +245,7 @@ class ClaimReview::StepsController < ApplicationController
       elsif step == "s12" and @claim_review.txt_review_started!=1 then jump_to(:s20) end
 
       if step=="s19" then @claim_review_score=get_score("claim") end
-      if step=="s22" then
-        @claim_review_schema=build_claim_review_schema();
+      if step=="s22" then #claim_review_schema=build_claim_review_schema();
         redirect_to claims_path
       else render_wizard @claim_review end
 ###Step conditions###

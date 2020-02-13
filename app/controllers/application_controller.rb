@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
     def set_locale
        I18n.default_locale = params[:locale] if params[:locale].present?
        @pagy_locale = params[:locale] || 'en'
+       @no_turbolinks="false"
     end
 
     protect_from_forgery with: :exception
