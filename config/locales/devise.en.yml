@@ -12,7 +12,7 @@ en:
       go_back: "Go back"
       awaiting_confirmation: "Currently waiting confirmation for"
       name: "Name"
-      affiliation: "Affiliation"
+      affiliation: "Team(s) [separate with comma for multiple teams]"
       password: "Password"
       current_pw: "Current password"
       new_pw: "New password"

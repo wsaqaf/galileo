@@ -21,7 +21,7 @@ sv:
       go_back: "Gå tillbaka"
       awaiting_confirmation: "För närvarande väntar bekräftelse på"
       name: "Namn"
-      affiliation: "Anknytning"
+      affiliation: "Team (separata med komma för flera team)"
       password: "Lösenord"
       current_pw: "Nuvarande lösenord"
       new_pw: "Nytt lösenord"
