@@ -1,7 +1,7 @@
 #This is where you setup the environment variables needed to put the service in production. The SMTP variables may also be used in deployment.
 #After filling the variables, make should rename the file to local_env.yml
 
-SECRET_KEY_BASE: '' #run 'rake seed' and copy the result here
+SECRET_KEY_BASE: '' #run 'rake secret' and copy the result here
 SMTP_HOST: '' #the SMTP server here, otherwise you can't send email for cases of password reset, etc.'
 SMTP_PORT: '' #the SMTP port, usually it is 26
 SMTP_USER: '' #in case your SMTP server requires authentication
