@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'home/index'
+
   get 'tags/:tag', to: 'claims#index', as: :tag
 
   resources :affiliations
@@ -34,7 +36,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'claims#index'
+  root 'home#index'
 
   resources :posts do
     get :autocomplete_user_affiliation, on: :collection
