@@ -26,11 +26,20 @@
           <ul class="nav navbar-nav ml-auto">
             <% if user_signed_in? %>
             <li class="nav-item">
-              <% if !request.fullpath.include? "claim" then %>
+              <% if !request.fullpath.include? "claims/ind" then %>
             <li class="nav-item"><%= link_to t('claims'), claims_path %></li>
             <% else %>
             <li class="nav-item"><%= link_to t('claims'), claims_path, style: 'text-decoration:underline' %></li>
+
             <% end %>
+
+            <% if !request.fullpath.include? "claims/new" then %>
+            <li class="nav-item"><%= link_to t('Add new claim'), "/claims/new" %></li>
+            <% else %>
+            <li class="nav-item"><%= link_to t('Add new claim'), "/claims/new", style: 'text-decoration:underline' %>
+            </li>
+            <% end %>
+
             <!-- <% if !request.fullpath.include? "medi" then %>
         <li class="nav-item"><%= link_to t('media'), media_path %></li>
         <% else %>
