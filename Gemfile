@@ -32,6 +32,7 @@ gem 'rails-i18n'
 gem 'htmlbeautifier'
 gem 'prettier'
 gem 'popper_js'
+gem 'react-rails'
 
 gem 'spring', '>= 2.1.0'
 

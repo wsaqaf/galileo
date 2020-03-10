@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'about/index'
+
   get 'home/index'
 
   get 'tags/:tag', to: 'claims#index', as: :tag
