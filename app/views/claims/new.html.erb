@@ -88,7 +88,7 @@
               </li>
               <li><%= t('assign_existing_tags') %>
                 <%= f.select(:tag_ids, options_for_select(Tag.order('lower(claim_name) ASC').map{ |t| [t.claim_name, t.id] }),{}, { :multiple => true }) %><br>
-                <a href="#new_tags" data-toggle="collapse" data-parent="#accordion1" style="text-decoration: none">
+                <a href="#new_tags" data-toggle="collapse" style="text-decoration: none">
                   <b><%= t('create_more_tags') %></b><span class="glyphicon glyphicon-plus"></span></a>
                 <div class="panel-collapse collapse" id="new_tags">
                   <%= t('type_new_tags') %>
