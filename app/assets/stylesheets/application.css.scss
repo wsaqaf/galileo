@@ -55,3 +55,13 @@ body {
 }
 
 @import "./walid_styles.scss";
+
+.no-style {
+  background: transparent !important;
+  color: black !important;
+  font-size: 14px;
+  padding: 0px !important;
+  margin: 0px;
+  margin-top: 20px !important;
+  border: none !important;
+}
