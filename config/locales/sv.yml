@@ -23,10 +23,10 @@ sv:
 
 # Views common
   website_title: "Faktaassistenten"
-  claims: "Påståenden"
+  claims: "Alla påståenden och faktakollar"
   media: "Medier"
   sources: "Källor"
-  resources_for_verification: "Resurser för verifiering"
+  resources_for_verification: "Verktyg"
   resources: "Resurser"
   sign_out: "Logga ut"
   sign_in: "Logga in"

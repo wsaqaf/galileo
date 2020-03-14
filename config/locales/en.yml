@@ -1,10 +1,10 @@
 en:
 # Views common
   website_title: "Fact Check Assistant"
-  claims: "Claims"
+  claims: "Claims & fact checks"
   media: "Media"
   sources: "Sources"
-  resources_for_verification: "Resources for verification"
+  resources_for_verification: "Fact-checking tools"
   resources: "Resources"
   sign_out: "Sign out"
   sign_in: "Sign in"
