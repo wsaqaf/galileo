@@ -47,15 +47,15 @@
     </div>
     <% end %>
     <fieldset>
-      <h5><strong><%== t('reviewing_vid_claim_title') %></strong></h5>
+      
 
       
-                  <li><big><b><font color=blue><%== t('claim_vid_review_started_q_long') %></font></b></big><br>
+                  <br><big><b><font color=blue><%== t('claim_vid_review_started_q_long') %></font></b></big><br>
                   <br><%= f.radio_button :vid_review_started, '1', :checked => (!@claim_review.vid_review_started.blank? && @claim_review.vid_review_started==1) %> <%== t('claim_vid_review_started_q_options_yes') %><br><%= f.radio_button :vid_review_started, '-1', :checked => (!@claim_review.vid_review_started.blank? && @claim_review.vid_review_started==-1) %> <%== t('claim_vid_review_started_q_options_no') %><br><br><%= f.radio_button :vid_review_started, '', :checked => (@claim_review.vid_review_started.blank?) %> <%= t('skip_question') %><br>
                   <br><div style='border:2px solid black;margin:auto;width:70%;padding:10px;background-color:lightblue;'><b><big><%= t('note') %>: </big></b><%== t('not_all_qs_needed', page:'claim') %></div><br>
                   <br>
                   
-                  </li>
+                  
           
       
                         <% if !@first_step.present? or @first_step!=step %>

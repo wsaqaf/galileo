@@ -47,15 +47,15 @@
     </div>
     <% end %>
     <fieldset>
-      <h5><strong><%== t('calculating_score_claim_title') %></strong></h5>
+      
 
       
-                  <li><big><b><font color=blue><%== t('calculated_score_q_long', review_score: @claim_review_score) %></font></b></big><br>
+                  <br><big><b><font color=blue><%== t('calculated_score_q_long', review_score: @claim_review_score) %></font></b></big><br>
                   <%= f.hidden_field :claim_review, :value => @claim_review %>
                   
                   <br>
                   
-                  </li>
+                  
           
       
                         <% if !@first_step.present? or @first_step!=step %>

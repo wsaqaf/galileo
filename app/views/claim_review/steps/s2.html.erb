@@ -47,10 +47,10 @@
     </div>
     <% end %>
     <fieldset>
-      <h5><strong><%== t('reviewing_img_claim_title') %></strong></h5>
+      
 
       
-                  <li><big><b><font color=blue><%== t('claim_img_old_q_long') %></font></b></big><br>
+                  <br><big><b><font color=blue><%== t('claim_img_old_q_long') %></font></b></big><br>
                   <br><%= f.radio_button :img_old, '-1', :checked => (!@claim_review.img_old.blank? && @claim_review.img_old==-1) %> <%== t('claim_img_old_q_options_yes') %><br><%= f.radio_button :img_old, '1', :checked => (!@claim_review.img_old.blank? && @claim_review.img_old==1) %> <%== t('claim_img_old_q_options_no') %><br><%= f.radio_button :img_old, '0', :checked => (!@claim_review.img_old.blank? && @claim_review.img_old==0) %> <%== t('not_sure') %><br><br><%= f.radio_button :img_old, '', :checked => (@claim_review.img_old.blank?) %> <%= t('skip_question') %><br>
                   
                   <br>
@@ -87,14 +87,14 @@
                   </div>
                   <hr>
              
-                  </li>
+                  
           
-                  <li><big><b><font color=blue><%== t('optional_note') %></font></b></big><br>
+                  <br><big><b><font color=blue><%== t('optional_note') %></font></b></big><br>
                   <%= f.text_area(:note_img_old, size: '50x10', class: 'field-long field-textarea') %>
                   
                   <br>
                   
-                  </li>
+                  
           
       
                         <% if !@first_step.present? or @first_step!=step %>

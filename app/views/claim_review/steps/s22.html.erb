@@ -47,22 +47,22 @@
     </div>
     <% end %>
     <fieldset>
-      <h5><strong><%== t('share_setting') %></strong></h5>
+      
 
       
-                  <li><big><b><font color=blue><%== t('review_sharing_mode_q_long') %></font></b></big><span class='required'>*</span><br>
+                  <br><big><b><font color=blue><%== t('review_sharing_mode_q_long') %></font></b></big><span class='required'>*</span><br>
                   <br><%= f.radio_button :review_sharing_mode, '1', :checked => (!@claim_review.review_sharing_mode.blank? && @claim_review.review_sharing_mode==1) %> <%== t('yes_share') %><br><%= f.radio_button :review_sharing_mode, '-1', :checked => (!@claim_review.review_sharing_mode.blank? && @claim_review.review_sharing_mode==-1) %> <%== t('no_share') %><br><br>
                   
                   <br>
                   
-                  </li>
+                  
           
-                  <li><big><b><font color=blue><%== t('claim_review_field') %><br><small><small><%== t('published_article_url') %></small></small></font></b></big><br>
+                  <br><big><b><font color=blue><%== t('claim_review_field') %><br><small><small><%== t('published_article_url') %></small></small></font></b></big><br>
                   <%= f.text_area(:note_review_sharing_mode, size: '100x100', class: 'field-long field-textarea') %>
                   
                   <br>
                   
-                  </li>
+                  
           
       <%= link_to t('previous_step'),previous_wizard_path+'?s=prev',:class=>'btn btn btn-primary',:style=>'color:white; background-color:#4B99AD' %>
 &nbsp;&nbsp;&nbsp;<%= f.submit t('finish'), :class => 'btn btn btn-primary' %>

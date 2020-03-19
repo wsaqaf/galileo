@@ -34,9 +34,9 @@
             <% end %>
 
             <% if !request.fullpath.include? "claims/new" then %>
-            <li class="nav-item"><%= link_to t('Add new claim'), "/claims/new" %></li>
+            <li class="nav-item"><%= link_to t('add_new'), "/claims/new" %></li>
             <% else %>
-            <li class="nav-item"><%= link_to t('Add new claim'), "/claims/new", style: 'text-decoration:underline' %>
+            <li class="nav-item"><%= link_to t('add_new'), "/claims/new", style: 'text-decoration:underline' %>
             </li>
             <% end %>
 
