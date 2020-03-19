@@ -28,7 +28,7 @@
         </li>
       </ul>
       <div class="pl-3">
-        <a href="/claims/new">
+        <a href=<%= url_for :controller => 'claims', :action => 'new' %>>
           <button type="button" class="btn mt-2 btn-primary"><%= t('get_started') %></button></a> <br>
         <span class="small"><%= link_to t('or_browse'), claims_path %></span>
       </div>
@@ -44,7 +44,7 @@
     <h4 class="mb-4">Tools for journalists</h4>
     <!-- <p>We provide journalists and media with more efficient tools for fact checking.</p> -->
 
-    <a href="/resources">
+    <a href="<%= url_for :controller => 'resources' %>">
       <div class="bg-secondary p-5 text-white">
         <h4>Become a professional fact checker</h4>
         <p>A collection of the world’s best fact-checking tools</p>
