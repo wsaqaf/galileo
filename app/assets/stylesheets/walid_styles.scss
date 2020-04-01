@@ -103,15 +103,15 @@ ul.ui-autocomplete {
 
 .fragment {
   font-size: 12px;
-  font-family: tahoma;
-  border: 3px solid #ccc;
-  background-color: #f2f2f2;
+  border: 1px solid #ccc;
+  // background-color: #f2f2f2;
   color: #555;
   display: block;
   padding: 10px;
   box-sizing: border-box;
   text-decoration: none;
   min-height: 120px;
+  max-width: 400px;
 }
 
 .fragment:hover {
@@ -124,6 +124,7 @@ ul.ui-autocomplete {
 }
 .fragment h3,
 .fragment h4 {
+  font-size: 14px !important;
   padding: 0;
   margin: 0;
 }

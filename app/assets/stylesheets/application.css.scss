@@ -45,10 +45,19 @@ body {
   font-family: "Muli", Helvetica, Arial;
 }
 
+.no-link-style {
+  a {
+    color: #222 !important;
+    //preview
+  }
+}
+
 .nav-item a {
   color: #222;
   font-size: 0.8rem;
   // margin-left: 1rem;
+
+  //t
   font-weight: 400;
   padding-right: 0.5rem;
   padding-left: 0.5rem;

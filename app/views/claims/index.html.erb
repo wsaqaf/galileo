@@ -37,7 +37,20 @@
   <div class="row">
     <div class="offset-2 col-6">
       <p class="uppercase m-0">Claim </p>
-      <h4 class="mt-0"><%= claim.title %></h4>
+      <p class="uppercase m-0" style="font-size: 10px"><% if claim.user_id == current_user.id || current_user.id==1
+        dependent_reviews=ClaimReview.where("claim_id = ?",claim.id).count("id")
+        if (dependent_reviews>0)
+          warning_msg= t('warning_del_dependents', count:dependent_reviews)+".\n"
+          warning_msg=warning_msg+t('warning_msg2',type: t('the_claim'))
+        else
+          warning_msg=t('warning_msg1',type: t('the_claim'))
+        end
+      %>
+        <%= link_to t('edit'), edit_claim_path(claim) %> -
+        <%= link_to t('delete'), claim_path(claim), method: :delete, data: { confirm: warning_msg } %>
+        <% end %> </p>
+
+      <h4 class="mt-0 no-link-style"><%= link_to claim.title, claim_path(claim) %></h4>
       <small><%= t('tags') %>:
         <%= raw claim.tags.map(&:claim_name).map { |t| link_to t, tag_path(t) }.join(', ') %> | <%= t('updated_at') %>:
         <%= claim.created_at.strftime("%Y-%m-%d") %></small>
@@ -79,20 +92,44 @@
             end
         end
       end %>
-        <!-- <%= link_to @total_reviews, claim_claim_reviews_path(claim.id) %> -->
+        <%= link_to @total_reviews, claim_claim_reviews_path(claim.id) %>
         <% if (@total_reviews>0) %>
         <% if !result1.empty? %>
         <%= result1 %> count
         <% end %>
         <% end %>
       </div>
+
+      <!-- URL PREVIEW -->
+      <div>
+        <%
+    if !claim.url_preview.present?
+      url_prev='<br><div id="final_url_preview" class="fragment">'
+      url_prev=url_prev+'<div style="text-align: left"><img src="'+config.relative_url_root.to_s+'/claim.png" id="cimg" height=75 />'
+      if (!claim.url.nil?) then url=claim.url; else url=""; end
+      if (!claim.description.nil?) then description=claim.description; else description=""; end
+      url_prev=url_prev+"\n<h4><a href=\""+url+"\" target=_blank>"+claim.title+"</a></h4><p class=\"text\">"+description+"</p><br></div></div>"
+   else
+     url_prev=claim.url_preview
+   end
+   %>
+
+        <%== url_prev %>
+      </div>
+
+
     </div>
     <div class="col-2">
-      <div class="media">
+      <!-- For the future, could preview media or type here -->
+      <!-- <div class="media">
         <img style="border-radius:100%" src="https://via.placeholder.com/80" class="mr-3 mt-4" alt="...">
-      </div>
+      </div> -->
     </div>
   </div>
+
+
+
+
   <hr>
 </div>
 
