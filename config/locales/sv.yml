@@ -57,7 +57,7 @@ sv:
   required: "Nödvändig"
   welcome: "Välkommen"
   hello: "Hej"
-  welcome_msg: "Välkommen till Fact Check Assistant!"
+  welcome_msg: "Välkommen till Galileo – din faktaassistent!"
   go_sign_in_part1: "För att använda tjänsten, kan du"
   go_sign_up_part1: "Om du inte har ett konto kan du"
   submit: "Skicka in"
@@ -338,7 +338,7 @@ sv:
 #general
   note: "N.B."
   note_provide_rationale: "Det rekommenderas starkt (men krävs inte) att du anger en grund för din bedömning i rutan nedan."
-  not_all_qs_needed: "You don't need to answer all questions!<br>If you are ready to assess the %{page}, simply jump to the [Reviewer Assessment] step to the left (one before the last) and mark your verdict."
+  not_all_qs_needed: "Du behöver inte svara på alla frågor.<br>Om du är redo att bedöma påståendet, kan du gå direkt till 'Din bedömning' i menyn."
   add_additional_resource: "Lägg till en ytterligare resurs till denna fråga"
   check_current_resources1: "Du kan också kolla på tillgängliga "
   check_current_resources2: " och koppla någon av dem till den här frågan genom att lägga till följande referenskod när du redigerar resursen"

@@ -11,9 +11,9 @@
         <div class="form-claim">
           <%= form_for @claim, :html => { :onsubmit => "do_submit('claim')" } do |f| %>
           <% if f.object.errors.any? %>
-          <div class="error_messages">
+          <div class="alert alert-warning">
             <% f.object.errors.full_messages.each do |error| %>
-            <p><%= error %></p>
+            <p class="m-0"><%= error %></p>
             <% end %>
           </div>
           <% end %>

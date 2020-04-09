@@ -1,6 +1,6 @@
 en:
 # Views common
-  website_title: "Fact Check Assistant"
+  website_title: "Galileo – The Fact Check Assistant"
   claims: "Claims"
   media: "Media"
   sources: "Sources"
@@ -15,7 +15,7 @@ en:
   required: "Required"
   welcome: "Welcome"
   hello: "Hello"
-  welcome_msg: "Welcome to Fact Check Assistant!"
+  welcome_msg: "Welcome to Galileo – The Fact Check Assistant."
   go_sign_in_part1: "To use the service, please"
   go_sign_up_part1: "If you don't have an account, you can"
   submit: "Submit"

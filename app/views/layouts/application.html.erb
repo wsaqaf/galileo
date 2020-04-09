@@ -87,8 +87,13 @@
       </nav>
     </div>
   </div>
-  <p><%= notice %></p>
-  <p><%= alert %></p>
+  <% if notice || alert %>
+  <div class="container text-center alert alert-success">
+    <p class="m-0"><%= notice %></p>
+    <p class="m-0"><%= alert %></p>
+  </div>
+  <% end %>
+
   <div class="container mt-5"></div>
   <%= yield %>
   <div class="bg-primary p-5 mt-5 text-white">
