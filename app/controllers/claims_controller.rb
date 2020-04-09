@@ -203,7 +203,7 @@ class ClaimsController < ApplicationController
     Tagging.where("claim_id = ?",@claim.id).destroy_all
     Tag.where.not(id: Tagging.pluck(:tag_id).reject {|x| x.nil?}).destroy_all
     @claim.destroy
-    redirect_to root_path
+    redirect_to claims_path
   end
 
   private
